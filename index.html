@@ -640,7 +640,7 @@
                 will-change: transform;
             }
             .overlay-text-container.animating {
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             }
             .overlay-text-container.expanded {
                 max-height: 100vh;
@@ -1153,7 +1153,7 @@
                     const deltaTime = Date.now() - startTime;
                     const velocity = Math.abs(deltaY) / deltaTime; // pixel per millisecondo
                     const threshold = 100; // Pixel minimi per attivare lo swipe
-                    const velocityThreshold = 0.3; // Soglia di velocità per swipe rapido
+                    const velocityThreshold = 0.5; // Soglia di velocità per swipe rapido
 
                     const isExpanded = textContainer.classList.contains('expanded');
                     const imageContainer = overlay.querySelector('.overlay-image-container');
