@@ -636,8 +636,11 @@
                 justify-content: flex-start;
                 overflow-y: auto;
                 background-color: var(--colore-accento);
-                transition: all 0.4s cubic-bezier(0.6, 0.04, 0.98, 0.335);
                 z-index: 11;
+                will-change: transform;
+            }
+            .overlay-text-container.animating {
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
             .overlay-text-container.expanded {
                 max-height: 100vh;
@@ -1103,32 +1106,88 @@
                 let startY = 0;
                 let currentY = 0;
                 let isDragging = false;
+                let startTime = 0;
+                const maxDragDistance = window.innerHeight * 0.6; // 60vh massimo di spostamento
 
                 textContainer.addEventListener('touchstart', (e) => {
                     startY = e.touches[0].clientY;
+                    currentY = startY;
                     isDragging = true;
+                    startTime = Date.now();
+                    textContainer.classList.remove('animating');
                 }, { passive: true });
 
                 textContainer.addEventListener('touchmove', (e) => {
                     if (!isDragging) return;
+
                     currentY = e.touches[0].clientY;
+                    const deltaY = startY - currentY;
+                    const isExpanded = textContainer.classList.contains('expanded');
+
+                    // Calcola il movimento in base allo stato
+                    let translateY = 0;
+
+                    if (!isExpanded) {
+                        // Stato compresso: trascina verso l'alto (valori negativi)
+                        translateY = Math.max(-maxDragDistance, Math.min(0, -deltaY));
+                    } else {
+                        // Stato espanso: trascina verso il basso (valori positivi)
+                        translateY = Math.min(maxDragDistance, Math.max(0, -deltaY));
+                    }
+
+                    // Applica il transform in tempo reale
+                    textContainer.style.transform = `translateY(${translateY}px)`;
+
+                    // Gestisci opacità delle immagini in base alla posizione
+                    const progress = Math.abs(translateY) / maxDragDistance;
+                    const imageContainer = overlay.querySelector('.overlay-image-container');
+                    if (imageContainer) {
+                        imageContainer.style.opacity = isExpanded ? progress : 1 - progress;
+                    }
                 }, { passive: true });
 
                 textContainer.addEventListener('touchend', () => {
                     if (!isDragging) return;
 
                     const deltaY = startY - currentY;
-                    const threshold = 50; // Pixel minimi per attivare lo swipe
+                    const deltaTime = Date.now() - startTime;
+                    const velocity = Math.abs(deltaY) / deltaTime; // pixel per millisecondo
+                    const threshold = 100; // Pixel minimi per attivare lo swipe
+                    const velocityThreshold = 0.3; // Soglia di velocità per swipe rapido
 
-                    // Swipe up - espandi
-                    if (deltaY > threshold && !textContainer.classList.contains('expanded')) {
-                        textContainer.classList.add('expanded');
-                        overlay.classList.add('has-expanded-text');
-                    }
-                    // Swipe down - comprimi
-                    else if (deltaY < -threshold && textContainer.classList.contains('expanded')) {
-                        textContainer.classList.remove('expanded');
-                        overlay.classList.remove('has-expanded-text');
+                    const isExpanded = textContainer.classList.contains('expanded');
+                    const imageContainer = overlay.querySelector('.overlay-image-container');
+
+                    // Aggiungi la classe per la transizione fluida
+                    textContainer.classList.add('animating');
+
+                    // Determina se completare l'azione in base a distanza o velocità
+                    const shouldToggle = Math.abs(deltaY) > threshold || velocity > velocityThreshold;
+
+                    if (!isExpanded) {
+                        // Stato compresso: swipe up per espandere
+                        if (deltaY > 0 && shouldToggle) {
+                            textContainer.classList.add('expanded');
+                            overlay.classList.add('has-expanded-text');
+                            textContainer.style.transform = '';
+                            if (imageContainer) imageContainer.style.opacity = '0';
+                        } else {
+                            // Ritorna alla posizione iniziale
+                            textContainer.style.transform = '';
+                            if (imageContainer) imageContainer.style.opacity = '1';
+                        }
+                    } else {
+                        // Stato espanso: swipe down per comprimere
+                        if (deltaY < 0 && shouldToggle) {
+                            textContainer.classList.remove('expanded');
+                            overlay.classList.remove('has-expanded-text');
+                            textContainer.style.transform = '';
+                            if (imageContainer) imageContainer.style.opacity = '1';
+                        } else {
+                            // Ritorna alla posizione espansa
+                            textContainer.style.transform = '';
+                            if (imageContainer) imageContainer.style.opacity = '0';
+                        }
                     }
 
                     isDragging = false;
