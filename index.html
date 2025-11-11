@@ -38,7 +38,10 @@
     
     <!-- Preload Critical Resources -->
     <link rel="preload" href="project/font/Funnel.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="/project/placeholder.mp4" as="video" type="video/mp4">
+
+    <!-- Preconnect per immagini esterne -->
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
     
     <!-- Theme Color for Mobile -->
     <meta name="theme-color" content="#1D2125">
@@ -47,287 +50,722 @@
     <!-- Prevent zoom on mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <!-- ============== STYLE GLOBALE E TIPOGRAFIA ============== -->
-        <style>
-            @font-face {
-                font-family: 'Funnel';
-                src: url('project/font/Funnel.ttf') format('truetype');
-                font-weight: normal;
-                font-style: normal;
-                font-display: swap;
+    <!-- ============== STILI CONSOLIDATI ============== -->
+    <style>
+        /* ===== FONT E VARIABILI GLOBALI ===== */
+        @font-face {
+            font-family: 'Funnel';
+            src: url('project/font/Funnel.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --colore-primario: #1D2125;
+            --colore-secondario: #f3f2f1;
+            --colore-accento: #E85A4F;
+            --colore-testo: #1D2125;
+            --larghezza-sidebar: 260px;
+            --altezza-navbar-mobile: 70px;
+            --font-principale: 'Funnel', sans-serif;
+        }
+
+        /* ===== RESET E BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-principale);
+            color: var(--colore-testo);
+            background-color: var(--colore-secondario);
+        }
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-principale); }
+        h1 { font-size: 24px; font-weight: 800; }
+        h2 {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 80px;
+            height: 4px;
+            background-color: var(--colore-accento);
+        }
+        h3 { font-size: 20px; font-weight: 600; }
+        p { font-size: 18px; line-height: 1.6; }
+        a { text-decoration: none; }
+
+        /* ===== LAYOUT PRINCIPALE ===== */
+        .content {
+            margin-left: var(--larghezza-sidebar);
+            width: calc(100% - var(--larghezza-sidebar));
+            position: relative;
+            z-index: 1;
+            background-color: var(--colore-secondario);
+        }
+
+        section:not(#home) {
+            min-height: 100vh;
+            padding: 96px 64px;
+            position: relative;
+        }
+
+        section:last-child { border-bottom: none; }
+
+        /* ===== SEZIONE HOME ===== */
+        #home {
+            position: relative;
+            height: 100vh;
+            margin-left: var(--larghezza-sidebar);
+            width: calc(100% - var(--larghezza-sidebar));
+            overflow: hidden;
+        }
+        #home-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ===== SEZIONE WORK ===== */
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .work-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        .work-item {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border: 2px solid var(--colore-primario);
+            transition: transform 0.1s ease;
+            cursor: pointer;
+        }
+        .work-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.3s ease;
+        }
+        .work-item-marquee {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--colore-primario);
+            color: var(--colore-secondario);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .work-item-marquee span {
+            display: inline-block;
+            padding: 12px;
+            text-transform: uppercase;
+            animation: marquee 10s linear infinite;
+            animation-play-state: paused;
+        }
+
+        /* ===== SEZIONE TEAM ===== */
+        #team { background-color: var(--colore-secondario); }
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 32px;
+            margin-top: 32px;
+        }
+        .team-member {
+            position: relative;
+            margin-bottom: 32px;
+            transition: transform 0.2s ease;
+        }
+        .team-member img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border: 2px solid var(--colore-primario);
+            transition: filter 0.3s ease;
+        }
+        .member-info {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background-color: var(--colore-secondario);
+            border: 2px solid var(--colore-primario);
+            padding: 10px 14px;
+            z-index: 2;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+        .member-info h3,
+        .member-info p {
+            color: var(--colore-primario);
+            margin: 0;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+        .member-info p { font-size: 14px; opacity: 0.7; }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--larghezza-sidebar);
+            height: 100vh;
+            background-color: var(--colore-primario);
+            color: var(--colore-secondario);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 32px 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+        .sidebar .studio-name {
+            margin-bottom: 40px;
+            padding: 0 32px;
+            text-align: center;
+            font-weight: 800;
+        }
+        .sidebar .nav-links {
+            list-style-type: none;
+            width: 100%;
+            flex: 0 0 auto;
+        }
+        .sidebar .nav-links li a {
+            display: block;
+            position: relative;
+            color: var(--colore-secondario);
+            padding: 20px 32px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .sidebar .nav-links li a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 10px;
+            height: 100%;
+            background-color: var(--colore-accento);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.2s ease-in-out;
+        }
+        .sidebar .nav-links li a:hover,
+        .sidebar .nav-links li a.active-link {
+            transform: translateX(10px);
+        }
+        .sidebar .nav-links li a:hover::before,
+        .sidebar .nav-links li a.active-link::before {
+            transform: scaleX(1);
+        }
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 32px;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .social-icons a {
+            color: var(--colore-secondario);
+            opacity: 0.7;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .social-icons a:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .social-icons svg {
+            width: 24px;
+            height: 24px;
+        }
+        .cta-button {
+            display: block;
+            background-color: var(--colore-accento);
+            color: var(--colore-primario) !important;
+            text-align: center;
+            font-weight: bold;
+            padding: 16px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            margin: 0;
+        }
+        .cta-button:hover {
+            background-color: var(--colore-secondario);
+            color: var(--colore-accento) !important;
+            transform: scale(1.05);
+        }
+        .hamburger-menu { display: none; }
+
+        /* ===== CURSORE PERSONALIZZATO ===== */
+        body, a, button { cursor: none; }
+        #custom-cursor {
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            background-color: white;
+            border-radius: 50%;
+            mix-blend-mode: difference;
+            z-index: 10000;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.2s ease-out;
+            will-change: transform;
+        }
+        #custom-cursor.hover-effect {
+            transform: translate(-50%, -50%) scale(1.3);
+        }
+
+        /* ===== CTA MOBILE ===== */
+        #mobile-cta { display: none; }
+
+        /* ===== OVERLAY PROGETTO ===== */
+        #project-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--colore-accento);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+        }
+        #project-overlay.active { transform: translateY(0); }
+        .overlay-content {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        .overlay-image-container {
+            flex: 3;
+            padding: 32px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 100%;
+        }
+        .overlay-text-container {
+            flex: 2;
+            padding: 32px;
+            color: var(--colore-primario);
+            border-left: 2px solid var(--colore-primario);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+
+        /* Contenuti overlay - immagini */
+        .overlay-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Contenuti overlay - Video */
+        .overlay-image-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Contenuto combinato (video + immagine) */
+        .overlay-media-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 0;
+        }
+
+        .overlay-media-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 0;
+        }
+
+        #overlay-title {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+        #overlay-description {
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+        #overlay-author {
+            margin-top: 16px;
+            font-size: 16px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        #close-overlay {
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            background: transparent;
+            border: 2px solid var(--colore-primario);
+            color: var(--colore-primario);
+            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            cursor: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        #close-overlay:hover {
+            background-color: var(--colore-primario);
+            color: var(--colore-accento);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: var(--colore-primario);
+            color: var(--colore-secondario);
+            text-align: center;
+            padding: 24px;
+            font-size: 14px;
+            opacity: 0.8;
+            margin-left: var(--larghezza-sidebar);
+            width: calc(100% - var(--larghezza-sidebar));
+        }
+        .footer-social-icons { display: none; }
+
+        /* ===== MEDIA QUERIES - TABLET E MOBILE ===== */
+        @media (max-width: 800px) {
+            /* Layout generale */
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            section:not(#home) {
+                padding: 48px 24px;
+                scroll-margin-top: var(--altezza-navbar-mobile);
+            }
+            h2 { font-size: 32px; }
+            h2::after { width: 60px; }
+
+            /* Home */
+            #home {
+                margin-left: 0;
+                width: 100%;
+                height: calc(100vh - var(--altezza-navbar-mobile));
+                margin-top: var(--altezza-navbar-mobile);
+                scroll-margin-top: var(--altezza-navbar-mobile);
             }
 
-            :root {
-                --colore-primario: #1D2125;
-                --colore-secondario: #f3f2f1;
-                --colore-accento: #E85A4F;
-                --colore-testo: #1D2125;
-                
-                --larghezza-sidebar: 260px;
-                --altezza-navbar-mobile: 70px;
-                --font-principale: 'Funnel', sans-serif;
+            /* Team */
+            .team-container {
+                padding: 0 24px;
+                gap: 24px;
+            }
+            .team-member {
+                margin-bottom: 24px;
+                aspect-ratio: 1 / 1;
+            }
+            .member-info {
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                border: none;
+                padding: 24px 16px;
+                color: white;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+            }
+            .member-info h3,
+            .member-info p {
+                color: white;
+            }
+            .team-member:hover img { filter: none; }
+            .team-member:hover .member-info h3,
+            .team-member:hover .member-info p {
+                color: white;
+            }
+            .team-member:active { transform: scale(0.98); }
+
+            /* Sidebar mobile */
+            .sidebar {
+                width: 100%;
+                height: 70px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 24px;
+                border-bottom: 2px solid var(--colore-primario);
+            }
+            .sidebar .studio-name {
+                margin: 0;
+                padding: 0;
+            }
+            .sidebar-bottom { display: none; }
+            .hamburger-menu {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                width: 30px;
+                height: 30px;
+                background: transparent;
+                border: none;
+                z-index: 12;
+            }
+            .hamburger-menu .bar {
+                width: 100%;
+                height: 3px;
+                background-color: var(--colore-secondario);
+                transition: all 0.3s ease;
+            }
+            .sidebar .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: var(--colore-primario);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 24px;
+                transform: translateX(100%);
+                transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+            }
+            .sidebar .nav-links li a {
+                padding: 16px 32px;
+                font-size: 24px;
+            }
+            .sidebar .nav-links li a::before { display: none; }
+            .sidebar .nav-links li a:hover,
+            .sidebar .nav-links li a.active-link {
+                transform: none;
+                background-color: var(--colore-accento);
+            }
+            body.menu-open { overflow: hidden; }
+            body.menu-open .nav-links { transform: translateX(0); }
+            body.menu-open .hamburger-menu .bar:nth-child(1) {
+                transform: translateY(11px) rotate(45deg);
+            }
+            body.menu-open .hamburger-menu .bar:nth-child(2) {
+                opacity: 0;
+            }
+            body.menu-open .hamburger-menu .bar:nth-child(3) {
+                transform: translateY(-11px) rotate(-45deg);
             }
 
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            html { scroll-behavior: smooth; }
-            body { font-family: var(--font-principale); color: var(--colore-testo); background-color: var(--colore-secondario); }
-            h1, h2, h3, h4, h5, h6 { font-family: var(--font-principale); }
-            h1 { font-size: 24px; font-weight: 800; }
-            h2 { font-size: 40px; font-weight: 700; }
-            h3 { font-size: 20px; font-weight: 600; }
-            p { font-size: 18px; line-height: 1.6; }
-            a { text-decoration: none; }
-        </style>
+            /* Cursore */
+            #custom-cursor { display: none !important; }
+            body, a, button { cursor: auto; }
+
+            /* CTA Mobile */
+            #mobile-cta {
+                display: block;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                z-index: 9;
+                background-color: var(--colore-accento);
+                color: var(--colore-primario);
+                border-top: 2px solid var(--colore-primario);
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: bold;
+                letter-spacing: 1px;
+                font-size: 16px;
+                padding: 20px;
+                transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            }
+            #mobile-cta.is-hidden {
+                opacity: 0;
+                transform: translateY(100%);
+                pointer-events: none;
+            }
+
+            /* Overlay */
+            .overlay-content { flex-direction: column; }
+            .overlay-image-container {
+                flex: 1;
+                height: auto;
+                max-height: 60vh;
+                padding: 64px 16px 16px 16px;
+                overflow-y: auto;
+            }
+            .overlay-text-container {
+                flex: 0 0 auto;
+                padding: 16px;
+                border-left: none;
+                border-top: 2px solid var(--colore-primario);
+                justify-content: flex-start;
+                overflow-y: visible;
+            }
+            #close-overlay {
+                top: 16px;
+                right: 16px;
+                z-index: 10;
+            }
+
+            /* Footer */
+            footer {
+                margin-left: 0;
+                width: 100%;
+                padding-bottom: calc(24px + 64px);
+            }
+            .footer-social-icons {
+                display: flex;
+                justify-content: center;
+                gap: 24px;
+                margin-bottom: 16px;
+            }
+
+            /* Work item */
+            .work-item:active { transform: scale(0.98); }
+        }
+
+        /* ===== HOVER EFFECTS (solo desktop) ===== */
+        @media (hover: hover) {
+            .work-item:hover img {
+                filter: grayscale(1) brightness(0.5);
+            }
+            .work-item:hover .work-item-marquee {
+                opacity: 1;
+            }
+            .work-item:hover .work-item-marquee span {
+                animation-play-state: running;
+            }
+            .team-member:hover img {
+                filter: grayscale(100%);
+            }
+            .team-member:hover .member-info {
+                border-color: var(--colore-accento);
+            }
+            .team-member:hover .member-info h3,
+            .team-member:hover .member-info p {
+                color: var(--colore-accento);
+            }
+        }
+    </style>
 </head>
 
 <body>
     
     <!-- ================== SEZIONE HOME (LAYOUT VIDEO) ================== -->
     <section id="home">
-        <video id="home-video" autoplay loop muted playsinline>
+        <video id="home-video" autoplay loop muted playsinline preload="auto" poster="project/placeholder.png">
             <source src="project/placeholder.webm" type="video/webm">
             Il tuo browser non supporta il tag video.
         </video>
-
-        <style>
-            #home {
-                position: relative;
-                height: 100vh;
-                margin-left: var(--larghezza-sidebar);
-                width: calc(100% - var(--larghezza-sidebar));
-                overflow: hidden;
-            }
-            #home-video { width: 100%; height: 100%; object-fit: cover; }
-
-            @media (max-width: 800px) {
-                #home {
-                    margin-left: 0;
-                    width: 100%;
-                    height: calc(100vh - var(--altezza-navbar-mobile));
-                    margin-top: var(--altezza-navbar-mobile);
-                    scroll-margin-top: var(--altezza-navbar-mobile);
-                }
-            }
-        </style>
     </section>
 
     <!-- Il resto del contenuto scorrevole -->
     <main class="content">
-
-        <!-- ============== STYLE: CONTENUTO GENERALE ============== -->
-        <style>
-            .content { 
-                margin-left: var(--larghezza-sidebar);
-                width: calc(100% - var(--larghezza-sidebar));
-                position: relative;
-                z-index: 1; 
-                background-color: var(--colore-secondario);
-            }
-            
-            section:not(#home) {
-                min-height: 100vh;
-                padding: 96px 64px;
-                position: relative; 
-            }
-            
-            section:last-child { border-bottom: none; }
-            
-            h2 { font-size: 40px; letter-spacing: -1px; margin-bottom: 40px; position: relative; display: inline-block; }
-            h2::after { content: ''; position: absolute; left: 0; bottom: -10px; width: 80px; height: 4px; background-color: var(--colore-accento); }
-
-            @media (max-width: 800px) {
-                .content { margin-left: 0; width: 100%; }
-                section:not(#home) { padding: 48px 24px; scroll-margin-top: var(--altezza-navbar-mobile); }
-                h2 { font-size: 32px; }
-                h2::after { width: 60px; }
-            }
-        </style>
 
     <!-- ================== SEZIONE WORK (con autore del progetto) ====================== -->
         <section id="work">
             <h2>I Nostri Lavori</h2>
             <p>Una selezione dei nostri progetti più recenti.</p>
             <div class="work-gallery">
-                <div class="work-item" 
-                    data-title="Progetto 1" 
+                <!-- Esempio 1: Solo immagine -->
+                <div class="work-item"
+                    data-title="Progetto 1"
                     data-description="Questa è una descrizione dettagliata per il Progetto 1. Abbiamo esplorato concetti di minimalismo e colore."
-                    data-author="Elara Vance">
-                    <img src="project/placeholder.png" alt="Anteprima Progetto 1">
+                    data-author="Elara Vance"
+                    data-type="image"
+                    data-content="project/placeholder.png">
+                    <img src="project/placeholder.png" alt="Anteprima Progetto 1" loading="lazy">
                     <div class="work-item-marquee"><span>Progetto 1 --- Progetto 1 --- Progetto 1 --- </span></div>
                 </div>
-                <div class="work-item" 
-                    data-title="Progetto 2" 
+
+                <!-- Esempio 2: Immagine alta -->
+                <div class="work-item"
+                    data-title="Progetto 2"
                     data-description="Il Progetto 2 si concentra sulla tipografia e sul layout per un brand di lusso."
-                    data-author="Jax Orion">
-                    <img src="project/placeholder.png" alt="Anteprima Progetto 2">
+                    data-author="Jax Orion"
+                    data-type="image"
+                    data-content="project/placeholder.png">
+                    <img src="project/placeholder.png" alt="Anteprima Progetto 2" loading="lazy">
                     <div class="work-item-marquee"><span>Progetto 2 --- Progetto 2 --- Progetto 2 --- </span></div>
                 </div>
-                <div class="work-item" 
-                    data-title="Progetto 3" 
-                    data-description="Per il Progetto 3 abbiamo creato una serie di illustrazioni vettoriali uniche."
-                    data-author="Lyra Croft">
-                    <img src="project/placeholder.png" alt="Anteprima Progetto 3">
+
+                <!-- Esempio 3: Video + Immagine -->
+                <div class="work-item"
+                    data-title="Progetto 3"
+                    data-description="Per il Progetto 3 abbiamo creato una serie di illustrazioni vettoriali uniche con animazione introduttiva."
+                    data-author="Lyra Croft"
+                    data-type="video-image"
+                    data-video="project/placeholder.webm"
+                    data-image="project/placeholder.png">
+                    <img src="project/placeholder.png" alt="Anteprima Progetto 3" loading="lazy">
                     <div class="work-item-marquee"><span>Progetto 3 --- Progetto 3 --- Progetto 3 --- </span></div>
                 </div>
-                <div class="work-item" 
-                    data-title="Progetto 4" 
+
+                <!-- Esempio 4: Video + Immagine -->
+                <div class="work-item"
+                    data-title="Progetto 4"
                     data-description="Motion graphics e animazione 3D sono stati il focus del Progetto 4."
-                    data-author="Elara Vance, Jax Orion">
-                    <img src="project/placeholder.png" alt="Anteprima Progetto 4">
+                    data-author="Elara Vance, Jax Orion"
+                    data-type="video-image"
+                    data-video="project/placeholder.webm"
+                    data-image="project/placeholder.png">
+                    <img src="project/placeholder.png" alt="Anteprima Progetto 4" loading="lazy">
                     <div class="work-item-marquee"><span>Progetto 4 --- Progetto 4 --- Progetto 4 --- </span></div>
                 </div>
             </div>
-
-            <style>
-                @keyframes marquee {
-                    from { transform: translateX(0); }
-                    to { transform: translateX(-50%); }
-                }
-
-                .work-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px; margin-top: 32px; }
-                .work-item { position: relative; aspect-ratio: 1 / 1; overflow: hidden; border: 2px solid var(--colore-primario); transition: transform 0.1s ease; }
-                .work-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter 0.3s ease; }
-                .work-item-marquee { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--colore-primario); color: var(--colore-secondario); white-space: nowrap; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
-                .work-item-marquee span { display: inline-block; padding: 12px; text-transform: uppercase; animation: marquee 10s linear infinite; animation-play-state: paused; }
-                
-                @media (hover: hover) {
-                    .work-item:hover img { filter: grayscale(1) brightness(0.5); }
-                    .work-item:hover .work-item-marquee { opacity: 1; }
-                    .work-item:hover .work-item-marquee span { animation-play-state: running; }
-                }
-
-                .work-item:active { transform: scale(0.98); }
-            </style>
-
-            <script> 
-                document.addEventListener('DOMContentLoaded', () => {
-                    const workItems = document.querySelectorAll('#work .work-item');
-                    const overlay = document.querySelector('#project-overlay');
-                    
-                    if (overlay) {
-                        const overlayTitle = overlay.querySelector('#overlay-title');
-                        const overlayImage = overlay.querySelector('#overlay-image');
-                        const overlayDescription = overlay.querySelector('#overlay-description');
-                        const overlayAuthor = overlay.querySelector('#overlay-author'); 
-                        const closeButton = overlay.querySelector('#close-overlay');
-
-                        const openOverlay = (item) => {
-                            const title = item.dataset.title;
-                            const imgSrc = item.querySelector('img').src;
-                            const description = item.dataset.description;
-                            const author = item.dataset.author; 
-                            
-                            overlayTitle.textContent = title;
-                            overlayImage.src = imgSrc;
-                            overlayDescription.textContent = description;
-                            
-                            if (author) {
-                                overlayAuthor.textContent = `Di: ${author}`;
-                                overlayAuthor.style.display = 'block';
-                            } else {
-                                overlayAuthor.style.display = 'none';
-                            }
-
-                            overlay.classList.add('active');
-                            document.body.style.overflow = 'hidden';
-                        };
-
-                        const closeOverlay = () => {
-                            overlay.classList.remove('active');
-                            document.body.style.overflow = 'auto';
-                        };
-
-                        workItems.forEach(item => {
-                            item.addEventListener('click', () => openOverlay(item));
-                        });
-                        closeButton.addEventListener('click', closeOverlay);
-                    }
-                });
-            </script>
         </section>
 
         <!-- ================== SEZIONE TEAM ================== -->
         <section id="team">
             <h2>Il Team</h2>
             <p>Le menti creative dietro ogni progetto.</p>
-            
+
             <div class="team-container">
                 <div class="team-member">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format=fit-crop&w=764&q=80" alt="Foto di un membro del team">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" alt="Foto di un membro del team" loading="lazy">
                     <div class="member-info">
                         <h3>Elara Vance</h3>
                         <p>Art Director</p>
                     </div>
                 </div>
                 <div class="team-member">
-                    <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit-crop&w=880&q=80" alt="Foto di un membro del team">
+                    <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Foto di un membro del team" loading="lazy">
                     <div class="member-info">
                         <h3>Jax Orion</h3>
                         <p>Lead Designer</p>
                     </div>
                 </div>
                 <div class="team-member">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit-crop&w=761&q=80" alt="Foto di un membro del team">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=761&q=80" alt="Foto di un membro del team" loading="lazy">
                     <div class="member-info">
                         <h3>Lyra Croft</h3>
                         <p>Motion Designer</p>
                     </div>
                 </div>
             </div>
-
-            <style>
-                #team { background-color: var(--colore-secondario); }
-                .team-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 32px; margin-top: 32px; }
-                .team-member { position: relative; margin-bottom: 32px; transition: transform 0.2s ease; }
-                .team-member img { width: 100%; height: 100%; object-fit: cover; display: block; border: 2px solid var(--colore-primario); transition: filter 0.3s ease; }
-                .member-info { position: absolute; bottom: -20px; left: -20px; background-color: var(--colore-secondario); border: 2px solid var(--colore-primario); padding: 10px 14px; z-index: 2; transition: border-color 0.3s ease, color 0.3s ease; }
-                .member-info h3, .member-info p { color: var(--colore-primario); margin: 0; text-transform: uppercase; transition: color 0.3s ease; }
-                .member-info p { font-size: 14px; opacity: 0.7; }
-
-                @media (hover: hover) {
-                    .team-member:hover img { filter: grayscale(100%); }
-                    .team-member:hover .member-info { border-color: var(--colore-accento); }
-                    .team-member:hover .member-info h3, .team-member:hover .member-info p { color: var(--colore-accento); }
-                }
-
-                @media (max-width: 800px) {
-                    .team-container { padding: 0 24px; gap: 24px; }
-                    .team-member { margin-bottom: 24px; aspect-ratio: 1 / 1; }
-                    .member-info { bottom: 0; left: 0; width: 100%; border: none; padding: 24px 16px; color: white; background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%); }
-                    .member-info h3, .member-info p { color: white; }
-                    .team-member:hover img { filter: none; }
-                    .team-member:hover .member-info h3, .team-member:hover .member-info p { color: white; }
-                    .team-member:active { transform: scale(0.98); }
-                }
-            </style>
         </section>
     </main>
 
     <!-- ======================= CURSORE ======================= -->
-        <div id="custom-cursor"></div>
-        <style>
-            body, a, button { cursor: none; }
-            #custom-cursor { position: fixed; width: 35px; height: 35px; background-color: white; border-radius: 50%; mix-blend-mode: difference; z-index: 10000; pointer-events: none; transform: translate(-50%, -50%); transition: transform 0.2s ease-out; }
-            #custom-cursor.hover-effect { transform: translate(-50%, -50%) scale(1.3); }
-            @media (max-width: 800px) {
-                #custom-cursor { display: none !important; }
-                body, a, button { cursor: auto; }
-            }
-        </style>
-        <script>
-            const cursor = document.getElementById('custom-cursor');
-            if (window.matchMedia("(pointer: fine)").matches) {
-                window.addEventListener('mousemove', e => {
-                    cursor.style.left = e.clientX + 'px';
-                    cursor.style.top = e.clientY + 'px';
-                });
-                const interactiveElements = document.querySelectorAll('a, button, .work-item');
-                interactiveElements.forEach(el => {
-                    el.addEventListener('mouseover', () => cursor.classList.add('hover-effect'));
-                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover-effect'));
-                });
-            }
-        </script>
+    <div id="custom-cursor"></div>
 
     <!-- ================== SIDEBAR ==================== -->
         <nav class="sidebar">
@@ -351,96 +789,15 @@
                 <span class="bar"></span>
             </button>
         </nav>
-        <style>
-            .sidebar { width: var(--larghezza-sidebar); height: 100vh; background-color: var(--colore-primario); color: var(--colore-secondario); position: fixed; top: 0; left: 0; padding: 32px 0; display: flex; flex-direction: column; z-index: 10; }
-            .sidebar .studio-name { margin-bottom: 40px; padding: 0 32px; text-align: center; font-weight: 800; }
-            .sidebar .nav-links { list-style-type: none; width: 100%; flex: 0 0 auto; }
-            .sidebar .nav-links li a { display: block; position: relative; color: var(--colore-secondario); padding: 20px 32px; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; transition: transform 0.2s ease-in-out; }
-            .sidebar .nav-links li a::before { content: ''; position: absolute; left: 0; top: 0; width: 10px; height: 100%; background-color: var(--colore-accento); transform: scaleX(0); transform-origin: left; transition: transform 0.2s ease-in-out; }
-            .sidebar .nav-links li a:hover, .sidebar .nav-links li a.active-link { transform: translateX(10px); }
-            .sidebar .nav-links li a:hover::before, .sidebar .nav-links li a.active-link::before { transform: scaleX(1); }
-            .sidebar-bottom { margin-top: auto; padding: 32px; }
-            .social-icons { display: flex; justify-content: center; gap: 24px; margin-bottom: 24px; }
-            .social-icons a { color: var(--colore-secondario); opacity: 0.7; transition: opacity 0.3s ease, transform 0.3s ease; }
-            .social-icons a:hover { opacity: 1; transform: scale(1.1); }
-            .social-icons svg { width: 24px; height: 24px; }
-            .cta-button { display: block; background-color: var(--colore-accento); color: var(--colore-primario) !important; text-align: center; font-weight: bold; padding: 16px; transition: transform 0.2s ease, background-color 0.2s ease; margin: 0; }
-            .cta-button:hover { background-color: var(--colore-secondario); color: var(--colore-accento) !important; transform: scale(1.05); }
-            .hamburger-menu { display: none; }
-            
-            @media (max-width: 800px) {
-                .sidebar { width: 100%; height: 70px; flex-direction: row; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 2px solid var(--colore-primario); }
-                .sidebar .studio-name { margin: 0; padding: 0; }
-                .sidebar-bottom { display: none; } 
-                .hamburger-menu { display: flex; flex-direction: column; justify-content: space-around; width: 30px; height: 30px; background: transparent; border: none; z-index: 12; }
-                .hamburger-menu .bar { width: 100%; height: 3px; background-color: var(--colore-secondario); transition: all 0.3s ease; }
-                .sidebar .nav-links { position: fixed; top: 0; right: 0; width: 100vw; height: 100vh; background-color: var(--colore-primario); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1); }
-                .sidebar .nav-links li a { padding: 16px 32px; font-size: 24px; }
-                .sidebar .nav-links li a::before { display: none; }
-                .sidebar .nav-links li a:hover, .sidebar .nav-links li a.active-link { transform: none; background-color: var(--colore-accento); }
-                body.menu-open { overflow: hidden; }
-                body.menu-open .nav-links { transform: translateX(0); }
-                body.menu-open .hamburger-menu .bar:nth-child(1) { transform: translateY(11px) rotate(45deg); }
-                body.menu-open .hamburger-menu .bar:nth-child(2) { opacity: 0; }
-                body.menu-open .hamburger-menu .bar:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
-            }
-        </style>
-        <script> 
-            document.addEventListener('DOMContentLoaded', () => {
-                const hamburger = document.querySelector('.hamburger-menu');
-                const navLinksList = document.querySelectorAll('.sidebar .nav-links li a');
-                hamburger.addEventListener('click', () => { document.body.classList.toggle('menu-open'); });
-                navLinksList.forEach(link => { link.addEventListener('click', () => { document.body.classList.remove('menu-open'); }); });
-                const sections = document.querySelectorAll('body > section');
-                const onScroll = () => {
-                    let currentSectionId = '';
-                    sections.forEach(section => {
-                        const sectionTop = section.getBoundingClientRect().top;
-                        if (sectionTop <= window.innerHeight / 2 && sectionTop > -section.offsetHeight + window.innerHeight / 2) {
-                            currentSectionId = section.getAttribute('id');
-                        }
-                    });
-                    navLinksList.forEach(link => {
-                        link.classList.remove('active-link');
-                        if (link.getAttribute('href') === '#' + currentSectionId) {
-                            link.classList.add('active-link');
-                        }
-                    });
-                };
-                window.addEventListener('scroll', onScroll);
-                onScroll();
-            });
-        </script>
 
     <!-- ============== PULSANTE CTA PER MOBILE ============== -->
-    <a href="mailto:info@priscio.Collettivo" id="mobile-cta">Contattaci</a>
-    <style>
-        #mobile-cta { display: none; }
-        @media (max-width: 800px) {
-            #mobile-cta { display: block; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9; background-color: var(--colore-accento); color: var(--colore-primario); border-top: 2px solid var(--colore-primario); text-align: center; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; font-size: 16px; padding: 20px; transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
-            #mobile-cta.is-hidden { opacity: 0; transform: translateY(100%); pointer-events: none; }
-        }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const homeSection = document.querySelector('#home');
-            const mobileCta = document.querySelector('#mobile-cta');
-            if (homeSection && mobileCta) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        mobileCta.classList.toggle('is-hidden', entry.isIntersecting);
-                    });
-                }, { root: null, threshold: 0.1 });
-                observer.observe(homeSection);
-            }
-        });
-    </script>
+    <a href="mailto:info@prisciocollettivo.com" id="mobile-cta">Contattaci</a>
     
     <!-- ================== OVERLAY DEL PROGETTO (con autore) ================== -->
     <div id="project-overlay">
         <div class="overlay-content">
-            <div class="overlay-image-container">
-                <img id="overlay-image" src="" alt="Progetto ingrandito">
+            <div class="overlay-image-container" id="overlay-media-container">
+                <!-- Il contenuto verrà caricato dinamicamente da JavaScript -->
             </div>
             <div class="overlay-text-container">
                 <h3 id="overlay-title"></h3>
@@ -450,23 +807,6 @@
         </div>
         <button id="close-overlay">×</button>
     </div>
-    <style>
-        #project-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--colore-accento); z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.6, 0.04, 0.98, 0.335); }
-        #project-overlay.active { transform: translateY(0); }
-        .overlay-content { display: flex; width: 100%; height: 100%; }
-        .overlay-image-container { flex: 3; padding: 32px; }
-        .overlay-text-container { flex: 2; padding: 32px; color: var(--colore-primario); border-left: 2px solid var(--colore-primario); display: flex; flex-direction: column; justify-content: center; }
-        #overlay-image { width: 100%; height: 100%; object-fit: contain; }
-        #overlay-title { text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px; }
-        #overlay-author { margin-top: 24px; font-size: 16px; opacity: 0.8; font-style: italic; }
-        #close-overlay { position: absolute; top: 24px; right: 32px; background: transparent; border: 2px solid var(--colore-primario); color: var(--colore-primario); font-size: 20px; width: 32px; height: 32px; padding: 0; cursor: none; }
-        @media (max-width: 800px) {
-            .overlay-content { flex-direction: column; }
-            .overlay-image-container { flex: none; height: 40vh; padding: 16px; }
-            .overlay-text-container { flex: 1; padding: 16px; border-left: none; justify-content: flex-start; overflow-y: auto; }
-            #close-overlay { top: 16px; right: 16px; }
-        }
-    </style>
 
     <!-- MODIFICA: FOOTER CON ICONE SOCIAL PER MOBILE -->
     <footer>
@@ -478,40 +818,196 @@
         </div>
         <p>&copy; 2024 Priscio Collettivo. Tutti i diritti riservati.</p>
     </footer>
-    <style>
-        footer {
-            background-color: var(--colore-primario);
-            color: var(--colore-secondario);
-            text-align: center;
-            padding: 24px;
-            font-size: 14px;
-            opacity: 0.8;
-            margin-left: var(--larghezza-sidebar);
-            width: calc(100% - var(--larghezza-sidebar));
-        }
 
-        /* MODIFICA: Nascondi le icone nel footer di default (su desktop) */
-        .footer-social-icons {
-            display: none;
-        }
+    <!-- ======================= JAVASCRIPT CONSOLIDATO ======================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ===== GESTIONE OVERLAY PROGETTI =====
+            const workItems = document.querySelectorAll('#work .work-item');
+            const overlay = document.querySelector('#project-overlay');
 
-        @media (max-width: 800px) {
-            footer {
-                margin-left: 0;
-                width: 100%;
-                /* Aggiungo padding-bottom per non sovrapporsi al CTA mobile */
-                padding-bottom: calc(24px + 64px); 
+            if (overlay) {
+                const overlayTitle = overlay.querySelector('#overlay-title');
+                const overlayMediaContainer = overlay.querySelector('#overlay-media-container');
+                const overlayDescription = overlay.querySelector('#overlay-description');
+                const overlayAuthor = overlay.querySelector('#overlay-author');
+                const closeButton = overlay.querySelector('#close-overlay');
+
+                const openOverlay = (item) => {
+                    const title = item.dataset.title;
+                    const description = item.dataset.description;
+                    const author = item.dataset.author;
+                    const type = item.dataset.type;
+
+                    // Aggiorna testo
+                    overlayTitle.textContent = title;
+                    overlayDescription.textContent = description;
+
+                    if (author) {
+                        overlayAuthor.textContent = `Di: ${author}`;
+                        overlayAuthor.style.display = 'block';
+                    } else {
+                        overlayAuthor.style.display = 'none';
+                    }
+
+                    // Pulisci contenuto precedente
+                    overlayMediaContainer.innerHTML = '';
+
+                    // Carica contenuto in base al tipo
+                    switch(type) {
+                        case 'image':
+                            const img = document.createElement('img');
+                            img.src = item.dataset.content;
+                            img.alt = title;
+                            overlayMediaContainer.appendChild(img);
+                            break;
+
+                        case 'video-image':
+                            // Video in loop
+                            const videoEl = document.createElement('video');
+                            videoEl.autoplay = true;
+                            videoEl.loop = true;
+                            videoEl.muted = true;
+                            videoEl.playsInline = true;
+                            videoEl.className = 'overlay-media-video';
+                            const videoSource = document.createElement('source');
+                            videoSource.src = item.dataset.video;
+                            videoSource.type = 'video/webm';
+                            videoEl.appendChild(videoSource);
+                            overlayMediaContainer.appendChild(videoEl);
+
+                            // Immagine subito sotto
+                            const imageEl = document.createElement('img');
+                            imageEl.src = item.dataset.image;
+                            imageEl.alt = title;
+                            imageEl.className = 'overlay-media-image';
+                            overlayMediaContainer.appendChild(imageEl);
+                            break;
+
+                        default:
+                            // Fallback: mostra immagine anteprima
+                            const fallbackImg = document.createElement('img');
+                            fallbackImg.src = item.querySelector('img').src;
+                            fallbackImg.alt = title;
+                            overlayMediaContainer.appendChild(fallbackImg);
+                    }
+
+                    // Resetta scroll all'inizio
+                    overlayMediaContainer.scrollTop = 0;
+
+                    // Apri overlay
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                };
+
+                const closeOverlay = () => {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+
+                    // Ferma video se presenti
+                    const videos = overlayMediaContainer.querySelectorAll('video');
+                    videos.forEach(video => {
+                        video.pause();
+                        video.currentTime = 0;
+                    });
+                };
+
+                workItems.forEach(item => {
+                    item.addEventListener('click', () => openOverlay(item));
+                });
+
+                closeButton.addEventListener('click', closeOverlay);
+
+                // Chiudi overlay con ESC
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                        closeOverlay();
+                    }
+                });
             }
 
-            /* MODIFICA: Mostra le icone nel footer su mobile e stilale */
-            .footer-social-icons {
-                display: flex;
-                justify-content: center;
-                gap: 24px;
-                margin-bottom: 16px; /* Spazio tra icone e testo copyright */
+            // ===== GESTIONE SIDEBAR MOBILE =====
+            const hamburger = document.querySelector('.hamburger-menu');
+            const navLinksList = document.querySelectorAll('.sidebar .nav-links li a');
+
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    document.body.classList.toggle('menu-open');
+                });
+
+                navLinksList.forEach(link => {
+                    link.addEventListener('click', () => {
+                        document.body.classList.remove('menu-open');
+                    });
+                });
             }
-        }
-    </style>
+
+            // ===== HIGHLIGHT SEZIONE ATTIVA =====
+            const sections = document.querySelectorAll('body > section');
+            const onScroll = () => {
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    if (sectionTop <= window.innerHeight / 2 && sectionTop > -section.offsetHeight + window.innerHeight / 2) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                navLinksList.forEach(link => {
+                    link.classList.remove('active-link');
+                    if (link.getAttribute('href') === '#' + currentSectionId) {
+                        link.classList.add('active-link');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', onScroll);
+            onScroll();
+
+            // ===== GESTIONE CTA MOBILE =====
+            const homeSection = document.querySelector('#home');
+            const mobileCta = document.querySelector('#mobile-cta');
+
+            if (homeSection && mobileCta) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        mobileCta.classList.toggle('is-hidden', entry.isIntersecting);
+                    });
+                }, { root: null, threshold: 0.1 });
+
+                observer.observe(homeSection);
+            }
+
+            // ===== CURSORE PERSONALIZZATO (ottimizzato con RAF) =====
+            const cursor = document.getElementById('custom-cursor');
+            if (cursor && window.matchMedia("(pointer: fine)").matches) {
+                let rafId = null;
+                let mouseX = 0;
+                let mouseY = 0;
+
+                // Throttle con requestAnimationFrame per performance
+                const updateCursorPosition = () => {
+                    cursor.style.left = mouseX + 'px';
+                    cursor.style.top = mouseY + 'px';
+                    rafId = null;
+                };
+
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    if (!rafId) {
+                        rafId = requestAnimationFrame(updateCursorPosition);
+                    }
+                });
+
+                const interactiveElements = document.querySelectorAll('a, button, .work-item');
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hover-effect'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover-effect'));
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
