@@ -363,6 +363,13 @@
             overflow-x: hidden;
             height: 100%;
         }
+        .overlay-image-container::-webkit-scrollbar {
+            display: none;
+        }
+        .overlay-image-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
         .overlay-text-container {
             flex: 2;
             padding: 32px;
@@ -612,17 +619,86 @@
                 overflow-y: auto;
             }
             .overlay-text-container {
-                flex: 0 0 auto;
-                padding: 16px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: auto;
+                max-height: 40vh;
+                padding: 56px 16px 16px 16px;
                 border-left: none;
                 border-top: 2px solid var(--colore-primario);
                 justify-content: flex-start;
-                overflow-y: visible;
+                overflow-y: auto;
+                background-color: var(--colore-accento);
+                transition: all 0.4s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+                z-index: 11;
             }
+            .overlay-text-container.expanded {
+                max-height: 100vh;
+                top: 0;
+                padding-top: 80px;
+            }
+
+            /* Nascondi immagini quando text container è espanso */
+            .overlay-text-container.expanded ~ .overlay-image-container,
+            #project-overlay.has-expanded-text .overlay-image-container {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            /* Indicatore swipe (barretta statica) */
+            .swipe-indicator {
+                display: block;
+                position: absolute;
+                top: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50px;
+                height: 5px;
+                background-color: var(--colore-primario);
+                border-radius: 3px;
+                opacity: 0.8;
+            }
+
+            /* Testo helper per swipe */
+            .swipe-helper-text {
+                display: block;
+                position: absolute;
+                top: 24px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 12px;
+                color: var(--colore-primario);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                opacity: 0.7;
+                font-weight: 600;
+                white-space: nowrap;
+                animation: text-fade 2s ease-in-out infinite;
+            }
+
+            @keyframes text-fade {
+                0%, 100% { opacity: 0.7; }
+                50% { opacity: 1; }
+            }
+
+            .overlay-text-container.expanded .swipe-helper-text {
+                display: none;
+            }
+
+            #overlay-description {
+                display: none;
+            }
+
+            .overlay-text-container.expanded #overlay-description {
+                display: block;
+            }
+
             #close-overlay {
                 top: 16px;
                 right: 16px;
-                z-index: 10;
+                z-index: 12;
             }
 
             /* Footer */
@@ -800,6 +876,8 @@
                 <!-- Il contenuto verrà caricato dinamicamente da JavaScript -->
             </div>
             <div class="overlay-text-container">
+                <div class="swipe-indicator"></div>
+                <div class="swipe-helper-text">Scorri per leggere</div>
                 <h3 id="overlay-title"></h3>
                 <p id="overlay-description"></p>
                 <p id="overlay-author"></p>
@@ -910,6 +988,13 @@
                         video.pause();
                         video.currentTime = 0;
                     });
+
+                    // Reset stato expanded su mobile
+                    const textContainer = overlay.querySelector('.overlay-text-container');
+                    if (textContainer) {
+                        textContainer.classList.remove('expanded');
+                        overlay.classList.remove('has-expanded-text');
+                    }
                 };
 
                 workItems.forEach(item => {
@@ -1005,6 +1090,44 @@
                     el.addEventListener('mouseenter', () => cursor.classList.add('hover-effect'));
                     el.addEventListener('mouseleave', () => cursor.classList.remove('hover-effect'));
                 });
+            }
+
+            // ===== GESTIONE SWIPE SU OVERLAY (SOLO MOBILE) =====
+            if (window.matchMedia("(max-width: 800px)").matches && overlay) {
+                const textContainer = overlay.querySelector('.overlay-text-container');
+                let startY = 0;
+                let currentY = 0;
+                let isDragging = false;
+
+                textContainer.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                    isDragging = true;
+                }, { passive: true });
+
+                textContainer.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    currentY = e.touches[0].clientY;
+                }, { passive: true });
+
+                textContainer.addEventListener('touchend', () => {
+                    if (!isDragging) return;
+
+                    const deltaY = startY - currentY;
+                    const threshold = 50; // Pixel minimi per attivare lo swipe
+
+                    // Swipe up - espandi
+                    if (deltaY > threshold && !textContainer.classList.contains('expanded')) {
+                        textContainer.classList.add('expanded');
+                        overlay.classList.add('has-expanded-text');
+                    }
+                    // Swipe down - comprimi
+                    else if (deltaY < -threshold && textContainer.classList.contains('expanded')) {
+                        textContainer.classList.remove('expanded');
+                        overlay.classList.remove('has-expanded-text');
+                    }
+
+                    isDragging = false;
+                }, { passive: true });
             }
         });
     </script>
