@@ -347,7 +347,7 @@
             background-color: var(--colore-accento);
             z-index: 1000;
             transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         #project-overlay.active { transform: translateY(0); }
         .overlay-content {
@@ -640,7 +640,7 @@
                 will-change: transform;
             }
             .overlay-text-container.animating {
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             }
             .overlay-text-container.expanded {
                 max-height: 100vh;
@@ -1152,8 +1152,8 @@
                     const deltaY = startY - currentY;
                     const deltaTime = Date.now() - startTime;
                     const velocity = Math.abs(deltaY) / deltaTime; // pixel per millisecondo
-                    const threshold = 100; // Pixel minimi per attivare lo swipe
-                    const velocityThreshold = 0.3; // Soglia di velocità per swipe rapido
+                    const threshold = 80; // Pixel minimi per attivare lo swipe
+                    const velocityThreshold = 0.5; // Soglia di velocità per swipe rapido
 
                     const isExpanded = textContainer.classList.contains('expanded');
                     const imageContainer = overlay.querySelector('.overlay-image-container');
