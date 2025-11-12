@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git fetch:*)",
+      "Bash(git branch:*)",
+      "Bash(git pull:*)",
+      "Bash(git add:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(git log:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nFix overlay text container visibility on mobile\n\nAumentato il padding inferiore dell''overlay-text-container da 16px a 48px e aggiunto supporto per safe-area-inset-bottom per garantire che l''elemento #overlay-author sia sempre visibile su mobile, anche quando la barra di ricerca del browser copre la parte bassa dello schermo.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
