@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priscio Collettivo - Creative Design & Visual Arts</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Priscio Collettivo è uno collettivo creativo specializzato in design visivo, branding e soluzioni creative innovative. Scopri i nostri progetti e il nostro team.">
+    <meta name="keywords" content="design, creative collective, visual arts, branding, graphic design, Priscio Collettivo">
+    <meta name="author" content="Priscio Collettivo">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.prisciocollettivo.com/">
+    <meta property="og:title" content="Priscio Collettivo - Creative Design & Visual Arts">
+    <meta property="og:description" content="Collettivo creativo specializzato in design visivo, branding e soluzioni creative innovative.">
+    <meta property="og:image" content="/project/images/og-image.jpg">
+    <meta property="og:site_name" content="Priscio Collettivo">
+    <meta property="og:locale" content="it_IT">
+    
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.prisciocollettivo.com/">
+    <meta property="twitter:title" content="Priscio Collettivo - Creative Design & Visual Arts">
+    <meta property="twitter:description" content="Collettivo creativo specializzato in design visivo, branding e soluzioni creative innovative.">
+    <meta property="twitter:image" content="/project/images/og-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/project/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/project/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/project/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/project/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.prisciocollettivo.com/">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="project/asset/font/Funnel.ttf" as="font" type="font/ttf" crossorigin>
+
+    <!-- Preconnect per immagini esterne -->
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    
+    <!-- Theme Color for Mobile -->
+    <meta name="theme-color" content="#1D2125">
+    <meta name="msapplication-TileColor" content="#1D2125">
+    
+    <!-- Prevent zoom on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- ============== STILI CONSOLIDATI ============== -->
+    <style>
+        /* ===== FONT E VARIABILI GLOBALI ===== */
+        @font-face {
+            font-family: 'Funnel';
+            src: url('project/asset/font/Funnel.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --colore-primario: #1D2125;
+            --colore-secondario: #f3f2f1;
+            --colore-accento: #E85A4F;
+            --colore-testo: #1D2125;
+            --larghezza-sidebar: 260px;
+            --altezza-navbar-mobile: 70px;
+            --font-principale: 'Funnel', sans-serif;
+        }
+
+        /* ===== RESET E BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-principale);
+            color: var(--colore-testo);
+            background-color: var(--colore-secondario);
+        }
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-principale); }
+        h1 { font-size: 24px; font-weight: 800; }
+        h2 {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 80px;
+            height: 4px;
+            background-color: var(--colore-accento);
+        }
+        h3 { font-size: 20px; font-weight: 600; }
+        p { font-size: 18px; line-height: 1.6; }
+        a { text-decoration: none; }
+
+        /* ===== LAYOUT PRINCIPALE ===== */
+        .content {
+            margin-left: var(--larghezza-sidebar);
+            width: calc(100% - var(--larghezza-sidebar));
+            position: relative;
+            z-index: 1;
+            background-color: var(--colore-secondario);
+        }
+
+        section:not(#home) {
+            min-height: 100vh;
+            padding: 96px 64px;
+            position: relative;
+        }
+
+        section:last-child { border-bottom: none; }
+
+        /* ===== SEZIONE HOME ===== */
+        #home {
+            position: relative;
+            height: 100vh;
+            margin-left: var(--larghezza-sidebar);
+            width: calc(100% - var(--larghezza-sidebar));
+            overflow: hidden;
+        }
+        #home-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ===== SEZIONE WORK ===== */
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .work-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        .work-item {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border: 2px solid var(--colore-primario);
+            transition: transform 0.1s ease;
+        }
+        .work-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.3s ease;
+        }
+        .work-item-marquee {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--colore-primario);
+            color: var(--colore-secondario);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .work-item-marquee span {
+            display: inline-block;
+            padding: 12px;
+            text-transform: uppercase;
+            animation: marquee 10s linear infinite;
+            animation-play-state: paused;
+        }
+
+        /* ===== SEZIONE TEAM ===== */
+        #team { background-color: var(--colore-secondario); }
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 32px;
+            margin-top: 32px;
+        }
+        .team-member {
+            position: relative;
+            margin-bottom: 32px;
+            transition: transform 0.2s ease;
+        }
+        .team-member img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border: 2px solid var(--colore-primario);
+            transition: filter 0.3s ease;
+        }
+        .member-info {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background-color: var(--colore-secondario);
+            border: 2px solid var(--colore-primario);
+            padding: 10px 14px;
+            z-index: 2;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+        .member-info h3,
+        .member-info p {
+            color: var(--colore-primario);
+            margin: 0;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+        .member-info p { font-size: 14px; opacity: 0.7; }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--larghezza-sidebar);
+            height: 100vh;
+            background-color: var(--colore-primario);
+            color: var(--colore-secondario);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 32px 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+        .sidebar .studio-name {
+            margin-bottom: 40px;
+            padding: 0 32px;
+            text-align: center;
+            font-weight: 800;
+        }
+        .sidebar .nav-links {
+            list-style-type: none;
+            width: 100%;
+            flex: 0 0 auto;
+        }
+        .sidebar .nav-links li a {
+            display: block;
+            position: relative;
+            color: var(--colore-secondario);
+            padding: 20px 32px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .sidebar .nav-links li a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 10px;
+            height: 100%;
+            background-color: var(--colore-accento);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.2s ease-in-out;
+        }
+        .sidebar .nav-links li a:hover,
+        .sidebar .nav-links li a.active-link {
+            transform: translateX(10px);
+        }
+        .sidebar .nav-links li a:hover::before,
+        .sidebar .nav-links li a.active-link::before {
+            transform: scaleX(1);
+        }
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 32px;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .social-icons a {
+            color: var(--colore-secondario);
+            opacity: 0.7;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .social-icons a:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .social-icons svg {
+            width: 24px;
+            height: 24px;
+        }
+        .cta-button {
+            display: block;
+            background-color: var(--colore-accento);
+            color: var(--colore-primario) !important;
+            text-align: center;
+            font-weight: bold;
+            padding: 16px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            margin: 0;
+        }
+        .cta-button:hover {
+            background-color: var(--colore-secondario);
+            color: var(--colore-accento) !important;
+            transform: scale(1.05);
+        }
+        .hamburger-menu { display: none; }
+
+        /* ===== CURSORE PERSONALIZZATO ===== */
+        body, a, button { cursor: none; }
+        #custom-cursor {
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            background-color: white;
+            border-radius: 50%;
+            mix-blend-mode: difference;
+            z-index: 10000;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.2s ease-out;
+            will-change: transform;
+        }
+        #custom-cursor.hover-effect {
+            transform: translate(-50%, -50%) scale(1.3);
+        }
+
+        /* ===== CTA MOBILE ===== */
+        #mobile-cta { display: none; }
+
+        /* ===== OVERLAY PROGETTO ===== */
+        #project-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--colore-accento);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #project-overlay.active { transform: translateY(0); }
+        .overlay-content {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        .overlay-image-container {
+            flex: 3;
+            padding: 32px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 100%;
+        }
+        .overlay-image-container::-webkit-scrollbar {
+            display: none;
+        }
+        .overlay-image-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .overlay-text-container {
+            flex: 2;
+            padding: 32px;
+            color: var(--colore-primario);
+            border-left: 2px solid var(--colore-primario);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+
+        /* Contenuti overlay - immagini */
+        .overlay-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Contenuti overlay - Video */
+        .overlay-image-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Contenuto combinato (video + immagine) */
+        .overlay-media-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 0;
+        }
+
+        .overlay-media-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 0;
+        }
+
+        #overlay-title {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+        #overlay-description {
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+        #overlay-author {
+            margin-top: 16px;
+            font-size: 16px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        #close-overlay {
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            background: transparent;
+            border: 2px solid var(--colore-primario);
+            color: var(--colore-primario);
+            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            cursor: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        #close-overlay:hover {
+            background-color: var(--colore-primario);
+            color: var(--colore-accento);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: var(--colore-primario);
+            color: var(--colore-secondario);
+            text-align: center;
+            padding: 24px;
+            font-size: 14px;
+            opacity: 0.8;
+            margin-left: var(--larghezza-sidebar);
+            width: calc(100% - var(--larghezza-sidebar));
+        }
+        .footer-social-icons { display: none; }
+
+        /* ===== ELEMENTI SWIPE (nascosti su desktop) ===== */
+        .swipe-indicator,
+        .swipe-helper-text {
+            display: none;
+        }
+
+        /* ===== MEDIA QUERIES - TABLET E MOBILE ===== */
+        @media (max-width: 800px) {
+            /* Layout generale */
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            section:not(#home) {
+                padding: 48px 24px;
+                scroll-margin-top: var(--altezza-navbar-mobile);
+            }
+            h2 { font-size: 32px; }
+            h2::after { width: 60px; }
+
+            /* Home */
+            #home {
+                margin-left: 0;
+                width: 100%;
+                height: calc(100vh - var(--altezza-navbar-mobile));
+                margin-top: var(--altezza-navbar-mobile);
+                scroll-margin-top: var(--altezza-navbar-mobile);
+            }
+
+            /* Team */
+            .team-container {
+                padding: 0 24px;
+                gap: 24px;
+            }
+            .team-member {
+                margin-bottom: 24px;
+                aspect-ratio: 1 / 1;
+            }
+            .member-info {
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                border: none;
+                padding: 24px 16px;
+                color: white;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+            }
+            .member-info h3,
+            .member-info p {
+                color: white;
+            }
+            .team-member:active { transform: scale(0.98); }
+
+            /* Sidebar mobile */
+            .sidebar {
+                width: 100%;
+                height: 70px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 24px;
+                border-bottom: 2px solid var(--colore-primario);
+            }
+            .sidebar .studio-name {
+                margin: 0;
+                padding: 0;
+            }
+            .sidebar-bottom { display: none; }
+            .hamburger-menu {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                width: 24px;
+                height: 24px;
+                background: transparent;
+                border: none;
+                z-index: 12;
+            }
+            .hamburger-menu .bar {
+                width: 100%;
+                height: 2px;
+                background-color: var(--colore-secondario);
+                transition: all 0.3s ease;
+            }
+            .sidebar .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: var(--colore-primario);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 24px;
+                transform: translateX(100%);
+                transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+            }
+            .sidebar .nav-links li a {
+                padding: 16px 32px;
+                font-size: 24px;
+            }
+            .sidebar .nav-links li a::before { display: none; }
+            .sidebar .nav-links li a:hover,
+            .sidebar .nav-links li a.active-link {
+                transform: none;
+                background-color: var(--colore-accento);
+            }
+            body.menu-open { overflow: hidden; }
+            body.menu-open .nav-links { transform: translateX(0); }
+            body.menu-open .hamburger-menu .bar:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            body.menu-open .hamburger-menu .bar:nth-child(2) {
+                opacity: 0;
+            }
+            body.menu-open .hamburger-menu .bar:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+
+            /* Cursore */
+            #custom-cursor { display: none !important; }
+            body, a, button { cursor: auto; }
+
+            /* CTA Mobile */
+            #mobile-cta {
+                display: block;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                z-index: 9;
+                background-color: var(--colore-accento);
+                color: var(--colore-primario);
+                border-top: 2px solid var(--colore-primario);
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: bold;
+                letter-spacing: 1px;
+                font-size: 16px;
+                padding: 20px;
+                transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            }
+            #mobile-cta.is-hidden {
+                opacity: 0;
+                transform: translateY(100%);
+                pointer-events: none;
+            }
+
+            /* Overlay */
+            .overlay-content { flex-direction: column; }
+            .overlay-image-container {
+                flex: 1;
+                height: auto;
+                max-height: 60vh;
+                padding: 64px 16px 16px 16px;
+                overflow-y: auto;
+            }
+            .overlay-text-container {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: auto;
+                max-height: 40vh;
+                padding: 56px 16px 48px 16px;
+                padding-bottom: max(48px, calc(16px + env(safe-area-inset-bottom, 0px)));
+                border-left: none;
+                border-top: 2px solid var(--colore-primario);
+                justify-content: flex-start;
+                overflow-y: auto;
+                background-color: var(--colore-accento);
+                z-index: 11;
+                will-change: transform;
+            }
+            .overlay-text-container.animating {
+                transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            }
+            .overlay-image-container {
+                transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            }
+            .overlay-text-container.expanded {
+                max-height: 100vh;
+                top: 0;
+                padding-top: 80px;
+            }
+
+            /* Nascondi immagini quando text container è espanso */
+            .overlay-text-container.expanded ~ .overlay-image-container,
+            #project-overlay.has-expanded-text .overlay-image-container {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            /* Indicatore swipe (barretta statica) */
+            .swipe-indicator {
+                display: block;
+                position: absolute;
+                top: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50px;
+                height: 5px;
+                background-color: var(--colore-primario);
+                border-radius: 3px;
+                opacity: 0.8;
+            }
+
+            /* Testo helper per swipe */
+            .swipe-helper-text {
+                display: block;
+                position: absolute;
+                top: 24px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 12px;
+                color: var(--colore-primario);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                opacity: 0.7;
+                font-weight: 600;
+                white-space: nowrap;
+                animation: text-fade 2s ease-in-out infinite;
+            }
+
+            @keyframes text-fade {
+                0%, 100% { opacity: 0.7; }
+                50% { opacity: 1; }
+            }
+
+            .overlay-text-container.expanded .swipe-helper-text {
+                display: none;
+            }
+
+            #overlay-description {
+                display: none;
+            }
+
+            .overlay-text-container.expanded #overlay-description {
+                display: block;
+            }
+
+            #close-overlay {
+                top: 16px;
+                right: 16px;
+                z-index: 12;
+            }
+
+            /* Footer */
+            footer {
+                margin-left: 0;
+                width: 100%;
+                padding-bottom: calc(24px + 64px);
+            }
+            .footer-social-icons {
+                display: flex;
+                justify-content: center;
+                gap: 24px;
+                margin-bottom: 16px;
+            }
+
+            /* Work item */
+            .work-item:active { transform: scale(0.98); }
+        }
+
+        /* ===== HOVER EFFECTS (solo desktop) ===== */
+        @media (hover: hover) {
+            .work-item:hover img {
+                filter: grayscale(1) brightness(0.5);
+            }
+            .work-item:hover .work-item-marquee {
+                opacity: 1;
+            }
+            .work-item:hover .work-item-marquee span {
+                animation-play-state: running;
+            }
+            .team-member:hover img {
+                filter: grayscale(100%);
+            }
+            .team-member:hover .member-info {
+                border-color: var(--colore-accento);
+            }
+            .team-member:hover .member-info h3,
+            .team-member:hover .member-info p {
+                color: var(--colore-accento);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <!-- ================== SEZIONE HOME (LAYOUT VIDEO) ================== -->
+    <section id="home">
+        <video id="home-video" autoplay loop muted playsinline preload="auto" poster="project/asset/showreel/home-showreel-poster.png">
+            <source src="project/asset/showreel/home-showreel.webm" type="video/webm">
+            Il tuo browser non supporta il tag video.
+        </video>
+    </section>
+
+    <!-- Il resto del contenuto scorrevole -->
+    <main class="content">
+
+    <!-- ================== SEZIONE WORK (con autore del progetto) ====================== -->
+        <section id="work">
+            <h2>I Nostri Lavori</h2>
+            <p>Una selezione dei nostri progetti più recenti.</p>
+            <div class="work-gallery">
+                <!-- Esempio 1: Solo immagine -->
+                <div class="work-item"
+                    data-title="Progetto 1"
+                    data-description="Questa è una descrizione dettagliata per il Progetto 1. Abbiamo esplorato concetti di minimalismo e colore."
+                    data-author="Elara Vance"
+                    data-type="image"
+                    data-content="project/asset/works/progetto-1/image.png">
+                    <img src="project/asset/works/progetto-1/preview.png" alt="Anteprima Progetto 1" loading="lazy">
+                    <div class="work-item-marquee"><span>Progetto 1 --- Progetto 1 --- Progetto 1 --- </span></div>
+                </div>
+
+                <!-- Esempio 2: Immagine alta -->
+                <div class="work-item"
+                    data-title="Progetto 2"
+                    data-description="Il Progetto 2 si concentra sulla tipografia e sul layout per un brand di lusso."
+                    data-author="Jax Orion"
+                    data-type="image"
+                    data-content="project/asset/works/progetto-2/image.png">
+                    <img src="project/asset/works/progetto-2/preview.png" alt="Anteprima Progetto 2" loading="lazy">
+                    <div class="work-item-marquee"><span>Progetto 2 --- Progetto 2 --- Progetto 2 --- </span></div>
+                </div>
+
+                <!-- Esempio 3: Video + Immagine -->
+                <div class="work-item"
+                    data-title="Progetto 3"
+                    data-description="Per il Progetto 3 abbiamo creato una serie di illustrazioni vettoriali uniche con animazione introduttiva."
+                    data-author="Lyra Croft"
+                    data-type="video-image"
+                    data-video="project/asset/works/progetto-3/video.webm"
+                    data-image="project/asset/works/progetto-3/image.png">
+                    <img src="project/asset/works/progetto-3/preview.png" alt="Anteprima Progetto 3" loading="lazy">
+                    <div class="work-item-marquee"><span>Progetto 3 --- Progetto 3 --- Progetto 3 --- </span></div>
+                </div>
+
+                <!-- Esempio 4: Video + Immagine -->
+                <div class="work-item"
+                    data-title="Progetto 4"
+                    data-description="Motion graphics e animazione 3D sono stati il focus del Progetto 4."
+                    data-author="Elara Vance, Jax Orion"
+                    data-type="video-image"
+                    data-video="project/asset/works/progetto-4/video.webm"
+                    data-image="project/asset/works/progetto-4/image.png">
+                    <img src="project/asset/works/progetto-4/preview.png" alt="Anteprima Progetto 4" loading="lazy">
+                    <div class="work-item-marquee"><span>Progetto 4 --- Progetto 4 --- Progetto 4 --- </span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================== SEZIONE TEAM ================== -->
+        <section id="team">
+            <h2>Il Team</h2>
+            <p>Le menti creative dietro ogni progetto.</p>
+
+            <div class="team-container">
+                <div class="team-member">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" alt="Foto di un membro del team" loading="lazy">
+                    <div class="member-info">
+                        <h3>Elara Vance</h3>
+                        <p>Art Director</p>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Foto di un membro del team" loading="lazy">
+                    <div class="member-info">
+                        <h3>Jax Orion</h3>
+                        <p>Lead Designer</p>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=761&q=80" alt="Foto di un membro del team" loading="lazy">
+                    <div class="member-info">
+                        <h3>Lyra Croft</h3>
+                        <p>Motion Designer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======================= CURSORE ======================= -->
+    <div id="custom-cursor"></div>
+
+    <!-- ================== SIDEBAR ==================== -->
+        <nav class="sidebar">
+            <h1 class="studio-name">Priscio Collettivo</h1>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#team">Team</a></li>
+            </ul>
+            <div class="sidebar-bottom">
+                <div class="social-icons">
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.2,5.2 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.2,5.2 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg></a>
+                    <a href="https://behance.net" target="_blank" rel="noopener noreferrer" title="Behance"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5,4.5H13.11C13.85,4.5 14.53,4.65 15.14,4.94C15.76,5.24 16.24,5.65 16.59,6.18C16.94,6.71 17.11,7.32 17.11,8C17.11,8.5 17,8.94 16.79,9.32C16.58,9.7 16.29,10 15.93,10.24C16.5,10.47 16.93,10.82 17.21,11.29C17.5,11.76 17.64,12.32 17.64,12.97C17.64,13.69 17.45,14.32 17.08,14.86C16.71,15.4 16.2,15.82 15.55,16.12C14.9,16.42 14.16,16.57 13.33,16.57H6.5V4.5M8.77,9.56H12.92C13.39,9.56 13.76,9.43 14.03,9.17C14.3,8.91 14.44,8.57 14.44,8.16C14.44,7.76 14.31,7.43 14.04,7.17C13.77,6.91 13.4,6.78 12.92,6.78H8.77V9.56M8.77,14.29H13.33C13.83,14.29 14.23,14.15 14.53,13.87C14.83,13.59 14.98,13.22 14.98,12.76C14.98,12.32 14.84,11.96 14.56,11.68C14.28,11.4 13.9,11.26 13.42,11.26H8.77V14.29M18.64,7.68H21.5V6.5H18.64V7.68Z"/></svg></a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.43 12.9,11.2V10.13H10.13V18.5H12.9V13.57C12.9,12.8 13.54,12.17 14.31,12.17C15.08,12.17 15.71,12.8 15.71,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,6 7.88,5.32 7.06,5.32C6.24,5.32 5.56,6 5.56,6.88C5.56,7.76 6.24,8.56 7.06,8.56C7.08,8.56 7.1,8.56 7.12,8.56L6.88,8.56M8.27,18.5V10.13H5.56V18.5H8.27Z"/></svg></a>
+                </div>
+                <a href="mailto:info@prisciocollettivo.com" class="cta-button">Contattaci</a>
+            </div>
+            <button class="hamburger-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </nav>
+
+    <!-- ============== PULSANTE CTA PER MOBILE ============== -->
+    <a href="mailto:info@prisciocollettivo.com" id="mobile-cta">Contattaci</a>
+    
+    <!-- ================== OVERLAY DEL PROGETTO (con autore) ================== -->
+    <div id="project-overlay">
+        <div class="overlay-content">
+            <div class="overlay-image-container" id="overlay-media-container">
+                <!-- Il contenuto verrà caricato dinamicamente da JavaScript -->
+            </div>
+            <div class="overlay-text-container">
+                <div class="swipe-indicator"></div>
+                <div class="swipe-helper-text">Scorri per leggere</div>
+                <h3 id="overlay-title"></h3>
+                <p id="overlay-description"></p>
+                <p id="overlay-author"></p>
+            </div>
+        </div>
+        <button id="close-overlay">×</button>
+    </div>
+
+    <!-- MODIFICA: FOOTER CON ICONE SOCIAL PER MOBILE -->
+    <footer>
+        <!-- NUOVO: Contenitore per le icone social visibile solo su mobile -->
+        <div class="social-icons footer-social-icons">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.2,5.2 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.2,5.2 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg></a>
+            <a href="https://behance.net" target="_blank" rel="noopener noreferrer" title="Behance"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5,4.5H13.11C13.85,4.5 14.53,4.65 15.14,4.94C15.76,5.24 16.24,5.65 16.59,6.18C16.94,6.71 17.11,7.32 17.11,8C17.11,8.5 17,8.94 16.79,9.32C16.58,9.7 16.29,10 15.93,10.24C16.5,10.47 16.93,10.82 17.21,11.29C17.5,11.76 17.64,12.32 17.64,12.97C17.64,13.69 17.45,14.32 17.08,14.86C16.71,15.4 16.2,15.82 15.55,16.12C14.9,16.42 14.16,16.57 13.33,16.57H6.5V4.5M8.77,9.56H12.92C13.39,9.56 13.76,9.43 14.03,9.17C14.3,8.91 14.44,8.57 14.44,8.16C14.44,7.76 14.31,7.43 14.04,7.17C13.77,6.91 13.4,6.78 12.92,6.78H8.77V9.56M8.77,14.29H13.33C13.83,14.29 14.23,14.15 14.53,13.87C14.83,13.59 14.98,13.22 14.98,12.76C14.98,12.32 14.84,11.96 14.56,11.68C14.28,11.4 13.9,11.26 13.42,11.26H8.77V14.29M18.64,7.68H21.5V6.5H18.64V7.68Z"/></svg></a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.43 12.9,11.2V10.13H10.13V18.5H12.9V13.57C12.9,12.8 13.54,12.17 14.31,12.17C15.08,12.17 15.71,12.8 15.71,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,6 7.88,5.32 7.06,5.32C6.24,5.32 5.56,6 5.56,6.88C5.56,7.76 6.24,8.56 7.06,8.56C7.08,8.56 7.1,8.56 7.12,8.56L6.88,8.56M8.27,18.5V10.13H5.56V18.5H8.27Z"/></svg></a>
+        </div>
+        <p>&copy; 2024 Priscio Collettivo. Tutti i diritti riservati.</p>
+    </footer>
+
+    <!-- ======================= JAVASCRIPT CONSOLIDATO ======================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ===== GESTIONE OVERLAY PROGETTI =====
+            const workItems = document.querySelectorAll('#work .work-item');
+            const overlay = document.querySelector('#project-overlay');
+
+            if (overlay) {
+                const overlayTitle = overlay.querySelector('#overlay-title');
+                const overlayMediaContainer = overlay.querySelector('#overlay-media-container');
+                const overlayDescription = overlay.querySelector('#overlay-description');
+                const overlayAuthor = overlay.querySelector('#overlay-author');
+                const closeButton = overlay.querySelector('#close-overlay');
+
+                const openOverlay = (item) => {
+                    const title = item.dataset.title;
+                    const description = item.dataset.description;
+                    const author = item.dataset.author;
+                    const type = item.dataset.type;
+
+                    // Aggiorna testo
+                    overlayTitle.textContent = title;
+                    overlayDescription.textContent = description;
+
+                    if (author) {
+                        overlayAuthor.textContent = `Di: ${author}`;
+                        overlayAuthor.style.display = 'block';
+                    } else {
+                        overlayAuthor.style.display = 'none';
+                    }
+
+                    // Pulisci contenuto precedente
+                    overlayMediaContainer.innerHTML = '';
+
+                    // Carica contenuto in base al tipo
+                    switch(type) {
+                        case 'image':
+                            const img = document.createElement('img');
+                            img.src = item.dataset.content;
+                            img.alt = title;
+                            overlayMediaContainer.appendChild(img);
+                            break;
+
+                        case 'video-image':
+                            // Video in loop
+                            const videoEl = document.createElement('video');
+                            videoEl.autoplay = true;
+                            videoEl.loop = true;
+                            videoEl.muted = true;
+                            videoEl.playsInline = true;
+                            videoEl.className = 'overlay-media-video';
+                            const videoSource = document.createElement('source');
+                            videoSource.src = item.dataset.video;
+                            videoSource.type = 'video/webm';
+                            videoEl.appendChild(videoSource);
+                            overlayMediaContainer.appendChild(videoEl);
+
+                            // Immagine subito sotto
+                            const imageEl = document.createElement('img');
+                            imageEl.src = item.dataset.image;
+                            imageEl.alt = title;
+                            imageEl.className = 'overlay-media-image';
+                            overlayMediaContainer.appendChild(imageEl);
+                            break;
+
+                        default:
+                            // Fallback: mostra immagine anteprima
+                            const fallbackImg = document.createElement('img');
+                            fallbackImg.src = item.querySelector('img').src;
+                            fallbackImg.alt = title;
+                            overlayMediaContainer.appendChild(fallbackImg);
+                    }
+
+                    // Resetta scroll all'inizio
+                    overlayMediaContainer.scrollTop = 0;
+
+                    // Apri overlay
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                };
+
+                const closeOverlay = () => {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+
+                    // Ferma video se presenti
+                    const videos = overlayMediaContainer.querySelectorAll('video');
+                    videos.forEach(video => {
+                        video.pause();
+                        video.currentTime = 0;
+                    });
+
+                    // Reset stato expanded su mobile
+                    const textContainer = overlay.querySelector('.overlay-text-container');
+                    if (textContainer) {
+                        textContainer.classList.remove('expanded');
+                        overlay.classList.remove('has-expanded-text');
+                    }
+                };
+
+                workItems.forEach(item => {
+                    item.addEventListener('click', () => openOverlay(item));
+                });
+
+                closeButton.addEventListener('click', closeOverlay);
+
+                // Chiudi overlay con ESC
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                        closeOverlay();
+                    }
+                });
+            }
+
+            // ===== GESTIONE SIDEBAR MOBILE =====
+            const hamburger = document.querySelector('.hamburger-menu');
+            const navLinksList = document.querySelectorAll('.sidebar .nav-links li a');
+
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    document.body.classList.toggle('menu-open');
+                });
+
+                navLinksList.forEach(link => {
+                    link.addEventListener('click', () => {
+                        document.body.classList.remove('menu-open');
+                    });
+                });
+            }
+
+            // ===== HIGHLIGHT SEZIONE ATTIVA =====
+            const sections = document.querySelectorAll('section');
+            const onScroll = () => {
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    if (sectionTop <= window.innerHeight / 2 && sectionTop > -section.offsetHeight + window.innerHeight / 2) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                navLinksList.forEach(link => {
+                    link.classList.remove('active-link');
+                    if (link.getAttribute('href') === '#' + currentSectionId) {
+                        link.classList.add('active-link');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', onScroll);
+            onScroll();
+
+            // ===== GESTIONE CTA MOBILE =====
+            const homeSection = document.querySelector('#home');
+            const mobileCta = document.querySelector('#mobile-cta');
+
+            if (homeSection && mobileCta) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        mobileCta.classList.toggle('is-hidden', entry.isIntersecting);
+                    });
+                }, { root: null, threshold: 0.1 });
+
+                observer.observe(homeSection);
+            }
+
+            // ===== CURSORE PERSONALIZZATO (ottimizzato con RAF) =====
+            const cursor = document.getElementById('custom-cursor');
+            if (cursor && window.matchMedia("(pointer: fine)").matches) {
+                let rafId = null;
+                let mouseX = 0;
+                let mouseY = 0;
+
+                // Throttle con requestAnimationFrame per performance
+                const updateCursorPosition = () => {
+                    cursor.style.left = mouseX + 'px';
+                    cursor.style.top = mouseY + 'px';
+                    rafId = null;
+                };
+
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    if (!rafId) {
+                        rafId = requestAnimationFrame(updateCursorPosition);
+                    }
+                });
+
+                const interactiveElements = document.querySelectorAll('a, button, .work-item');
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hover-effect'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover-effect'));
+                });
+            }
+
+            // ===== GESTIONE SWIPE SU OVERLAY (SOLO MOBILE) =====
+            if (window.matchMedia("(max-width: 800px)").matches && overlay) {
+                const textContainer = overlay.querySelector('.overlay-text-container');
+                let startY = 0;
+                let currentY = 0;
+                let isDragging = false;
+                let startTime = 0;
+                const maxDragDistance = window.innerHeight * 0.6; // 60vh massimo di spostamento
+
+                textContainer.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                    currentY = startY;
+                    isDragging = true;
+                    startTime = Date.now();
+                    textContainer.classList.remove('animating');
+                }, { passive: true });
+
+                textContainer.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+
+                    currentY = e.touches[0].clientY;
+                    const deltaY = startY - currentY;
+                    const isExpanded = textContainer.classList.contains('expanded');
+
+                    // Calcola il movimento in base allo stato
+                    let translateY = 0;
+
+                    if (!isExpanded) {
+                        // Stato compresso: trascina verso l'alto (valori negativi)
+                        translateY = Math.max(-maxDragDistance, Math.min(0, -deltaY));
+                    } else {
+                        // Stato espanso: trascina verso il basso (valori positivi)
+                        translateY = Math.min(maxDragDistance, Math.max(0, -deltaY));
+                    }
+
+                    // Applica il transform in tempo reale
+                    textContainer.style.transform = `translateY(${translateY}px)`;
+
+                    // Gestisci opacità delle immagini in base alla posizione
+                    const progress = Math.abs(translateY) / maxDragDistance;
+                    const imageContainer = overlay.querySelector('.overlay-image-container');
+                    if (imageContainer) {
+                        imageContainer.style.opacity = isExpanded ? progress : 1 - progress;
+                    }
+                }, { passive: true });
+
+                textContainer.addEventListener('touchend', () => {
+                    if (!isDragging) return;
+
+                    const deltaY = startY - currentY;
+                    const deltaTime = Date.now() - startTime;
+                    const velocity = Math.abs(deltaY) / deltaTime; // pixel per millisecondo
+                    const threshold = 80; // Pixel minimi per attivare lo swipe
+                    const velocityThreshold = 0.5; // Soglia di velocità per swipe rapido
+
+                    const isExpanded = textContainer.classList.contains('expanded');
+                    const imageContainer = overlay.querySelector('.overlay-image-container');
+
+                    // Determina se completare l'azione in base a distanza o velocità
+                    const shouldToggle = Math.abs(deltaY) > threshold || velocity > velocityThreshold;
+
+                    isDragging = false;
+
+                    // Doppio requestAnimationFrame per assicurare che il browser registri prima la posizione
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            textContainer.classList.add('animating');
+
+                            if (!isExpanded) {
+                                // Stato compresso: swipe up per espandere
+                                if (deltaY > 0 && shouldToggle) {
+                                    textContainer.classList.add('expanded');
+                                    overlay.classList.add('has-expanded-text');
+                                    textContainer.style.transform = '';
+                                    if (imageContainer) imageContainer.style.opacity = '0';
+                                } else {
+                                    // Ritorna alla posizione iniziale
+                                    textContainer.style.transform = '';
+                                    if (imageContainer) imageContainer.style.opacity = '1';
+                                }
+                            } else {
+                                // Stato espanso: swipe down per comprimere
+                                if (deltaY < 0 && shouldToggle) {
+                                    textContainer.classList.remove('expanded');
+                                    overlay.classList.remove('has-expanded-text');
+                                    textContainer.style.transform = '';
+                                    if (imageContainer) imageContainer.style.opacity = '1';
+                                } else {
+                                    // Ritorna alla posizione espansa
+                                    textContainer.style.transform = '';
+                                    if (imageContainer) imageContainer.style.opacity = '0';
+                                }
+                            }
+                        });
+                    });
+                }, { passive: true });
+            }
+        });
+    </script>
+
+</body>
+</html>
