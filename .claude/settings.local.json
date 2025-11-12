@@ -11,7 +11,12 @@
       "Bash(cp:*)",
       "Bash(git log:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nFix overlay text container visibility on mobile\n\nAumentato il padding inferiore dell''overlay-text-container da 16px a 48px e aggiunto supporto per safe-area-inset-bottom per garantire che l''elemento #overlay-author sia sempre visibile su mobile, anche quando la barra di ricerca del browser copre la parte bassa dello schermo.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(nul)",
+      "Bash(dir /s /b projectassetworks 2)",
+      "Bash(findstr:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nOptimize image loading performance for GitHub Pages\n\nImplementate tre ottimizzazioni principali per migliorare il caricamento delle immagini:\n\n1. Aggiunto sistema di placeholder con gradiente per immagini work e team\n   - Gradiente elegante mostrato durante il caricamento\n   - Transizione fluida da placeholder a immagine caricata\n   \n2. Implementato lazy loading avanzato con Intersection Observer\n   - Caricamento immagini 50px prima dell''ingresso nel viewport\n   - Gestione ottimizzata degli eventi di caricamento ed errori\n   - Sostituisce il lazy loading nativo del browser per maggiore controllo\n\n3. Aggiunto preload per poster video showreel\n   - Migliorato First Contentful Paint (FCP)\n   - Caricamento anticipato del poster della home\n\nQueste ottimizzazioni riducono il tempo di caricamento percepito e migliorano le performance complessive su GitHub Pages.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
