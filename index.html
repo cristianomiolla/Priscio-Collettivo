@@ -38,6 +38,7 @@
     
     <!-- Preload Critical Resources -->
     <link rel="preload" href="project/asset/font/Funnel.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="project/asset/showreel/home-showreel-poster.png" as="image">
 
     <!-- Preconnect per immagini esterne -->
     <link rel="preconnect" href="https://images.unsplash.com">
@@ -157,7 +158,28 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: filter 0.3s ease;
+            transition: filter 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            position: relative;
+            z-index: 2;
+        }
+        .work-item img.loaded {
+            opacity: 1;
+        }
+        .work-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f3f2f1 0%, #e8e7e6 100%);
+            z-index: 1;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        .work-item.image-loaded::before {
+            opacity: 0;
         }
         .work-item-marquee {
             position: absolute;
@@ -192,13 +214,35 @@
             margin-bottom: 32px;
             transition: transform 0.2s ease;
         }
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f3f2f1 0%, #e8e7e6 100%);
+            z-index: 1;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            border: 2px solid var(--colore-primario);
+        }
+        .team-member.image-loaded::before {
+            opacity: 0;
+        }
         .team-member img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
             border: 2px solid var(--colore-primario);
-            transition: filter 0.3s ease;
+            transition: filter 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            position: relative;
+            z-index: 2;
+        }
+        .team-member img.loaded {
+            opacity: 1;
         }
         .member-info {
             position: absolute;
@@ -907,6 +951,55 @@
     <!-- ======================= JAVASCRIPT CONSOLIDATO ======================= -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // ===== LAZY LOADING AVANZATO CON INTERSECTION OBSERVER =====
+            const lazyLoadImage = (img, container) => {
+                const src = img.dataset.src || img.src;
+
+                // Crea un nuovo oggetto Image per precaricamento
+                const tempImage = new Image();
+
+                tempImage.onload = () => {
+                    img.src = src;
+                    img.classList.add('loaded');
+                    if (container) {
+                        container.classList.add('image-loaded');
+                    }
+                };
+
+                tempImage.onerror = () => {
+                    // Fallback in caso di errore
+                    img.classList.add('loaded');
+                    if (container) {
+                        container.classList.add('image-loaded');
+                    }
+                };
+
+                tempImage.src = src;
+            };
+
+            // Intersection Observer per immagini lazy
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        const container = img.closest('.work-item, .team-member');
+                        lazyLoadImage(img, container);
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px', // Inizia a caricare 50px prima che entri nel viewport
+                threshold: 0.01
+            });
+
+            // Osserva tutte le immagini lazy
+            const lazyImages = document.querySelectorAll('.work-item img, .team-member img');
+            lazyImages.forEach(img => {
+                // Se l'immagine ha già l'attributo loading="lazy", lo rimuoviamo per usare il nostro sistema
+                img.removeAttribute('loading');
+                imageObserver.observe(img);
+            });
+
             // ===== GESTIONE OVERLAY PROGETTI =====
             const workItems = document.querySelectorAll('#work .work-item');
             const overlay = document.querySelector('#project-overlay');
