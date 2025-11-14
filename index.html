@@ -824,13 +824,14 @@
                     <div class="work-item-marquee"><span>Progetto 1 --- Progetto 1 --- Progetto 1 --- </span></div>
                 </div>
 
-                <!-- Esempio 2: Video + Immagine -->
+                <!-- Esempio 2: Video + Video2 + Immagine -->
                 <div class="work-item"
                     data-title="Strush"
-                    data-description="Brand identity e UI/UX design per Strush, l'app che rende la finanza personale un'esperienza motivante e divertente, tra gamification e coaching finanziario."
-                    data-author="Silvano Sorino"
-                    data-type="video-image"
+                    data-description="Brand identity, UI/UX design e logo reveal animation per Strush, l'app che rende la finanza personale un'esperienza motivante e divertente, tra gamification e coaching finanziario."
+                    data-author="Silvano Sorino, Andrea Starace"
+                    data-type="video-video-image"
                     data-video="project/asset/works/progetto-2/video.webm"
+                    data-video2="project/asset/works/progetto-2/video2.mp4"
                     data-image="project/asset/works/progetto-2/image.png">
                     <img src="project/asset/works/progetto-2/preview.png" alt="Anteprima Progetto 2" loading="lazy">
                     <div class="work-item-marquee"><span>Strush --- Strush --- Strush --- </span></div>
@@ -838,26 +839,26 @@
 
                 <!-- Esempio 3: Video + Immagine -->
                 <div class="work-item"
-                    data-title="Progetto 3"
-                    data-description="Per il Progetto 3 abbiamo creato una serie di illustrazioni vettoriali uniche con animazione introduttiva."
+                    data-title="Alfred Hitchcock Presents"
+                    data-description="Animazione di una walk cycle attraverso il rigging del personaggio. Il progetto è una rielaborazione dell'open title della serie del 1955 'Alfred Hitchcock Presents'."
                     data-author="Ylenia Scarpellino"
                     data-type="video-image"
                     data-video="project/asset/works/progetto-3/video.webm"
                     data-image="project/asset/works/progetto-3/image.png">
-                    <img src="project/asset/works/progetto-3/preview.png" alt="Anteprima Progetto 3" loading="lazy">
-                    <div class="work-item-marquee"><span>Progetto 3 --- Progetto 3 --- Progetto 3 --- </span></div>
+                    <img src="project/asset/works/progetto-3/preview.png" alt="Anteprima Alfred Hitchcock Presents" loading="lazy">
+                    <div class="work-item-marquee"><span>Alfred Hitchcock Presents --- Alfred Hitchcock Presents --- Alfred Hitchcock Presents --- </span></div>
                 </div>
 
                 <!-- Esempio 4: Video + Immagine -->
                 <div class="work-item"
-                    data-title="Progetto 4"
-                    data-description="Motion graphics e animazione 3D sono stati il focus del Progetto 4."
+                    data-title="Robot LuChan"
+                    data-description="Progetto di character design, rigging e run cycle animation per un robot ispirato allo stile giapponese. Il lavoro esplora la fusione tra estetica e funzionalità attraverso un movimento fluido e dinamico."
                     data-author="Ylenia Scarpellino"
                     data-type="video-image"
                     data-video="project/asset/works/progetto-4/video.webm"
                     data-image="project/asset/works/progetto-4/image.png">
-                    <img src="project/asset/works/progetto-4/preview.png" alt="Anteprima Progetto 4" loading="lazy">
-                    <div class="work-item-marquee"><span>Progetto 4 --- Progetto 4 --- Progetto 4 --- </span></div>
+                    <img src="project/asset/works/progetto-4/preview.png" alt="Anteprima Robot LuChan" loading="lazy">
+                    <div class="work-item-marquee"><span>Robot LuChan --- Robot LuChan --- Robot LuChan --- </span></div>
                 </div>
             </div>
         </section>
@@ -1062,6 +1063,41 @@
                             imageEl.alt = title;
                             imageEl.className = 'overlay-media-image';
                             overlayMediaContainer.appendChild(imageEl);
+                            break;
+
+                        case 'video-video-image':
+                            // Primo video in loop
+                            const videoEl1 = document.createElement('video');
+                            videoEl1.autoplay = true;
+                            videoEl1.loop = true;
+                            videoEl1.muted = true;
+                            videoEl1.playsInline = true;
+                            videoEl1.className = 'overlay-media-video';
+                            const videoSource1 = document.createElement('source');
+                            videoSource1.src = item.dataset.video;
+                            videoSource1.type = 'video/webm';
+                            videoEl1.appendChild(videoSource1);
+                            overlayMediaContainer.appendChild(videoEl1);
+
+                            // Secondo video in loop
+                            const videoEl2 = document.createElement('video');
+                            videoEl2.autoplay = true;
+                            videoEl2.loop = true;
+                            videoEl2.muted = true;
+                            videoEl2.playsInline = true;
+                            videoEl2.className = 'overlay-media-video';
+                            const videoSource2 = document.createElement('source');
+                            videoSource2.src = item.dataset.video2;
+                            videoSource2.type = 'video/mp4';
+                            videoEl2.appendChild(videoSource2);
+                            overlayMediaContainer.appendChild(videoEl2);
+
+                            // Immagine subito sotto
+                            const imageEl2 = document.createElement('img');
+                            imageEl2.src = item.dataset.image;
+                            imageEl2.alt = title;
+                            imageEl2.className = 'overlay-media-image';
+                            overlayMediaContainer.appendChild(imageEl2);
                             break;
 
                         default:
