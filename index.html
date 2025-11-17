@@ -36,8 +36,8 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.prisciocollettivo.com/">
     
+
     <!-- Preload Critical Resources -->
-    <link rel="preload" href="project/asset/font/Funnel.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="project/asset/showreel/home-showreel-poster.png" as="image">
 
     <!-- Preconnect per immagini esterne -->
@@ -53,23 +53,87 @@
 
     <!-- ============== STILI CONSOLIDATI ============== -->
     <style>
-        /* ===== FONT E VARIABILI GLOBALI ===== */
+        /* ===== FONT FACE DECLARATIONS ===== */
         @font-face {
-            font-family: 'Funnel';
-            src: url('project/asset/font/Funnel.ttf') format('truetype');
-            font-weight: normal;
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Thin.otf') format('opentype');
+            font-weight: 100;
             font-style: normal;
             font-display: swap;
         }
+        @font-face {
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Thin_Italic.otf') format('opentype');
+            font-weight: 100;
+            font-style: italic;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Light_Italic.otf') format('opentype');
+            font-weight: 300;
+            font-style: italic;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Medium_Italic.otf') format('opentype');
+            font-weight: 500;
+            font-style: italic;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Bold_Italic.otf') format('opentype');
+            font-weight: 700;
+            font-style: italic;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Heavy.otf') format('opentype');
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Kallisto';
+            src: url('fonts/fonnts.com-Kallisto_Heavy_Italic.otf') format('opentype');
+            font-weight: 900;
+            font-style: italic;
+            font-display: swap;
+        }
 
+        /* ===== FONT E VARIABILI GLOBALI ===== */
         :root {
             --colore-primario: #1D2125;
             --colore-secondario: #f3f2f1;
             --colore-accento: #E85A4F;
             --colore-testo: #1D2125;
-            --larghezza-sidebar: 260px;
+            --larghezza-sidebar: 290px;
             --altezza-navbar-mobile: 70px;
-            --font-principale: 'Funnel', sans-serif;
+            --font-principale: 'Kallisto', sans-serif;
         }
 
         /* ===== RESET E BASE ===== */
