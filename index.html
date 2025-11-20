@@ -530,6 +530,15 @@
             margin-bottom: 16px;
             line-height: 1.8;
         }
+        #overlay-description a {
+            color: var(--colore-primario);
+            text-decoration: underline;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+        #overlay-description a:hover {
+            opacity: 0.7;
+        }
         #overlay-author {
             margin-top: 8px;
             font-size: 16px;
@@ -891,8 +900,8 @@
                 <!-- Esempio 2: Video + Video2 + Immagine -->
                 <div class="work-item"
                     data-title="Strush"
-                    data-description="Brand identity, UI/UX design e logo reveal animation per Strush, l'app che rende la finanza personale un'esperienza motivante e divertente, tra gamification e coaching finanziario."
-                    data-author="Silvano Sorino, Andrea Starace"
+                    data-description="Brand identity, web design e UI/UX dell'app per Strush, l'app che rende la finanza personale un'esperienza motivante e divertente, tra gamification e coaching finanziario. 👉 [Scopri il sito](https://www.strush.it/)"
+                    data-author="Cristiano Miolla, Silvano Sorino, Andrea Starace"
                     data-type="video-video-image"
                     data-video="project/asset/works/progetto-2/video.webm"
                     data-video2="project/asset/works/progetto-2/video2.mp4"
@@ -934,6 +943,18 @@
                     data-content="project/asset/works/progetto-5/image.png">
                     <img src="project/asset/works/progetto-5/preview.png" alt="Anteprima Progetto 5" loading="lazy">
                     <div class="work-item-marquee"><span>Progetto 5 --- Progetto 5 --- Progetto 5 --- </span></div>
+                </div>
+
+                <!-- Esempio 6: Immagine + Video -->
+                <div class="work-item"
+                    data-title="Flink"
+                    data-description="Prototipazione e flussi UX per una piattaforma di matching che facilita la connessione tra utenti e tatuatori, ottimizzando la scoperta e l'esperienza del tatuaggio."
+                    data-author="Cristiano Miolla"
+                    data-type="image-video"
+                    data-video="project/asset/works/progetto-6/video.webm"
+                    data-image="project/asset/works/progetto-6/image.png">
+                    <img src="project/asset/works/progetto-6/preview.png" alt="Anteprima Flink" loading="lazy">
+                    <div class="work-item-marquee"><span>Flink --- Flink --- Flink --- </span></div>
                 </div>
             </div>
         </section>
@@ -1097,7 +1118,10 @@
 
                     // Aggiorna testo
                     overlayTitle.textContent = title;
-                    overlayDescription.textContent = description;
+
+                    // Converti markdown links in HTML per la descrizione
+                    const descriptionWithLinks = description.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+                    overlayDescription.innerHTML = descriptionWithLinks;
 
                     if (author) {
                         overlayAuthor.textContent = `Di: ${author}`;
@@ -1138,6 +1162,28 @@
                             imageEl.alt = title;
                             imageEl.className = 'overlay-media-image';
                             overlayMediaContainer.appendChild(imageEl);
+                            break;
+
+                        case 'image-video':
+                            // Immagine per prima
+                            const imageElIV = document.createElement('img');
+                            imageElIV.src = item.dataset.image;
+                            imageElIV.alt = title;
+                            imageElIV.className = 'overlay-media-image';
+                            overlayMediaContainer.appendChild(imageElIV);
+
+                            // Video in loop subito sotto
+                            const videoElIV = document.createElement('video');
+                            videoElIV.autoplay = true;
+                            videoElIV.loop = true;
+                            videoElIV.muted = true;
+                            videoElIV.playsInline = true;
+                            videoElIV.className = 'overlay-media-video';
+                            const videoSourceIV = document.createElement('source');
+                            videoSourceIV.src = item.dataset.video;
+                            videoSourceIV.type = 'video/webm';
+                            videoElIV.appendChild(videoSourceIV);
+                            overlayMediaContainer.appendChild(videoElIV);
                             break;
 
                         case 'video-video-image':
