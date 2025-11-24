@@ -265,6 +265,30 @@
             animation: marquee 10s linear infinite;
             animation-play-state: paused;
         }
+        .work-item-chips {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 4;
+        }
+        .work-chip {
+            background-color: var(--colore-accento);
+            color: var(--colore-primario);
+            padding: 6px 12px;
+            border-radius: 0;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid var(--colore-primario);
+        }
 
         /* ===== SEZIONE TEAM ===== */
         #team { background-color: var(--colore-secondario); }
@@ -584,7 +608,7 @@
         }
 
         /* ===== MEDIA QUERIES - TABLET E MOBILE ===== */
-        @media (max-width: 800px) {
+        @media (max-width: 768px) {
             /* Layout generale */
             .content {
                 margin-left: 0;
@@ -854,6 +878,9 @@
             .work-item:hover .work-item-marquee span {
                 animation-play-state: running;
             }
+            .work-item:hover .work-item-chips {
+                opacity: 1;
+            }
             .team-member:hover img {
                 filter: grayscale(100%);
             }
@@ -894,6 +921,9 @@
                     data-type="image"
                     data-content="project/asset/works/progetto-1/image.png">
                     <img src="project/asset/works/progetto-1/preview.png" alt="Anteprima Progetto 1" loading="lazy">
+                    <div class="work-item-chips">
+                        <span class="work-chip">graphic design</span>
+                    </div>
                     <div class="work-item-marquee"><span>Progetto 1 --- Progetto 1 --- Progetto 1 --- </span></div>
                 </div>
 
@@ -907,6 +937,12 @@
                     data-video2="project/asset/works/progetto-2/video2.mp4"
                     data-image="project/asset/works/progetto-2/image.png">
                     <img src="project/asset/works/progetto-2/preview.png" alt="Anteprima Progetto 2" loading="lazy">
+                    <div class="work-item-chips">
+                        <span class="work-chip">branding</span>
+                        <span class="work-chip">web design</span>
+                        <span class="work-chip">UI/UX</span>
+                        <span class="work-chip">gamification</span>
+                    </div>
                     <div class="work-item-marquee"><span>Strush --- Strush --- Strush --- </span></div>
                 </div>
 
@@ -919,6 +955,10 @@
                     data-video="project/asset/works/progetto-3/video.webm"
                     data-image="project/asset/works/progetto-3/image.png">
                     <img src="project/asset/works/progetto-3/preview.png" alt="Anteprima Alfred Hitchcock Presents" loading="lazy">
+                    <div class="work-item-chips">
+                        <span class="work-chip">motion</span>
+                        <span class="work-chip">character design</span>
+                    </div>
                     <div class="work-item-marquee"><span>Alfred Hitchcock Presents --- Alfred Hitchcock Presents --- Alfred Hitchcock Presents --- </span></div>
                 </div>
 
@@ -931,6 +971,10 @@
                     data-video="project/asset/works/progetto-4/video.webm"
                     data-image="project/asset/works/progetto-4/image.png">
                     <img src="project/asset/works/progetto-4/preview.png" alt="Anteprima Robot LuChan" loading="lazy">
+                    <div class="work-item-chips">
+                        <span class="work-chip">character design</span>
+                        <span class="work-chip">motion</span>
+                    </div>
                     <div class="work-item-marquee"><span>Robot LuChan --- Robot LuChan --- Robot LuChan --- </span></div>
                 </div>
 
@@ -942,6 +986,9 @@
                     data-type="image"
                     data-content="project/asset/works/progetto-5/image.png">
                     <img src="project/asset/works/progetto-5/preview.png" alt="Anteprima Progetto 5" loading="lazy">
+                    <div class="work-item-chips">
+                        <span class="work-chip">graphic design</span>
+                    </div>
                     <div class="work-item-marquee"><span>Progetto 5 --- Progetto 5 --- Progetto 5 --- </span></div>
                 </div>
 
@@ -954,6 +1001,10 @@
                     data-video="project/asset/works/progetto-6/video.webm"
                     data-image="project/asset/works/progetto-6/image.png">
                     <img src="project/asset/works/progetto-6/preview.png" alt="Anteprima Flink" loading="lazy">
+                    <div class="work-item-chips">
+                        <span class="work-chip">UI/UX</span>
+                        <span class="work-chip">prototipo</span>
+                    </div>
                     <div class="work-item-marquee"><span>Flink --- Flink --- Flink --- </span></div>
                 </div>
             </div>
@@ -1352,7 +1403,7 @@
             }
 
             // ===== GESTIONE SWIPE SU OVERLAY (SOLO MOBILE) =====
-            if (window.matchMedia("(max-width: 800px)").matches && overlay) {
+            if (window.matchMedia("(max-width: 768px)").matches && overlay) {
                 const textContainer = overlay.querySelector('.overlay-text-container');
                 let startY = 0;
                 let currentY = 0;
