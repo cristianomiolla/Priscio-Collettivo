@@ -1160,10 +1160,10 @@
                     data-description="Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.&lt;br&gt;Strush rende la finanza personale un'esperienza motivante e divertente, tra gamification e coaching finanziario.&lt;br&gt;👉 [Scopri il sito](https://www.strush.it/)"
                     data-author="Cristiano Miolla, Silvano Sorino, Andrea Starace"
                     data-type="video-video-image"
-                    data-video="project/asset/works/progetto-2/video.webm"
-                    data-video2="project/asset/works/progetto-2/video2.mp4"
-                    data-image="project/asset/works/progetto-2/image.png">
-                    <img src="project/asset/works/progetto-2/preview.png" alt="Anteprima Progetto 2" loading="lazy">
+                    data-video="project/asset/works/strush/video.webm"
+                    data-video2="project/asset/works/strush/video2.mp4"
+                    data-image="project/asset/works/strush/image.png">
+                    <img src="project/asset/works/strush/preview.png" alt="Anteprima Strush" loading="lazy">
                     <div class="work-item-chips">
                         <span class="work-chip">branding</span>
                         <span class="work-chip">web design</span>
@@ -1177,8 +1177,10 @@
                     data-title="Pusho"
                     data-description="Progettazione completa per Pusho: creazione del logo, UI/UX design dell'app, animazione del brand e sviluppo del sito web.&lt;br&gt;👉 [Scopri il sito](http://www.pusho.it/)"
                     data-author="Cristiano Miolla"
-                    data-type="image"
-                    data-content="project/asset/works/pusho/image.png">
+                    data-type="image-video-image"
+                    data-image="project/asset/works/pusho/image.png"
+                    data-video="project/asset/works/pusho/video.webm"
+                    data-image2="project/asset/works/pusho/image2.png">
                     <img src="project/asset/works/pusho/preview.png" alt="Anteprima Pusho" loading="lazy">
                     <div class="work-item-chips">
                         <span class="work-chip">logo</span>
@@ -1195,9 +1197,9 @@
                     data-description="Animazione di una walk cycle attraverso il rigging del personaggio. Il progetto è una rielaborazione dell'open title della serie del 1955 'Alfred Hitchcock Presents'."
                     data-author="Ylenia Scarpellino"
                     data-type="video-image"
-                    data-video="project/asset/works/progetto-3/video.webm"
-                    data-image="project/asset/works/progetto-3/image.png">
-                    <img src="project/asset/works/progetto-3/preview.png" alt="Anteprima Alfred Hitchcock Presents" loading="lazy">
+                    data-video="project/asset/works/alfred-hitchcock-presents/video.webm"
+                    data-image="project/asset/works/alfred-hitchcock-presents/image.png">
+                    <img src="project/asset/works/alfred-hitchcock-presents/preview.png" alt="Anteprima Alfred Hitchcock Presents" loading="lazy">
                     <div class="work-item-chips">
                         <span class="work-chip">motion</span>
                         <span class="work-chip">character design</span>
@@ -1211,9 +1213,9 @@
                     data-description="Progetto di character design, rigging e run cycle animation per un robot ispirato allo stile giapponese. Il lavoro esplora la fusione tra estetica e funzionalità attraverso un movimento fluido e dinamico."
                     data-author="Ylenia Scarpellino"
                     data-type="video-image"
-                    data-video="project/asset/works/progetto-4/video.webm"
-                    data-image="project/asset/works/progetto-4/image.png">
-                    <img src="project/asset/works/progetto-4/preview.png" alt="Anteprima Robot LuChan" loading="lazy">
+                    data-video="project/asset/works/robot-luchan/video.webm"
+                    data-image="project/asset/works/robot-luchan/image.png">
+                    <img src="project/asset/works/robot-luchan/preview.png" alt="Anteprima Robot LuChan" loading="lazy">
                     <div class="work-item-chips">
                         <span class="work-chip">motion</span>
                         <span class="work-chip">character design</span>
@@ -1227,8 +1229,8 @@
                     data-description="Sviluppo dei character e delle copertine per il videogioco Bloodloop."
                     data-author="Silvano Sorino"
                     data-type="image"
-                    data-content="project/asset/works/progetto-5/image.png">
-                    <img src="project/asset/works/progetto-5/preview.png" alt="Anteprima Bloodloop" loading="lazy">
+                    data-content="project/asset/works/bloodloop/image.png">
+                    <img src="project/asset/works/bloodloop/preview.png" alt="Anteprima Bloodloop" loading="lazy">
                     <div class="work-item-chips">
                         <span class="work-chip">graphic design</span>
                     </div>
@@ -1241,9 +1243,9 @@
                     data-description="Analisi preliminare del problema, strutturazione dei flussi UX e prototipazione dell'MVP della piattaforma, comprendente tutte le funzionalità minime necessarie per la validazione dell'idea di startup."
                     data-author="Cristiano Miolla"
                     data-type="image-video"
-                    data-video="project/asset/works/progetto-6/video.webm"
-                    data-image="project/asset/works/progetto-6/image.png">
-                    <img src="project/asset/works/progetto-6/preview.png" alt="Anteprima Flink" loading="lazy">
+                    data-video="project/asset/works/flink/video.webm"
+                    data-image="project/asset/works/flink/image.png">
+                    <img src="project/asset/works/flink/preview.png" alt="Anteprima Flink" loading="lazy">
                     <div class="work-item-chips">
                         <span class="work-chip">prototipo</span>
                         <span class="work-chip">UI/UX</span>
@@ -1514,6 +1516,35 @@
                             imageEl2.alt = title;
                             imageEl2.className = 'overlay-media-image';
                             overlayMediaContainer.appendChild(imageEl2);
+                            break;
+
+                        case 'image-video-image':
+                            // Prima immagine
+                            const imageElIVI1 = document.createElement('img');
+                            imageElIVI1.src = item.dataset.image;
+                            imageElIVI1.alt = title;
+                            imageElIVI1.className = 'overlay-media-image';
+                            overlayMediaContainer.appendChild(imageElIVI1);
+
+                            // Video in loop
+                            const videoElIVI = document.createElement('video');
+                            videoElIVI.autoplay = true;
+                            videoElIVI.loop = true;
+                            videoElIVI.muted = true;
+                            videoElIVI.playsInline = true;
+                            videoElIVI.className = 'overlay-media-video';
+                            const videoSourceIVI = document.createElement('source');
+                            videoSourceIVI.src = item.dataset.video;
+                            videoSourceIVI.type = 'video/webm';
+                            videoElIVI.appendChild(videoSourceIVI);
+                            overlayMediaContainer.appendChild(videoElIVI);
+
+                            // Seconda immagine
+                            const imageElIVI2 = document.createElement('img');
+                            imageElIVI2.src = item.dataset.image2;
+                            imageElIVI2.alt = title;
+                            imageElIVI2.className = 'overlay-media-image';
+                            overlayMediaContainer.appendChild(imageElIVI2);
                             break;
 
                         default:
