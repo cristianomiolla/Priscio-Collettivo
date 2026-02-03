@@ -131,6 +131,50 @@
             object-fit: cover;
         }
 
+        /* Home Overlay */
+        .home-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        .home-card {
+            background-color: rgba(29, 33, 37, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 2px solid rgba(243, 242, 241, 0.3);
+            padding: 48px 56px;
+            max-width: 520px;
+            text-align: center;
+        }
+        .home-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            color: var(--colore-secondario);
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .home-divider {
+            width: 60px;
+            height: 3px;
+            background-color: var(--colore-accento);
+            margin: 0 auto 20px auto;
+        }
+        .home-tagline {
+            font-size: clamp(15px, 1.8vw, 17px);
+            font-weight: 400;
+            color: var(--colore-secondario);
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
         /* ===== SEZIONE WORK ===== */
         @keyframes marquee {
             from { transform: translateX(0); }
@@ -636,6 +680,24 @@
                 margin-top: var(--altezza-navbar-mobile);
                 scroll-margin-top: var(--altezza-navbar-mobile);
             }
+            .home-overlay {
+                padding: 24px;
+            }
+            .home-card {
+                padding: 32px 28px;
+                max-width: 90%;
+            }
+            .home-title {
+                font-size: clamp(26px, 8vw, 36px);
+                margin-bottom: 16px;
+            }
+            .home-divider {
+                width: 50px;
+                margin-bottom: 16px;
+            }
+            .home-tagline {
+                font-size: 15px;
+            }
 
             /* Team */
             .team-container {
@@ -938,6 +1000,13 @@
             <source src="project/asset/showreel/home-showreel.webm" type="video/webm">
             Il tuo browser non supporta il tag video.
         </video>
+        <div class="home-overlay">
+            <div class="home-card">
+                <h1 class="home-title">Priscio Collettivo</h1>
+                <div class="home-divider"></div>
+                <p class="home-tagline">Collettivo creativo specializzato in branding, web design e motion graphics. Trasformiamo idee in esperienze visive memorabili.</p>
+            </div>
+        </div>
     </section>
 
     <!-- Il resto del contenuto scorrevole -->
