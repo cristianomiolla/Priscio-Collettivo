@@ -56,6 +56,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
     <!-- ============== STILI CONSOLIDATI ============== -->
     <style>
         /* ===== FONT E VARIABILI GLOBALI ===== */
@@ -1031,12 +1035,6 @@
                 min-height: 14rem;
                 width: 90%;
                 padding: 1.5rem;
-                /* Fix tremolii su mobile */
-                will-change: auto;
-                transform-style: flat;
-                box-shadow: none;
-                -webkit-backface-visibility: hidden;
-                backface-visibility: hidden;
             }
 
             .scroll-stack-card h3 {
@@ -1093,7 +1091,7 @@
             <div class="home-card">
                 <h1 class="home-title">Priscio Collettivo</h1>
                 <div class="home-divider"></div>
-                <p class="home-tagline">Collettivo creativo specializzato in branding, web design e motion graphics. Trasformiamo idee in esperienze visive memorabili.</p>
+                <p class="home-tagline">Diamo forma alle idee con strategia, design e motion per creare identità ed esperienze digitali</p>
             </div>
         </div>
     </section>
@@ -1664,26 +1662,28 @@
                 });
             }
 
-            // ===== SCROLL STACK - SEZIONE SERVIZI (ReactBits style) =====
+            // ===== SCROLL STACK CON GSAP ScrollTrigger =====
             const initScrollStack = () => {
+                gsap.registerPlugin(ScrollTrigger);
+
                 const container = document.getElementById('servizi-stack');
                 if (!container) return;
 
                 const cards = Array.from(container.querySelectorAll('.scroll-stack-card'));
-                const endElement = container.querySelector('.scroll-stack-end');
                 if (!cards.length) return;
 
-                // Configurazione - esattamente come ReactBits URL params
+                const isMobile = window.innerWidth <= 768;
+
+                // Configurazione
                 const config = {
-                    itemDistance: 370,
-                    itemScale: 0.03,
-                    itemStackDistance: 40,
-                    stackPosition: 0.30,      // 30% dal top
-                    scaleEndPosition: 0.10,   // 10% come decimale
-                    baseScale: 0.7
+                    itemDistance: isMobile ? 280 : 370,
+                    itemStackDistance: isMobile ? 25 : 40,
+                    topOffset: isMobile ? 240 : window.innerHeight * 0.3,
+                    baseScale: 0.7,
+                    itemScale: 0.03
                 };
 
-                // Imposta margin-bottom alle card
+                // Imposta stili iniziali
                 cards.forEach((card, i) => {
                     if (i < cards.length - 1) {
                         card.style.marginBottom = `${config.itemDistance}px`;
@@ -1691,121 +1691,44 @@
                     card.style.zIndex = i + 1;
                 });
 
-                // Salva le posizioni ORIGINALI delle card (senza transform)
-                let cardOriginalTops = [];
-                let endElementOriginalTop = 0;
+                // Pin + scala per ogni card
+                cards.forEach((card, i) => {
+                    const targetScale = config.baseScale + i * config.itemScale;
+                    const stackOffset = config.itemStackDistance * i;
 
-                const cachePositions = () => {
-                    // Reset transforms per ottenere posizioni originali
-                    cards.forEach(card => {
-                        card.style.transform = 'none';
+                    // Pin della card
+                    ScrollTrigger.create({
+                        trigger: card,
+                        start: `top ${config.topOffset + stackOffset}px`,
+                        endTrigger: '.scroll-stack-end',
+                        end: 'top center',
+                        pin: true,
+                        pinSpacing: false
                     });
 
-                    // Forza reflow
-                    container.offsetHeight;
-
-                    // Salva posizioni
-                    cardOriginalTops = cards.map(card => {
-                        const rect = card.getBoundingClientRect();
-                        return rect.top + window.scrollY;
-                    });
-
-                    if (endElement) {
-                        const rect = endElement.getBoundingClientRect();
-                        endElementOriginalTop = rect.top + window.scrollY;
+                    // Scala della card (tranne l'ultima)
+                    if (i < cards.length - 1) {
+                        gsap.to(card, {
+                            scale: targetScale,
+                            ease: 'none',
+                            scrollTrigger: {
+                                trigger: cards[i + 1],
+                                start: `top bottom`,
+                                end: `top ${config.topOffset + config.itemStackDistance * (i + 1)}px`,
+                                scrub: true
+                            }
+                        });
                     }
-                };
-
-                const lastTransforms = new Map();
-
-                const updateCardTransforms = () => {
-                    const scrollTop = window.scrollY;
-                    const viewportHeight = window.innerHeight;
-                    const stackPositionPx = config.stackPosition * viewportHeight;
-                    const scaleEndPositionPx = config.scaleEndPosition * viewportHeight;
-
-                    cards.forEach((card, i) => {
-                        const cardOriginalTop = cardOriginalTops[i];
-
-                        // Punti trigger
-                        const pinStart = cardOriginalTop - stackPositionPx - config.itemStackDistance * i;
-                        const pinEnd = endElementOriginalTop - viewportHeight / 2;
-
-                        // La scala inizia quando la PROSSIMA card inizia a pinnare
-                        // Così tutte le card hanno lo stesso range di scala (itemDistance px)
-                        const nextCardOriginalTop = cardOriginalTops[i + 1] || endElementOriginalTop;
-                        const nextCardPinStart = nextCardOriginalTop - stackPositionPx - config.itemStackDistance * (i + 1);
-                        const triggerStart = pinStart;
-                        const triggerEnd = nextCardPinStart;
-
-                        // Calcola scala
-                        let scaleProgress = 0;
-                        if (scrollTop >= triggerStart && scrollTop <= triggerEnd) {
-                            scaleProgress = (scrollTop - triggerStart) / (triggerEnd - triggerStart);
-                        } else if (scrollTop > triggerEnd) {
-                            scaleProgress = 1;
-                        }
-
-                        const targetScale = config.baseScale + i * config.itemScale;
-                        const scale = 1 - scaleProgress * (1 - targetScale);
-
-                        // Calcola translateY
-                        let translateY = 0;
-
-                        if (scrollTop >= pinStart && scrollTop <= pinEnd) {
-                            // Card è pinnata
-                            translateY = scrollTop - cardOriginalTop + stackPositionPx + config.itemStackDistance * i;
-                        } else if (scrollTop > pinEnd) {
-                            // Dopo il pin
-                            translateY = pinEnd - cardOriginalTop + stackPositionPx + config.itemStackDistance * i;
-                        }
-                        // Prima del pin: translateY rimane 0
-
-                        // Applica transform - su mobile usa valori interi per evitare sub-pixel jitter
-                        const isMobile = window.innerWidth <= 768;
-                        const newTransform = {
-                            translateY: isMobile ? Math.round(translateY) : Math.round(translateY * 10) / 10,
-                            scale: isMobile ? Math.round(scale * 100) / 100 : Math.round(scale * 1000) / 1000
-                        };
-
-                        const lastTransform = lastTransforms.get(i);
-                        const threshold = isMobile ? 1 : 0.5;
-                        const scaleThreshold = isMobile ? 0.01 : 0.001;
-                        const hasChanged = !lastTransform ||
-                            Math.abs(lastTransform.translateY - newTransform.translateY) > threshold ||
-                            Math.abs(lastTransform.scale - newTransform.scale) > scaleThreshold;
-
-                        if (hasChanged) {
-                            card.style.transform = `translate3d(0, ${newTransform.translateY}px, 0) scale(${newTransform.scale})`;
-                            lastTransforms.set(i, newTransform);
-                        }
-                    });
-                };
-
-                // Cache iniziale delle posizioni
-                cachePositions();
-
-                // Listener scroll
-                let rafId = null;
-                const handleScroll = () => {
-                    if (rafId) return;
-                    rafId = requestAnimationFrame(() => {
-                        updateCardTransforms();
-                        rafId = null;
-                    });
-                };
-
-                window.addEventListener('scroll', handleScroll, { passive: true });
-
-                // Ricrea cache su resize
-                window.addEventListener('resize', () => {
-                    lastTransforms.clear();
-                    cachePositions();
-                    updateCardTransforms();
                 });
 
-                // Prima esecuzione
-                updateCardTransforms();
+                // Refresh su resize
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        ScrollTrigger.refresh();
+                    }, 200);
+                });
             };
 
             initScrollStack();
