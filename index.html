@@ -243,14 +243,14 @@
 
         .scroll-stack-cards {
             position: relative;
+            padding-bottom: 50rem;
         }
 
         .scroll-stack-card {
-            position: sticky;
-            top: 220px;
             transform-origin: top center;
-            will-change: transform;
+            will-change: transform, filter;
             backface-visibility: hidden;
+            transform-style: preserve-3d;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
             min-height: 16rem;
             width: 70%;
@@ -264,7 +264,9 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            margin-bottom: 30px;
+            position: relative;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
         .scroll-stack-card h3 {
@@ -287,12 +289,9 @@
             font-weight: 700;
         }
 
-        .scroll-stack-spacer {
-            height: 280px;
-        }
-
-        .scroll-stack-spacer:last-child {
-            height: 0;
+        .scroll-stack-end {
+            width: 100%;
+            height: 1px;
         }
 
         /* ===== SEZIONE TEAM (nascosta temporaneamente) ===== */
@@ -879,11 +878,14 @@
                 margin-bottom: 40px;
             }
 
+            .scroll-stack-cards {
+                padding-bottom: 30rem;
+            }
+
             .scroll-stack-card {
                 min-height: 14rem;
                 width: 90%;
                 padding: 1.5rem;
-                top: calc(var(--altezza-navbar-mobile) + 100px);
             }
 
             .scroll-stack-card h3 {
@@ -897,10 +899,6 @@
             .scroll-stack-card .service-icon {
                 font-size: 24px;
                 margin-bottom: 8px;
-            }
-
-            .scroll-stack-spacer {
-                height: 200px;
             }
         }
 
@@ -984,6 +982,9 @@
                         <h3>UI/UX Design</h3>
                         <p>Progettiamo interfacce intuitive e user experience fluide. Dalla ricerca utente al prototipo finale, ogni dettaglio conta.</p>
                     </div>
+
+                    <!-- Spacer per il rilascio del pin -->
+                    <div class="scroll-stack-end"></div>
                 </div>
             </div>
         </section>
@@ -1482,55 +1483,120 @@
                 });
             }
 
-            // ===== SCROLL STACK - SEZIONE SERVIZI =====
+            // ===== SCROLL STACK - SEZIONE SERVIZI (ReactBits style) =====
             const initScrollStack = () => {
                 const container = document.getElementById('servizi-stack');
                 if (!container) return;
 
                 const cards = Array.from(container.querySelectorAll('.scroll-stack-card'));
+                const endElement = container.querySelector('.scroll-stack-end');
                 if (!cards.length) return;
 
-                // Configurazione
+                // Configurazione - esattamente come ReactBits URL params
                 const config = {
-                    baseScale: 0.7,
-                    itemScale: 0.03, // Incremento scala per ogni card
-                    stackOffset: 40  // Offset verticale tra card impilate
+                    itemDistance: 370,
+                    itemScale: 0.03,
+                    itemStackDistance: 40,
+                    stackPosition: 0.15,      // 15% come decimale
+                    scaleEndPosition: 0.10,   // 10% come decimale
+                    baseScale: 0.7
                 };
 
+                // Imposta margin-bottom alle card
+                cards.forEach((card, i) => {
+                    if (i < cards.length - 1) {
+                        card.style.marginBottom = `${config.itemDistance}px`;
+                    }
+                    card.style.zIndex = i + 1;
+                });
+
+                // Salva le posizioni ORIGINALI delle card (senza transform)
+                let cardOriginalTops = [];
+                let endElementOriginalTop = 0;
+
+                const cachePositions = () => {
+                    // Reset transforms per ottenere posizioni originali
+                    cards.forEach(card => {
+                        card.style.transform = 'none';
+                    });
+
+                    // Forza reflow
+                    container.offsetHeight;
+
+                    // Salva posizioni
+                    cardOriginalTops = cards.map(card => {
+                        const rect = card.getBoundingClientRect();
+                        return rect.top + window.scrollY;
+                    });
+
+                    if (endElement) {
+                        const rect = endElement.getBoundingClientRect();
+                        endElementOriginalTop = rect.top + window.scrollY;
+                    }
+                };
+
+                const lastTransforms = new Map();
+
                 const updateCardTransforms = () => {
+                    const scrollTop = window.scrollY;
                     const viewportHeight = window.innerHeight;
-                    // Sticky top: 220px su desktop, navbar + 100px su mobile
-                    const isMobile = window.innerWidth <= 768;
-                    const stickyTop = isMobile ? 170 : 220;
-                    const scaleDistance = 200; // Distanza in px per completare la scala
+                    const stackPositionPx = config.stackPosition * viewportHeight;
+                    const scaleEndPositionPx = config.scaleEndPosition * viewportHeight;
 
                     cards.forEach((card, i) => {
-                        const rect = card.getBoundingClientRect();
-                        const cardTop = rect.top;
+                        const cardOriginalTop = cardOriginalTops[i];
 
-                        // Calcola la scala target per questa card
-                        const targetScale = config.baseScale + (i * config.itemScale);
+                        // Punti trigger
+                        const triggerStart = cardOriginalTop - stackPositionPx - config.itemStackDistance * i;
+                        const triggerEnd = cardOriginalTop - scaleEndPositionPx;
+                        const pinStart = triggerStart;
+                        const pinEnd = endElementOriginalTop - viewportHeight / 2;
 
-                        // Calcola il progresso della scala (0 = scala 1, 1 = scala target)
+                        // Calcola scala
                         let scaleProgress = 0;
-
-                        if (cardTop <= stickyTop) {
-                            // La card è in posizione sticky, calcola quanto deve scalare
-                            const distanceFromTop = stickyTop - cardTop;
-                            scaleProgress = Math.min(1, distanceFromTop / scaleDistance);
+                        if (scrollTop >= triggerStart && scrollTop <= triggerEnd) {
+                            scaleProgress = (scrollTop - triggerStart) / (triggerEnd - triggerStart);
+                        } else if (scrollTop > triggerEnd) {
+                            scaleProgress = 1;
                         }
 
-                        const scale = 1 - (scaleProgress * (1 - targetScale));
+                        const targetScale = config.baseScale + i * config.itemScale;
+                        const scale = 1 - scaleProgress * (1 - targetScale);
 
-                        // Applica la trasformazione
-                        card.style.transform = `scale(${scale})`;
+                        // Calcola translateY
+                        let translateY = 0;
 
-                        // Aggiusta z-index per far apparire le card successive sopra
-                        card.style.zIndex = i + 1;
+                        if (scrollTop >= pinStart && scrollTop <= pinEnd) {
+                            // Card è pinnata
+                            translateY = scrollTop - cardOriginalTop + stackPositionPx + config.itemStackDistance * i;
+                        } else if (scrollTop > pinEnd) {
+                            // Dopo il pin
+                            translateY = pinEnd - cardOriginalTop + stackPositionPx + config.itemStackDistance * i;
+                        }
+                        // Prima del pin: translateY rimane 0
+
+                        // Applica transform
+                        const newTransform = {
+                            translateY: Math.round(translateY * 10) / 10,
+                            scale: Math.round(scale * 1000) / 1000
+                        };
+
+                        const lastTransform = lastTransforms.get(i);
+                        const hasChanged = !lastTransform ||
+                            Math.abs(lastTransform.translateY - newTransform.translateY) > 0.5 ||
+                            Math.abs(lastTransform.scale - newTransform.scale) > 0.001;
+
+                        if (hasChanged) {
+                            card.style.transform = `translate3d(0, ${newTransform.translateY}px, 0) scale(${newTransform.scale})`;
+                            lastTransforms.set(i, newTransform);
+                        }
                     });
                 };
 
-                // Listener scroll con RAF per performance
+                // Cache iniziale delle posizioni
+                cachePositions();
+
+                // Listener scroll
                 let rafId = null;
                 const handleScroll = () => {
                     if (rafId) return;
@@ -1542,7 +1608,14 @@
 
                 window.addEventListener('scroll', handleScroll, { passive: true });
 
-                // Aggiorna inizialmente
+                // Ricrea cache su resize
+                window.addEventListener('resize', () => {
+                    lastTransforms.clear();
+                    cachePositions();
+                    updateCardTransforms();
+                });
+
+                // Prima esecuzione
                 updateCardTransforms();
             };
 
