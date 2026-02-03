@@ -1032,6 +1032,12 @@
                 min-height: 14rem;
                 width: 90%;
                 padding: 1.5rem;
+                /* Fix tremolii su mobile */
+                will-change: auto;
+                transform-style: flat;
+                box-shadow: none;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
             }
 
             .scroll-stack-card h3 {
@@ -1752,16 +1758,19 @@
                         }
                         // Prima del pin: translateY rimane 0
 
-                        // Applica transform
+                        // Applica transform - su mobile usa valori interi per evitare sub-pixel jitter
+                        const isMobile = window.innerWidth <= 768;
                         const newTransform = {
-                            translateY: Math.round(translateY * 10) / 10,
-                            scale: Math.round(scale * 1000) / 1000
+                            translateY: isMobile ? Math.round(translateY) : Math.round(translateY * 10) / 10,
+                            scale: isMobile ? Math.round(scale * 100) / 100 : Math.round(scale * 1000) / 1000
                         };
 
                         const lastTransform = lastTransforms.get(i);
+                        const threshold = isMobile ? 1 : 0.5;
+                        const scaleThreshold = isMobile ? 0.01 : 0.001;
                         const hasChanged = !lastTransform ||
-                            Math.abs(lastTransform.translateY - newTransform.translateY) > 0.5 ||
-                            Math.abs(lastTransform.scale - newTransform.scale) > 0.001;
+                            Math.abs(lastTransform.translateY - newTransform.translateY) > threshold ||
+                            Math.abs(lastTransform.scale - newTransform.scale) > scaleThreshold;
 
                         if (hasChanged) {
                             card.style.transform = `translate3d(0, ${newTransform.translateY}px, 0) scale(${newTransform.scale})`;
