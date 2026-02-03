@@ -223,8 +223,83 @@
             border: 1px solid var(--colore-primario);
         }
 
-        /* ===== SEZIONE TEAM ===== */
-        #team { background-color: var(--colore-secondario); }
+        /* ===== SEZIONE SERVIZI - SCROLL STACK ===== */
+        #servizi {
+            background-color: var(--colore-secondario);
+            padding-top: 96px !important;
+            padding-bottom: 0 !important;
+            min-height: auto !important;
+            position: relative;
+        }
+
+        .scroll-stack-header {
+            margin-bottom: 60px;
+        }
+
+        .scroll-stack-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .scroll-stack-cards {
+            position: relative;
+        }
+
+        .scroll-stack-card {
+            position: sticky;
+            top: 220px;
+            transform-origin: top center;
+            will-change: transform;
+            backface-visibility: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            min-height: 16rem;
+            width: 70%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2.5rem 2rem;
+            border: 2px solid var(--colore-primario);
+            box-sizing: border-box;
+            background-color: var(--colore-secondario);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .scroll-stack-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .scroll-stack-card p {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        .scroll-stack-card .service-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .scroll-stack-spacer {
+            height: 280px;
+        }
+
+        .scroll-stack-spacer:last-child {
+            height: 0;
+        }
+
+        /* ===== SEZIONE TEAM (nascosta temporaneamente) ===== */
+        #team {
+            display: none;
+            background-color: var(--colore-secondario);
+        }
         .team-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -798,6 +873,35 @@
 
             /* Work item */
             .work-item:active { transform: scale(0.98); }
+
+            /* Scroll Stack Mobile */
+            .scroll-stack-header {
+                margin-bottom: 40px;
+            }
+
+            .scroll-stack-card {
+                min-height: 14rem;
+                width: 90%;
+                padding: 1.5rem;
+                top: calc(var(--altezza-navbar-mobile) + 100px);
+            }
+
+            .scroll-stack-card h3 {
+                font-size: 18px;
+            }
+
+            .scroll-stack-card p {
+                font-size: 14px;
+            }
+
+            .scroll-stack-card .service-icon {
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+
+            .scroll-stack-spacer {
+                height: 200px;
+            }
         }
 
         /* ===== HOVER EFFECTS (solo desktop) ===== */
@@ -840,6 +944,49 @@
 
     <!-- Il resto del contenuto scorrevole -->
     <main class="content">
+
+        <!-- ================== SEZIONE SERVIZI - SCROLL STACK ================== -->
+        <section id="servizi">
+            <div class="scroll-stack-header">
+                <h2>I Nostri Servizi</h2>
+                <p>Scopri cosa possiamo fare per te.</p>
+            </div>
+
+            <div class="scroll-stack-container" id="servizi-stack">
+                <div class="scroll-stack-cards">
+                    <!-- Card 1: Branding -->
+                    <div class="scroll-stack-card" data-card-index="0">
+                        <div class="service-icon">01</div>
+                        <h3>Branding & Identity</h3>
+                        <p>Creiamo identità visive uniche che raccontano la tua storia. Dal logo alla brand guideline completa, costruiamo la personalità del tuo marchio.</p>
+                    </div>
+                    <div class="scroll-stack-spacer"></div>
+
+                    <!-- Card 2: Web Design -->
+                    <div class="scroll-stack-card" data-card-index="1">
+                        <div class="service-icon">02</div>
+                        <h3>Web Design</h3>
+                        <p>Progettiamo esperienze digitali memorabili. Siti web che uniscono estetica e funzionalità per coinvolgere il tuo pubblico.</p>
+                    </div>
+                    <div class="scroll-stack-spacer"></div>
+
+                    <!-- Card 3: Motion Design -->
+                    <div class="scroll-stack-card" data-card-index="2">
+                        <div class="service-icon">03</div>
+                        <h3>Motion Design</h3>
+                        <p>Diamo vita alle idee attraverso l'animazione. Video, animazioni e contenuti dinamici che catturano l'attenzione.</p>
+                    </div>
+                    <div class="scroll-stack-spacer"></div>
+
+                    <!-- Card 4: UI/UX Design -->
+                    <div class="scroll-stack-card" data-card-index="3">
+                        <div class="service-icon">04</div>
+                        <h3>UI/UX Design</h3>
+                        <p>Progettiamo interfacce intuitive e user experience fluide. Dalla ricerca utente al prototipo finale, ogni dettaglio conta.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     <!-- ================== SEZIONE WORK (con autore del progetto) ====================== -->
         <section id="work">
@@ -982,8 +1129,8 @@
             <h1 class="studio-name">Priscio Collettivo</h1>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
+                <li><a href="#servizi">Servizi</a></li>
                 <li><a href="#work">Work</a></li>
-                <li><a href="#team">Team</a></li>
             </ul>
             <div class="sidebar-bottom">
                 <div class="social-icons">
@@ -1334,6 +1481,72 @@
                     el.addEventListener('mouseleave', () => cursor.classList.remove('hover-effect'));
                 });
             }
+
+            // ===== SCROLL STACK - SEZIONE SERVIZI =====
+            const initScrollStack = () => {
+                const container = document.getElementById('servizi-stack');
+                if (!container) return;
+
+                const cards = Array.from(container.querySelectorAll('.scroll-stack-card'));
+                if (!cards.length) return;
+
+                // Configurazione
+                const config = {
+                    baseScale: 0.7,
+                    itemScale: 0.03, // Incremento scala per ogni card
+                    stackOffset: 40  // Offset verticale tra card impilate
+                };
+
+                const updateCardTransforms = () => {
+                    const viewportHeight = window.innerHeight;
+                    // Sticky top: 220px su desktop, navbar + 100px su mobile
+                    const isMobile = window.innerWidth <= 768;
+                    const stickyTop = isMobile ? 170 : 220;
+                    const scaleDistance = 200; // Distanza in px per completare la scala
+
+                    cards.forEach((card, i) => {
+                        const rect = card.getBoundingClientRect();
+                        const cardTop = rect.top;
+
+                        // Calcola la scala target per questa card
+                        const targetScale = config.baseScale + (i * config.itemScale);
+
+                        // Calcola il progresso della scala (0 = scala 1, 1 = scala target)
+                        let scaleProgress = 0;
+
+                        if (cardTop <= stickyTop) {
+                            // La card è in posizione sticky, calcola quanto deve scalare
+                            const distanceFromTop = stickyTop - cardTop;
+                            scaleProgress = Math.min(1, distanceFromTop / scaleDistance);
+                        }
+
+                        const scale = 1 - (scaleProgress * (1 - targetScale));
+
+                        // Applica la trasformazione
+                        card.style.transform = `scale(${scale})`;
+
+                        // Aggiusta z-index per far apparire le card successive sopra
+                        card.style.zIndex = i + 1;
+                    });
+                };
+
+                // Listener scroll con RAF per performance
+                let rafId = null;
+                const handleScroll = () => {
+                    if (rafId) return;
+                    rafId = requestAnimationFrame(() => {
+                        updateCardTransforms();
+                        rafId = null;
+                    });
+                };
+
+                window.addEventListener('scroll', handleScroll, { passive: true });
+
+                // Aggiorna inizialmente
+                updateCardTransforms();
+            };
+
+            initScrollStack();
 
             // ===== GESTIONE SWIPE SU OVERLAY (SOLO MOBILE) =====
             if (window.matchMedia("(max-width: 768px)").matches && overlay) {
