@@ -1497,7 +1497,7 @@
                     itemDistance: 370,
                     itemScale: 0.03,
                     itemStackDistance: 40,
-                    stackPosition: 0.15,      // 15% come decimale
+                    stackPosition: 0.30,      // 30% dal top - più centrato
                     scaleEndPosition: 0.10,   // 10% come decimale
                     baseScale: 0.7
                 };
@@ -1547,10 +1547,15 @@
                         const cardOriginalTop = cardOriginalTops[i];
 
                         // Punti trigger
-                        const triggerStart = cardOriginalTop - stackPositionPx - config.itemStackDistance * i;
-                        const triggerEnd = cardOriginalTop - scaleEndPositionPx;
-                        const pinStart = triggerStart;
+                        const pinStart = cardOriginalTop - stackPositionPx - config.itemStackDistance * i;
                         const pinEnd = endElementOriginalTop - viewportHeight / 2;
+
+                        // La scala inizia quando la PROSSIMA card inizia a pinnare
+                        // Così tutte le card hanno lo stesso range di scala (itemDistance px)
+                        const nextCardOriginalTop = cardOriginalTops[i + 1] || endElementOriginalTop;
+                        const nextCardPinStart = nextCardOriginalTop - stackPositionPx - config.itemStackDistance * (i + 1);
+                        const triggerStart = pinStart;
+                        const triggerEnd = nextCardPinStart;
 
                         // Calcola scala
                         let scaleProgress = 0;
