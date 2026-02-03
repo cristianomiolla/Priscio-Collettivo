@@ -442,6 +442,7 @@
             margin: 0;
             padding: 0;
             font-weight: 800;
+            font-size: 18px;
         }
         .navbar .nav-links {
             list-style-type: none;
@@ -686,6 +687,67 @@
             display: none;
         }
 
+        /* ===== INDICATORE SCROLL DESKTOP PER OVERLAY ===== */
+        .scroll-indicator-desktop {
+            position: fixed;
+            bottom: 24px;
+            left: calc(60% / 2);
+            transform: translateX(-50%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 1001;
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        #project-overlay.active .scroll-indicator-desktop {
+            display: flex;
+        }
+
+        .scroll-indicator-desktop.hidden {
+            opacity: 0;
+        }
+
+        .scroll-indicator-desktop span {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--colore-secondario);
+            font-weight: 600;
+            background-color: var(--colore-primario);
+            padding: 6px 12px;
+        }
+
+        .scroll-indicator-desktop .scroll-arrow {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--colore-accento);
+            border-radius: 50%;
+            background-color: var(--colore-accento);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounce-arrow 1.5s ease-in-out infinite;
+        }
+
+        .scroll-indicator-desktop .scroll-arrow svg {
+            width: 12px;
+            height: 12px;
+            fill: none;
+            stroke: var(--colore-primario);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @keyframes bounce-arrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+
         /* ===== MEDIA QUERIES - TABLET E MOBILE ===== */
         @media (max-width: 768px) {
             /* Layout generale */
@@ -839,6 +901,7 @@
             }
 
             /* Overlay */
+            .scroll-indicator-desktop { display: none; }
             .overlay-content { flex-direction: column; }
             .overlay-image-container {
                 flex: 1;
@@ -1214,7 +1277,7 @@
 
     <!-- ================== NAVBAR ==================== -->
         <nav class="navbar">
-            <h1 class="studio-name">Priscio Collettivo</h1>
+            <h1 class="studio-name">PRISCIO COLLETTIVO</h1>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#servizi">Servizi</a></li>
@@ -1238,6 +1301,12 @@
         <div class="overlay-content">
             <div class="overlay-image-container" id="overlay-media-container">
                 <!-- Il contenuto verrà caricato dinamicamente da JavaScript -->
+            </div>
+            <div class="scroll-indicator-desktop" id="scroll-indicator-desktop">
+                <span>Scorri</span>
+                <div class="scroll-arrow">
+                    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
             </div>
             <div class="overlay-text-container">
                 <div class="swipe-indicator"></div>
@@ -1468,7 +1537,25 @@
                         textContainer.classList.remove('expanded');
                         overlay.classList.remove('has-expanded-text');
                     }
+
+                    // Reset scroll indicator desktop
+                    const scrollIndicator = document.getElementById('scroll-indicator-desktop');
+                    if (scrollIndicator) {
+                        scrollIndicator.classList.remove('hidden');
+                    }
                 };
+
+                // Gestione scroll indicator desktop
+                const scrollIndicator = document.getElementById('scroll-indicator-desktop');
+                if (scrollIndicator && window.matchMedia("(min-width: 769px)").matches) {
+                    overlayMediaContainer.addEventListener('scroll', () => {
+                        if (overlayMediaContainer.scrollTop > 50) {
+                            scrollIndicator.classList.add('hidden');
+                        } else {
+                            scrollIndicator.classList.remove('hidden');
+                        }
+                    });
+                }
 
                 workItems.forEach(item => {
                     item.addEventListener('click', () => openOverlay(item));
