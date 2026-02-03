@@ -64,8 +64,7 @@
             --colore-secondario: #f3f2f1;
             --colore-accento: #E85A4F;
             --colore-testo: #1D2125;
-            --larghezza-sidebar: 260px;
-            --altezza-navbar-mobile: 70px;
+            --altezza-navbar: 70px;
             --font-principale: 'Funnel Display', sans-serif;
         }
 
@@ -90,7 +89,8 @@
         h2::after {
             content: '';
             position: absolute;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             bottom: -10px;
             width: 80px;
             height: 4px;
@@ -102,8 +102,8 @@
 
         /* ===== LAYOUT PRINCIPALE ===== */
         .content {
-            margin-left: var(--larghezza-sidebar);
-            width: calc(100% - var(--larghezza-sidebar));
+            margin-left: 0;
+            width: 100%;
             position: relative;
             z-index: 1;
             background-color: var(--colore-secondario);
@@ -113,6 +113,13 @@
             min-height: 100vh;
             padding: 96px 64px;
             position: relative;
+            scroll-margin-top: var(--altezza-navbar);
+            text-align: center;
+        }
+
+        section:not(#home) .work-gallery,
+        section:not(#home) .team-container {
+            text-align: left;
         }
 
         section:last-child { border-bottom: none; }
@@ -121,8 +128,8 @@
         #home {
             position: relative;
             height: 100vh;
-            margin-left: var(--larghezza-sidebar);
-            width: calc(100% - var(--larghezza-sidebar));
+            margin-left: 0;
+            width: 100%;
             overflow: hidden;
         }
         #home-video {
@@ -278,6 +285,7 @@
 
         .scroll-stack-header {
             margin-bottom: 60px;
+            text-align: center;
         }
 
         .scroll-stack-container {
@@ -403,71 +411,69 @@
         }
         .member-info p { font-size: 14px; opacity: 0.7; }
 
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            width: var(--larghezza-sidebar);
-            height: 100vh;
+        /* ===== NAVBAR (ex SIDEBAR) ===== */
+        .navbar {
+            width: 100%;
+            height: 70px;
             background-color: var(--colore-primario);
             color: var(--colore-secondario);
             position: fixed;
             top: 0;
             left: 0;
-            padding: 32px 0;
+            padding: 0 48px;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
             z-index: 10;
         }
-        .sidebar .studio-name {
-            margin-bottom: 40px;
-            padding: 0 32px;
-            text-align: center;
+        .navbar .studio-name {
+            margin: 0;
+            padding: 0;
             font-weight: 800;
         }
-        .sidebar .nav-links {
+        .navbar .nav-links {
             list-style-type: none;
-            width: 100%;
-            flex: 0 0 auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
         }
-        .sidebar .nav-links li a {
+        .navbar .nav-links li a {
             display: block;
             position: relative;
             color: var(--colore-secondario);
-            padding: 20px 32px;
-            font-size: 16px;
+            padding: 12px 20px;
+            font-size: 14px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: transform 0.2s ease-in-out;
+            transition: color 0.2s ease-in-out;
         }
-        .sidebar .nav-links li a::before {
+        .navbar .nav-links li a::after {
             content: '';
             position: absolute;
-            left: 0;
-            top: 0;
-            width: 10px;
-            height: 100%;
+            left: 50%;
+            bottom: 8px;
+            width: 0;
+            height: 2px;
             background-color: var(--colore-accento);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.2s ease-in-out;
+            transform: translateX(-50%);
+            transition: width 0.2s ease-in-out;
         }
-        .sidebar .nav-links li a:hover,
-        .sidebar .nav-links li a.active-link {
-            transform: translateX(10px);
+        .navbar .nav-links li a:hover::after,
+        .navbar .nav-links li a.active-link::after {
+            width: calc(100% - 40px);
         }
-        .sidebar .nav-links li a:hover::before,
-        .sidebar .nav-links li a.active-link::before {
-            transform: scaleX(1);
-        }
-        .sidebar-bottom {
-            margin-top: auto;
-            padding: 32px;
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
         }
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 24px;
-            margin-bottom: 24px;
+            gap: 16px;
         }
         .social-icons a {
             color: var(--colore-secondario);
@@ -479,8 +485,8 @@
             transform: scale(1.1);
         }
         .social-icons svg {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
         }
         .cta-button {
             display: block;
@@ -488,7 +494,10 @@
             color: var(--colore-primario) !important;
             text-align: center;
             font-weight: bold;
-            padding: 16px;
+            padding: 12px 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: transform 0.2s ease, background-color 0.2s ease;
             margin: 0;
         }
@@ -647,8 +656,8 @@
             padding: 24px;
             font-size: 14px;
             opacity: 0.8;
-            margin-left: var(--larghezza-sidebar);
-            width: calc(100% - var(--larghezza-sidebar));
+            margin-left: 0;
+            width: 100%;
         }
         .footer-social-icons { display: none; }
 
@@ -667,7 +676,7 @@
             }
             section:not(#home) {
                 padding: 48px 24px;
-                scroll-margin-top: var(--altezza-navbar-mobile);
+                scroll-margin-top: var(--altezza-navbar);
             }
             h2 { font-size: 32px; }
             h2::after { width: 60px; }
@@ -676,9 +685,8 @@
             #home {
                 margin-left: 0;
                 width: 100%;
-                height: calc(100vh - var(--altezza-navbar-mobile));
-                margin-top: var(--altezza-navbar-mobile);
-                scroll-margin-top: var(--altezza-navbar-mobile);
+                height: 100vh;
+                scroll-margin-top: var(--altezza-navbar);
             }
             .home-overlay {
                 padding: 24px;
@@ -723,21 +731,12 @@
             }
             .team-member:active { transform: scale(0.98); }
 
-            /* Sidebar mobile */
-            .sidebar {
-                width: 100%;
-                height: 70px;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
+            /* Navbar mobile */
+            .navbar {
                 padding: 0 24px;
                 border-bottom: 2px solid var(--colore-primario);
             }
-            .sidebar .studio-name {
-                margin: 0;
-                padding: 0;
-            }
-            .sidebar-bottom { display: none; }
+            .navbar-right { display: none; }
             .hamburger-menu {
                 display: flex;
                 flex-direction: column;
@@ -754,7 +753,7 @@
                 background-color: var(--colore-secondario);
                 transition: all 0.3s ease;
             }
-            .sidebar .nav-links {
+            .navbar .nav-links {
                 position: fixed;
                 top: 0;
                 right: 0;
@@ -769,14 +768,13 @@
                 transform: translateX(100%);
                 transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
             }
-            .sidebar .nav-links li a {
+            .navbar .nav-links li a {
                 padding: 16px 32px;
                 font-size: 24px;
             }
-            .sidebar .nav-links li a::before { display: none; }
-            .sidebar .nav-links li a:hover,
-            .sidebar .nav-links li a.active-link {
-                transform: none;
+            .navbar .nav-links li a::after { display: none; }
+            .navbar .nav-links li a:hover,
+            .navbar .nav-links li a.active-link {
                 background-color: var(--colore-accento);
             }
             body.menu-open { overflow: hidden; }
@@ -1194,15 +1192,15 @@
     <!-- ======================= CURSORE ======================= -->
     <div id="custom-cursor"></div>
 
-    <!-- ================== SIDEBAR ==================== -->
-        <nav class="sidebar">
+    <!-- ================== NAVBAR ==================== -->
+        <nav class="navbar">
             <h1 class="studio-name">Priscio Collettivo</h1>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#servizi">Servizi</a></li>
                 <li><a href="#work">Work</a></li>
             </ul>
-            <div class="sidebar-bottom">
+            <div class="navbar-right">
                 <div class="social-icons">
                     <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.2,5.2 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.2,5.2 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg></a>
                     <a href="https://behance.net" target="_blank" rel="noopener noreferrer" title="Behance"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5,4.5H13.11C13.85,4.5 14.53,4.65 15.14,4.94C15.76,5.24 16.24,5.65 16.59,6.18C16.94,6.71 17.11,7.32 17.11,8C17.11,8.5 17,8.94 16.79,9.32C16.58,9.7 16.29,10 15.93,10.24C16.5,10.47 16.93,10.82 17.21,11.29C17.5,11.76 17.64,12.32 17.64,12.97C17.64,13.69 17.45,14.32 17.08,14.86C16.71,15.4 16.2,15.82 15.55,16.12C14.9,16.42 14.16,16.57 13.33,16.57H6.5V4.5M8.77,9.56H12.92C13.39,9.56 13.76,9.43 14.03,9.17C14.3,8.91 14.44,8.57 14.44,8.16C14.44,7.76 14.31,7.43 14.04,7.17C13.77,6.91 13.4,6.78 12.92,6.78H8.77V9.56M8.77,14.29H13.33C13.83,14.29 14.23,14.15 14.53,13.87C14.83,13.59 14.98,13.22 14.98,12.76C14.98,12.32 14.84,11.96 14.56,11.68C14.28,11.4 13.9,11.26 13.42,11.26H8.77V14.29M18.64,7.68H21.5V6.5H18.64V7.68Z"/></svg></a>
@@ -1245,7 +1243,7 @@
             <a href="https://behance.net" target="_blank" rel="noopener noreferrer" title="Behance"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5,4.5H13.11C13.85,4.5 14.53,4.65 15.14,4.94C15.76,5.24 16.24,5.65 16.59,6.18C16.94,6.71 17.11,7.32 17.11,8C17.11,8.5 17,8.94 16.79,9.32C16.58,9.7 16.29,10 15.93,10.24C16.5,10.47 16.93,10.82 17.21,11.29C17.5,11.76 17.64,12.32 17.64,12.97C17.64,13.69 17.45,14.32 17.08,14.86C16.71,15.4 16.2,15.82 15.55,16.12C14.9,16.42 14.16,16.57 13.33,16.57H6.5V4.5M8.77,9.56H12.92C13.39,9.56 13.76,9.43 14.03,9.17C14.3,8.91 14.44,8.57 14.44,8.16C14.44,7.76 14.31,7.43 14.04,7.17C13.77,6.91 13.4,6.78 12.92,6.78H8.77V9.56M8.77,14.29H13.33C13.83,14.29 14.23,14.15 14.53,13.87C14.83,13.59 14.98,13.22 14.98,12.76C14.98,12.32 14.84,11.96 14.56,11.68C14.28,11.4 13.9,11.26 13.42,11.26H8.77V14.29M18.64,7.68H21.5V6.5H18.64V7.68Z"/></svg></a>
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.43 12.9,11.2V10.13H10.13V18.5H12.9V13.57C12.9,12.8 13.54,12.17 14.31,12.17C15.08,12.17 15.71,12.8 15.71,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,6 7.88,5.32 7.06,5.32C6.24,5.32 5.56,6 5.56,6.88C5.56,7.76 6.24,8.56 7.06,8.56C7.08,8.56 7.1,8.56 7.12,8.56L6.88,8.56M8.27,18.5V10.13H5.56V18.5H8.27Z"/></svg></a>
         </div>
-        <p>&copy; 2025 Priscio Collettivo. Tutti i diritti riservati.</p>
+        <p>&copy; 2026 Priscio Collettivo. Tutti i diritti riservati.</p>
     </footer>
 
     <!-- ======================= JAVASCRIPT CONSOLIDATO ======================= -->
@@ -1471,9 +1469,9 @@
                 });
             }
 
-            // ===== GESTIONE SIDEBAR MOBILE =====
+            // ===== GESTIONE NAVBAR MOBILE =====
             const hamburger = document.querySelector('.hamburger-menu');
-            const navLinksList = document.querySelectorAll('.sidebar .nav-links li a');
+            const navLinksList = document.querySelectorAll('.navbar .nav-links li a');
 
             if (hamburger) {
                 hamburger.addEventListener('click', () => {
