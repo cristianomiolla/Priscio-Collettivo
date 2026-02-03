@@ -1770,7 +1770,7 @@
                     mouse.y += (cursor.y - mouse.y) / 15;
 
                     const titleRect = titleElement.getBoundingClientRect();
-                    const maxDist = 150; // Distanza massima per l'effetto
+                    const maxDist = 60; // Distanza massima per l'effetto (ridotta)
 
                     spans.forEach(span => {
                         if (span.dataset.char === ' ') return; // Salta gli spazi
@@ -1783,12 +1783,12 @@
 
                         const d = dist(mouse, charCenter);
 
-                        // Più vicino = più largo, più lontano = normale (1.0)
-                        // scaleX va da 1.0 (lontano) a 1.5 (vicino)
+                        // Effetto inverso: più vicino = più stretto, più lontano = normale (1.0)
+                        // scaleX va da 1.0 (lontano) a 0.5 (vicino)
                         let scaleX = 1.0;
                         if (d < maxDist) {
                             const proximity = 1 - (d / maxDist); // 1 = vicinissimo, 0 = lontano
-                            scaleX = 1.0 + (proximity * 0.5); // da 1.0 a 1.5
+                            scaleX = 1.0 - (proximity * 0.5); // da 1.0 a 0.5
                         }
 
                         span.style.transform = `scaleX(${scaleX.toFixed(2)})`;
