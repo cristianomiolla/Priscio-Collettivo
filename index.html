@@ -161,13 +161,23 @@
             text-align: center;
         }
         .home-title {
-            font-size: clamp(32px, 5vw, 44px);
+            font-family: var(--font-principale);
+            font-size: clamp(24px, 4vw, 32px);
             font-weight: 800;
             color: var(--colore-secondario);
             letter-spacing: -1px;
             line-height: 1.1;
             margin-bottom: 20px;
             text-transform: uppercase;
+            text-align: center;
+            user-select: none;
+            white-space: nowrap;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        .home-title span {
+            display: inline-block;
         }
         .home-divider {
             width: 60px;
@@ -1697,6 +1707,100 @@
             };
 
             initScrollStack();
+
+            // ===== TEXT PRESSURE EFFECT (scaleX version for non-variable fonts) =====
+            const initTextPressure = () => {
+                const titleElement = document.querySelector('.home-title');
+                if (!titleElement) return;
+
+                const text = titleElement.textContent.trim();
+                const chars = text.split('');
+
+                // Svuota e ricrea con span per ogni carattere
+                titleElement.innerHTML = '';
+                const spans = chars.map((char, i) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.dataset.char = char;
+                    // Aggiungi larghezza per lo spazio
+                    if (char === ' ') {
+                        span.style.width = '0.3em';
+                    }
+                    titleElement.appendChild(span);
+                    return span;
+                });
+
+                // Cursore e mouse tracking
+                const mouse = { x: 0, y: 0 };
+                const cursor = { x: 0, y: 0 };
+                let isNearTitle = false;
+
+                // Inizializza fuori dallo schermo per stato normale iniziale
+                mouse.x = -1000;
+                mouse.y = -1000;
+                cursor.x = -1000;
+                cursor.y = -1000;
+
+                // Event listeners per mouse e touch
+                const handleMouseMove = (e) => {
+                    cursor.x = e.clientX;
+                    cursor.y = e.clientY;
+                };
+
+                const handleTouchMove = (e) => {
+                    const t = e.touches[0];
+                    cursor.x = t.clientX;
+                    cursor.y = t.clientY;
+                };
+
+                window.addEventListener('mousemove', handleMouseMove);
+                window.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+                // Funzioni helper
+                const dist = (a, b) => {
+                    const dx = b.x - a.x;
+                    const dy = b.y - a.y;
+                    return Math.sqrt(dx * dx + dy * dy);
+                };
+
+                // Animation loop
+                const animate = () => {
+                    // Smooth interpolation del mouse
+                    mouse.x += (cursor.x - mouse.x) / 15;
+                    mouse.y += (cursor.y - mouse.y) / 15;
+
+                    const titleRect = titleElement.getBoundingClientRect();
+                    const maxDist = 150; // Distanza massima per l'effetto
+
+                    spans.forEach(span => {
+                        if (span.dataset.char === ' ') return; // Salta gli spazi
+
+                        const rect = span.getBoundingClientRect();
+                        const charCenter = {
+                            x: rect.x + rect.width / 2,
+                            y: rect.y + rect.height / 2
+                        };
+
+                        const d = dist(mouse, charCenter);
+
+                        // Più vicino = più largo, più lontano = normale (1.0)
+                        // scaleX va da 1.0 (lontano) a 1.5 (vicino)
+                        let scaleX = 1.0;
+                        if (d < maxDist) {
+                            const proximity = 1 - (d / maxDist); // 1 = vicinissimo, 0 = lontano
+                            scaleX = 1.0 + (proximity * 0.5); // da 1.0 a 1.5
+                        }
+
+                        span.style.transform = `scaleX(${scaleX.toFixed(2)})`;
+                    });
+
+                    requestAnimationFrame(animate);
+                };
+
+                animate();
+            };
+
+            initTextPressure();
 
             // ===== GESTIONE SWIPE SU OVERLAY (SOLO MOBILE) =====
             if (window.matchMedia("(max-width: 768px)").matches && overlay) {
