@@ -1157,7 +1157,7 @@
                 <!-- Strush: Video + Video2 + Immagine -->
                 <div class="work-item"
                     data-title="Strush"
-                    data-description="Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.&lt;br&gt;Strush rende la finanza personale un'esperienza motivante e divertente, tra gamification e coaching finanziario.&lt;br&gt;👉 [Scopri il sito](https://www.strush.it/)"
+                    data-description="Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.&lt;br&gt;👉 [Scopri il sito](https://www.strush.it/)"
                     data-author="Cristiano Miolla, Silvano Sorino, Andrea Starace"
                     data-type="video-video-image"
                     data-video="project/asset/works/strush/video.webm"
@@ -1179,7 +1179,7 @@
                     data-author="Cristiano Miolla"
                     data-type="image-video-image"
                     data-image="project/asset/works/pusho/image.png"
-                    data-video="project/asset/works/pusho/video.webm"
+                    data-video="project/asset/works/pusho/video.mp4"
                     data-image2="project/asset/works/pusho/image2.png">
                     <img src="project/asset/works/pusho/preview.png" alt="Anteprima Pusho" loading="lazy">
                     <div class="work-item-chips">
@@ -1535,7 +1535,7 @@
                             videoElIVI.className = 'overlay-media-video';
                             const videoSourceIVI = document.createElement('source');
                             videoSourceIVI.src = item.dataset.video;
-                            videoSourceIVI.type = 'video/webm';
+                            videoSourceIVI.type = item.dataset.video.endsWith('.mp4') ? 'video/mp4' : 'video/webm';
                             videoElIVI.appendChild(videoSourceIVI);
                             overlayMediaContainer.appendChild(videoElIVI);
 
