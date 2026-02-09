@@ -1154,15 +1154,16 @@
             <h2>I Nostri Lavori</h2>
             <p>Una selezione dei nostri progetti più recenti.</p>
             <div class="work-gallery">
-                <!-- Strush: Video + Video2 + Immagine -->
+                <!-- Strush: Immagine + Video2 + Video + Immagine2 -->
                 <div class="work-item"
                     data-title="Strush"
                     data-description="Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.&lt;br&gt;👉 [Scopri il sito](https://www.strush.it/)"
                     data-author="Cristiano Miolla, Silvano Sorino, Andrea Starace"
-                    data-type="video-video-image"
-                    data-video="project/asset/works/strush/video.webm"
+                    data-type="image-video-video-image"
+                    data-image="project/asset/works/strush/image.png"
                     data-video2="project/asset/works/strush/video2.mp4"
-                    data-image="project/asset/works/strush/image.png">
+                    data-video="project/asset/works/strush/video.webm"
+                    data-image2="project/asset/works/strush/image2.png">
                     <img src="project/asset/works/strush/preview.png" alt="Anteprima Strush" loading="lazy">
                     <div class="work-item-chips">
                         <span class="work-chip">branding</span>
@@ -1545,6 +1546,48 @@
                             imageElIVI2.alt = title;
                             imageElIVI2.className = 'overlay-media-image';
                             overlayMediaContainer.appendChild(imageElIVI2);
+                            break;
+
+                        case 'image-video-video-image':
+                            // Prima immagine
+                            const imageElIVVI1 = document.createElement('img');
+                            imageElIVVI1.src = item.dataset.image;
+                            imageElIVVI1.alt = title;
+                            imageElIVVI1.className = 'overlay-media-image';
+                            overlayMediaContainer.appendChild(imageElIVVI1);
+
+                            // Primo video (video2) in loop
+                            const videoElIVVI1 = document.createElement('video');
+                            videoElIVVI1.autoplay = true;
+                            videoElIVVI1.loop = true;
+                            videoElIVVI1.muted = true;
+                            videoElIVVI1.playsInline = true;
+                            videoElIVVI1.className = 'overlay-media-video';
+                            const videoSourceIVVI1 = document.createElement('source');
+                            videoSourceIVVI1.src = item.dataset.video2;
+                            videoSourceIVVI1.type = item.dataset.video2.endsWith('.mp4') ? 'video/mp4' : 'video/webm';
+                            videoElIVVI1.appendChild(videoSourceIVVI1);
+                            overlayMediaContainer.appendChild(videoElIVVI1);
+
+                            // Secondo video in loop
+                            const videoElIVVI2 = document.createElement('video');
+                            videoElIVVI2.autoplay = true;
+                            videoElIVVI2.loop = true;
+                            videoElIVVI2.muted = true;
+                            videoElIVVI2.playsInline = true;
+                            videoElIVVI2.className = 'overlay-media-video';
+                            const videoSourceIVVI2 = document.createElement('source');
+                            videoSourceIVVI2.src = item.dataset.video;
+                            videoSourceIVVI2.type = item.dataset.video.endsWith('.mp4') ? 'video/mp4' : 'video/webm';
+                            videoElIVVI2.appendChild(videoSourceIVVI2);
+                            overlayMediaContainer.appendChild(videoElIVVI2);
+
+                            // Seconda immagine
+                            const imageElIVVI2 = document.createElement('img');
+                            imageElIVVI2.src = item.dataset.image2;
+                            imageElIVVI2.alt = title;
+                            imageElIVVI2.className = 'overlay-media-image';
+                            overlayMediaContainer.appendChild(imageElIVVI2);
                             break;
 
                         default:
