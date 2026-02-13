@@ -131,9 +131,9 @@
         /* ===== SEZIONE HOME ===== */
         #home {
             position: relative;
-            height: calc(100vh - var(--altezza-navbar));
+            height: 100vh;
             margin-left: 0;
-            margin-top: var(--altezza-navbar);
+            margin-top: 0;
             width: 100%;
             overflow: hidden;
         }
@@ -612,6 +612,7 @@
             letter-spacing: 1px;
             transition: transform 0.2s ease, background-color 0.2s ease;
             margin: 0;
+            border: 2px solid var(--colore-primario);
         }
         .cta-button:hover {
             background-color: var(--colore-secondario);
@@ -863,9 +864,9 @@
             #home {
                 margin-left: 0;
                 width: 100%;
-                height: calc(100vh - var(--altezza-navbar));
-                margin-top: var(--altezza-navbar);
-                scroll-margin-top: var(--altezza-navbar);
+                height: 100vh;
+                margin-top: 0;
+                scroll-margin-top: 0;
             }
             .home-overlay {
                 padding: 24px;
@@ -914,7 +915,6 @@
             /* Navbar mobile */
             .navbar {
                 padding: 0 24px;
-                border-bottom: 2px solid var(--colore-primario);
             }
             .navbar-right { display: none; }
             .hamburger-menu {
@@ -1177,6 +1177,7 @@
     <!-- ================== SEZIONE HOME (LAYOUT VIDEO) ================== -->
     <section id="home">
         <video id="home-video" autoplay loop muted playsinline preload="auto" poster="project/asset/showreel/home-showreel-poster.png">
+            <source src="project/asset/showreel/home-showreel-mobile.webm" type="video/webm" media="(max-width: 768px)">
             <source src="project/asset/showreel/home-showreel.webm" type="video/webm">
             Il tuo browser non supporta il tag video.
         </video>
