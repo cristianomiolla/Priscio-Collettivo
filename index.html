@@ -1958,6 +1958,17 @@
                 const blinkInterval = 3000;
                 let isBlinking = false;
 
+                // Posizione mouse per tracking occhi (solo desktop)
+                let mouseX = window.innerWidth / 2;
+                let mouseY = window.innerHeight / 2;
+
+                if (!isMobile) {
+                    document.addEventListener('mousemove', (e) => {
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+                    });
+                }
+
                 const updateBlink = (timestamp) => {
                     if (timestamp - lastBlinkTime > blinkInterval) {
                         isBlinking = true;
@@ -1975,6 +1986,29 @@
                     if (eyeRight) eyeRight.setAttribute('ry', (18 * eyeScaleY).toString());
                     if (pupilLeft) pupilLeft.setAttribute('ry', (10 * eyeScaleY).toString());
                     if (pupilRight) pupilRight.setAttribute('ry', (10 * eyeScaleY).toString());
+
+                    // Tracking pupille verso il cursore (solo desktop)
+                    if (!isMobile && pupilLeft && pupilRight) {
+                        const spikyRect = spiky.getBoundingClientRect();
+                        const spikyCenterX = spikyRect.left + spikyRect.width / 2;
+                        const spikyCenterY = spikyRect.top + spikyRect.height / 2;
+
+                        const dx = mouseX - spikyCenterX;
+                        const dy = mouseY - spikyCenterY;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        const maxOffset = 4;
+                        const offsetX = distance > 0 ? (dx / distance) * Math.min(maxOffset, distance / 50) : 0;
+                        const offsetY = distance > 0 ? (dy / distance) * Math.min(maxOffset, distance / 50) : 0;
+
+                        const leftBaseX = 40, leftBaseY = 58;
+                        const rightBaseX = 64, rightBaseY = 58;
+
+                        pupilLeft.setAttribute('cx', (leftBaseX + offsetX).toString());
+                        pupilLeft.setAttribute('cy', (leftBaseY + offsetY).toString());
+                        pupilRight.setAttribute('cx', (rightBaseX + offsetX).toString());
+                        pupilRight.setAttribute('cy', (rightBaseY + offsetY).toString());
+                    }
                 };
 
                 // ScrollTrigger per Spiky
