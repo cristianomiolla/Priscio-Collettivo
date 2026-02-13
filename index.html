@@ -289,91 +289,79 @@
             border: 1px solid var(--colore-primario);
         }
 
-        /* ===== PERSONAGGIO SPIKY ===== */
-        .spiky-character {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            z-index: 5;
+        /* ===== PERSONAGGIO SPIKY SCROLL-SYNCED ===== */
+        #spiky-scroll-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
-            animation: spiky-float 3s ease-in-out infinite;
+            z-index: 3;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        .spiky-character svg {
+        #spiky-scroll-container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* SVG per le linee sinuose */
+        #spiky-trail-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             overflow: visible;
         }
 
-        .spiky-character .spiky-body {
+        #spiky-trail-svg .trail-line {
+            fill: none;
+            stroke: var(--colore-accento);
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.8;
+        }
+
+        /* Personaggio Spiky animato */
+        #spiky-animated {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            will-change: transform;
+        }
+
+        #spiky-animated svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        #spiky-animated .spiky-body {
             fill: var(--colore-accento);
             stroke: var(--colore-primario);
             stroke-width: 4;
             stroke-linejoin: round;
         }
 
-        .spiky-character .spiky-eye {
+        #spiky-animated .spiky-eye {
             fill: var(--colore-secondario);
             stroke: var(--colore-primario);
             stroke-width: 3;
         }
 
-        .spiky-character .spiky-pupil {
+        #spiky-animated .spiky-pupil {
             fill: var(--colore-primario);
-        }
-
-        /* Posizioni per le diverse sezioni */
-        .spiky-servizi {
-            top: 80px;
-            right: 40px;
-            transform: rotate(15deg);
-        }
-
-        .spiky-work {
-            top: 60px;
-            left: 40px;
-            transform: rotate(-10deg) scaleX(-1);
-        }
-
-        /* Animazioni */
-        @keyframes spiky-float {
-            0%, 100% {
-                transform: translateY(0) rotate(15deg);
-            }
-            50% {
-                transform: translateY(-15px) rotate(20deg);
-            }
-        }
-
-        @keyframes spiky-float-left {
-            0%, 100% {
-                transform: translateY(0) rotate(-10deg) scaleX(-1);
-            }
-            50% {
-                transform: translateY(-15px) rotate(-5deg) scaleX(-1);
-            }
-        }
-
-
-        .spiky-work {
-            animation: spiky-float-left 3.5s ease-in-out infinite;
         }
 
         /* Responsivo */
         @media (max-width: 768px) {
-            .spiky-character {
+            #spiky-animated {
                 width: 80px;
                 height: 80px;
-            }
-
-            .spiky-servizi {
-                top: 20px;
-                right: 20px;
-            }
-
-            .spiky-work {
-                top: 20px;
-                left: 20px;
             }
         }
 
@@ -1173,7 +1161,27 @@
 </head>
 
 <body>
-    
+
+    <!-- ================== SPIKY SCROLL-SYNCED CON SCIA ================== -->
+    <div id="spiky-scroll-container">
+        <!-- SVG per le linee sinuose della scia -->
+        <svg id="spiky-trail-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <!-- Le linee verranno generate dinamicamente -->
+        </svg>
+        <!-- Personaggio Spiky animato -->
+        <div id="spiky-animated">
+            <svg viewBox="0 0 100 100">
+                <path class="spiky-body" d="M 50,95 L 25,70 L 5,75 L 15,50 L 0,30 L 25,35 L 35,10 L 50,30 L 65,10 L 75,35 L 100,30 L 85,50 L 95,75 L 75,70 L 50,95 Z"/>
+                <!-- Occhio sinistro -->
+                <ellipse class="spiky-eye" cx="38" cy="55" rx="12" ry="18" id="spiky-eye-left"/>
+                <ellipse class="spiky-pupil" cx="40" cy="58" rx="6" ry="10" id="spiky-pupil-left"/>
+                <!-- Occhio destro -->
+                <ellipse class="spiky-eye" cx="62" cy="55" rx="12" ry="18" id="spiky-eye-right"/>
+                <ellipse class="spiky-pupil" cx="64" cy="58" rx="6" ry="10" id="spiky-pupil-right"/>
+            </svg>
+        </div>
+    </div>
+
     <!-- ================== SEZIONE HOME (LAYOUT VIDEO) ================== -->
     <section id="home">
         <video id="home-video" autoplay loop muted playsinline preload="auto" poster="project/asset/showreel/home-showreel-poster.png">
@@ -1195,27 +1203,6 @@
 
         <!-- ================== SEZIONE SERVIZI - SCROLL STACK ================== -->
         <section id="servizi">
-            <!-- Personaggio Spiky -->
-            <div class="spiky-character spiky-servizi">
-                <svg viewBox="0 0 100 100">
-                    <path class="spiky-body" d="M 50,95 L 25,70 L 5,75 L 15,50 L 0,30 L 25,35 L 35,10 L 50,30 L 65,10 L 75,35 L 100,30 L 85,50 L 95,75 L 75,70 L 50,95 Z"/>
-                    <!-- Occhio sinistro -->
-                    <ellipse class="spiky-eye" cx="38" cy="55" rx="12" ry="18">
-                        <animate attributeName="ry" values="18;2;18" keyTimes="0;0.5;1" dur="0.15s" begin="0s;blink1.end+3s" id="blink1"/>
-                    </ellipse>
-                    <ellipse class="spiky-pupil" cx="40" cy="58" rx="6" ry="10">
-                        <animate attributeName="ry" values="10;1;10" keyTimes="0;0.5;1" dur="0.15s" begin="0s;blink1p.end+3s" id="blink1p"/>
-                    </ellipse>
-                    <!-- Occhio destro -->
-                    <ellipse class="spiky-eye" cx="62" cy="55" rx="12" ry="18">
-                        <animate attributeName="ry" values="18;2;18" keyTimes="0;0.5;1" dur="0.15s" begin="0s;blink2.end+3s" id="blink2"/>
-                    </ellipse>
-                    <ellipse class="spiky-pupil" cx="64" cy="58" rx="6" ry="10">
-                        <animate attributeName="ry" values="10;1;10" keyTimes="0;0.5;1" dur="0.15s" begin="0s;blink2p.end+3s" id="blink2p"/>
-                    </ellipse>
-                </svg>
-            </div>
-
             <div class="scroll-stack-header">
                 <h2>I Nostri Servizi</h2>
                 <p>Scopri cosa possiamo fare per te.</p>
@@ -1266,27 +1253,6 @@
 
     <!-- ================== SEZIONE WORK (con autore del progetto) ====================== -->
         <section id="work">
-            <!-- Personaggio Spiky (speculare) -->
-            <div class="spiky-character spiky-work">
-                <svg viewBox="0 0 100 100">
-                    <path class="spiky-body" d="M 50,95 L 25,70 L 5,75 L 15,50 L 0,30 L 25,35 L 35,10 L 50,30 L 65,10 L 75,35 L 100,30 L 85,50 L 95,75 L 75,70 L 50,95 Z"/>
-                    <!-- Occhio sinistro -->
-                    <ellipse class="spiky-eye" cx="38" cy="55" rx="12" ry="18">
-                        <animate attributeName="ry" values="18;2;18" keyTimes="0;0.5;1" dur="0.15s" begin="1.5s;blink3.end+3s" id="blink3"/>
-                    </ellipse>
-                    <ellipse class="spiky-pupil" cx="40" cy="58" rx="6" ry="10">
-                        <animate attributeName="ry" values="10;1;10" keyTimes="0;0.5;1" dur="0.15s" begin="1.5s;blink3p.end+3s" id="blink3p"/>
-                    </ellipse>
-                    <!-- Occhio destro -->
-                    <ellipse class="spiky-eye" cx="62" cy="55" rx="12" ry="18">
-                        <animate attributeName="ry" values="18;2;18" keyTimes="0;0.5;1" dur="0.15s" begin="1.5s;blink4.end+3s" id="blink4"/>
-                    </ellipse>
-                    <ellipse class="spiky-pupil" cx="64" cy="58" rx="6" ry="10">
-                        <animate attributeName="ry" values="10;1;10" keyTimes="0;0.5;1" dur="0.15s" begin="1.5s;blink4p.end+3s" id="blink4p"/>
-                    </ellipse>
-                </svg>
-            </div>
-
             <h2>I Nostri Lavori</h2>
             <p>Una selezione dei nostri progetti più recenti.</p>
             <div class="work-gallery">
@@ -1957,6 +1923,216 @@
             };
 
             initScrollStack();
+
+            // ===== SPIKY SCROLL-SYNCED CON SCIA SINUOSA =====
+            const initSpikyScrollAnimation = () => {
+                const container = document.getElementById('spiky-scroll-container');
+                const spiky = document.getElementById('spiky-animated');
+                const trailSvg = document.getElementById('spiky-trail-svg');
+                const serviziSection = document.getElementById('servizi');
+                const workSection = document.getElementById('work');
+
+                if (!container || !spiky || !trailSvg || !serviziSection) return;
+
+                const isMobile = window.innerWidth <= 768;
+                const spikySize = isMobile ? 80 : 120;
+
+                // Configura viewBox SVG per coprire l'intera finestra
+                const updateSvgViewBox = () => {
+                    trailSvg.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
+                };
+                updateSvgViewBox();
+                window.addEventListener('resize', updateSvgViewBox);
+
+                // Waypoints per il percorso di Spiky - SOLO AI BORDI per non sovrapporsi al contenuto
+                // Spiky entra dal lato destro (fuori schermo) e si muove sui bordi
+                const waypoints = [
+                    { progress: 0, x: 105, y: 50, rotation: -15, scale: 1 },     // Inizio: FUORI schermo a destra
+                    { progress: 0.08, x: 92, y: 45, rotation: 10, scale: 1.05 }, // Entra dal lato destro
+                    { progress: 0.2, x: 95, y: 60, rotation: -5, scale: 0.95 },  // Scende sul bordo destro
+                    { progress: 0.35, x: 90, y: 75, rotation: 15, scale: 1 },    // Continua a scendere
+                    { progress: 0.5, x: 88, y: 90, rotation: -10, scale: 1.1 },  // Angolo basso-destra
+                    { progress: 0.6, x: 8, y: 85, rotation: 20, scale: 1 },      // Salta a sinistra (basso)
+                    { progress: 0.72, x: 5, y: 60, rotation: -12, scale: 0.95 }, // Sale sul bordo sinistro
+                    { progress: 0.85, x: 10, y: 35, rotation: 8, scale: 1.05 },  // Continua a salire
+                    { progress: 1, x: 7, y: 15, rotation: -15, scale: 1 }        // Fine: angolo alto-sinistra
+                ];
+
+                // Storico delle posizioni per la scia
+                const positionHistory = [];
+                const maxHistoryLength = 80;
+                const trailLines = [];
+                const numTrailLines = 4;
+
+                // Crea le linee della scia
+                for (let i = 0; i < numTrailLines; i++) {
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.classList.add('trail-line');
+                    path.setAttribute('stroke-width', (22 - i * 4).toString());
+                    path.style.opacity = (0.6 - i * 0.12).toString();
+                    trailSvg.appendChild(path);
+                    trailLines.push(path);
+                }
+
+                // Interpola tra waypoints
+                const interpolateWaypoints = (progress) => {
+                    // Trova i due waypoints tra cui interpolare
+                    let wpStart = waypoints[0];
+                    let wpEnd = waypoints[waypoints.length - 1];
+
+                    for (let i = 0; i < waypoints.length - 1; i++) {
+                        if (progress >= waypoints[i].progress && progress <= waypoints[i + 1].progress) {
+                            wpStart = waypoints[i];
+                            wpEnd = waypoints[i + 1];
+                            break;
+                        }
+                    }
+
+                    // Calcola il progresso locale tra i due waypoints
+                    const localProgress = (progress - wpStart.progress) / (wpEnd.progress - wpStart.progress);
+
+                    // Easing per movimento fluido
+                    const eased = localProgress < 0.5
+                        ? 2 * localProgress * localProgress
+                        : 1 - Math.pow(-2 * localProgress + 2, 2) / 2;
+
+                    return {
+                        x: wpStart.x + (wpEnd.x - wpStart.x) * eased,
+                        y: wpStart.y + (wpEnd.y - wpStart.y) * eased,
+                        rotation: wpStart.rotation + (wpEnd.rotation - wpStart.rotation) * eased,
+                        scale: wpStart.scale + (wpEnd.scale - wpStart.scale) * eased
+                    };
+                };
+
+                // Genera path SVG dalla storia delle posizioni
+                const generateTrailPath = (positions, offset = 0) => {
+                    if (positions.length < 2) return '';
+
+                    // Offset laterale per linee multiple
+                    const offsetX = Math.sin(offset * 0.8) * 15;
+                    const offsetY = Math.cos(offset * 0.8) * 15;
+
+                    const points = positions.map((p, i) => ({
+                        x: p.x + offsetX + Math.sin(i * 0.2 + offset) * (8 + offset * 3),
+                        y: p.y + offsetY + Math.cos(i * 0.15 + offset) * (8 + offset * 3)
+                    }));
+
+                    // Crea path con curve di Bezier
+                    let d = `M ${points[0].x},${points[0].y}`;
+
+                    for (let i = 1; i < points.length - 2; i++) {
+                        const xc = (points[i].x + points[i + 1].x) / 2;
+                        const yc = (points[i].y + points[i + 1].y) / 2;
+                        d += ` Q ${points[i].x},${points[i].y} ${xc},${yc}`;
+                    }
+
+                    // Ultime due punti
+                    if (points.length >= 2) {
+                        const last = points[points.length - 1];
+                        const secondLast = points[points.length - 2];
+                        d += ` Q ${secondLast.x},${secondLast.y} ${last.x},${last.y}`;
+                    }
+
+                    return d;
+                };
+
+                // Variabili per il blink degli occhi
+                let lastBlinkTime = 0;
+                const blinkInterval = 3000;
+                let isBlinking = false;
+
+                // Funzione per animare il blink
+                const updateBlink = (timestamp) => {
+                    if (timestamp - lastBlinkTime > blinkInterval) {
+                        isBlinking = true;
+                        lastBlinkTime = timestamp;
+                        setTimeout(() => { isBlinking = false; }, 150);
+                    }
+
+                    const eyeScaleY = isBlinking ? 0.1 : 1;
+                    const eyeLeft = document.getElementById('spiky-eye-left');
+                    const eyeRight = document.getElementById('spiky-eye-right');
+                    const pupilLeft = document.getElementById('spiky-pupil-left');
+                    const pupilRight = document.getElementById('spiky-pupil-right');
+
+                    if (eyeLeft) eyeLeft.setAttribute('ry', (18 * eyeScaleY).toString());
+                    if (eyeRight) eyeRight.setAttribute('ry', (18 * eyeScaleY).toString());
+                    if (pupilLeft) pupilLeft.setAttribute('ry', (10 * eyeScaleY).toString());
+                    if (pupilRight) pupilRight.setAttribute('ry', (10 * eyeScaleY).toString());
+                };
+
+                // ScrollTrigger per Spiky - appare solo dopo home
+                const homeSection = document.getElementById('home');
+                const scrollEnd = workSection ? workSection.offsetTop + workSection.offsetHeight : document.body.scrollHeight;
+                const scrollStart = serviziSection.offsetTop;
+                const scrollRange = scrollEnd - scrollStart;
+
+                let currentSpikyPos = { x: 0, y: 0 };
+                let isVisible = false;
+
+                ScrollTrigger.create({
+                    trigger: serviziSection,
+                    start: 'top 80%', // Appare quando servizi entra nella viewport (non mentre siamo su home)
+                    end: () => `+=${scrollRange}`,
+                    onUpdate: (self) => {
+                        const progress = self.progress;
+
+                        // Mostra/nascondi container - appare solo quando progress > 0.05 (home completamente passata)
+                        if (progress > 0.05 && progress < 0.98) {
+                            if (!isVisible) {
+                                container.classList.add('visible');
+                                isVisible = true;
+                            }
+                        } else {
+                            if (isVisible) {
+                                container.classList.remove('visible');
+                                isVisible = false;
+                                positionHistory.length = 0; // Reset storia
+                            }
+                        }
+
+                        if (!isVisible) return;
+
+                        // Calcola posizione interpolata (normalizza il progress per escludere i margini)
+                        const normalizedProgress = (progress - 0.05) / 0.93;
+                        const pos = interpolateWaypoints(Math.max(0, Math.min(1, normalizedProgress)));
+
+                        // Converti percentuali in pixel
+                        const pixelX = (pos.x / 100) * window.innerWidth;
+                        const pixelY = (pos.y / 100) * window.innerHeight;
+
+                        // Aggiorna posizione Spiky
+                        spiky.style.transform = `translate(${pixelX - spikySize / 2}px, ${pixelY - spikySize / 2}px) rotate(${pos.rotation}deg) scale(${pos.scale})`;
+
+                        // Aggiungi posizione alla storia
+                        currentSpikyPos = { x: pixelX, y: pixelY };
+                        positionHistory.unshift({ ...currentSpikyPos });
+
+                        if (positionHistory.length > maxHistoryLength) {
+                            positionHistory.pop();
+                        }
+
+                        // Aggiorna le linee della scia
+                        if (positionHistory.length > 3) {
+                            trailLines.forEach((line, i) => {
+                                const pathD = generateTrailPath(positionHistory.slice(0, maxHistoryLength - i * 10), i);
+                                line.setAttribute('d', pathD);
+                            });
+                        }
+                    }
+                });
+
+                // Animation loop per il blink
+                const animateBlink = (timestamp) => {
+                    if (isVisible) {
+                        updateBlink(timestamp);
+                    }
+                    requestAnimationFrame(animateBlink);
+                };
+                requestAnimationFrame(animateBlink);
+            };
+
+            initSpikyScrollAnimation();
 
             // ===== TEXT PRESSURE EFFECT (scaleX version for non-variable fonts) =====
             const initTextPressure = () => {
