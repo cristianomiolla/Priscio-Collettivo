@@ -289,6 +289,94 @@
             border: 1px solid var(--colore-primario);
         }
 
+        /* ===== PERSONAGGIO SPIKY ===== */
+        .spiky-character {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            z-index: 5;
+            pointer-events: none;
+            animation: spiky-float 3s ease-in-out infinite;
+        }
+
+        .spiky-character svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .spiky-character .spiky-body {
+            fill: var(--colore-accento);
+            stroke: var(--colore-primario);
+            stroke-width: 4;
+            stroke-linejoin: round;
+        }
+
+        .spiky-character .spiky-eye {
+            fill: var(--colore-secondario);
+            stroke: var(--colore-primario);
+            stroke-width: 3;
+        }
+
+        .spiky-character .spiky-pupil {
+            fill: var(--colore-primario);
+        }
+
+        /* Posizioni per le diverse sezioni */
+        .spiky-servizi {
+            top: 80px;
+            right: 40px;
+            transform: rotate(15deg);
+        }
+
+        .spiky-work {
+            top: 60px;
+            left: 40px;
+            transform: rotate(-10deg) scaleX(-1);
+        }
+
+        /* Animazioni */
+        @keyframes spiky-float {
+            0%, 100% {
+                transform: translateY(0) rotate(15deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(20deg);
+            }
+        }
+
+        @keyframes spiky-float-left {
+            0%, 100% {
+                transform: translateY(0) rotate(-10deg) scaleX(-1);
+            }
+            50% {
+                transform: translateY(-15px) rotate(-5deg) scaleX(-1);
+            }
+        }
+
+
+        .spiky-work {
+            animation: spiky-float-left 3.5s ease-in-out infinite;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .spiky-character {
+                width: 80px;
+                height: 80px;
+            }
+
+            .spiky-servizi {
+                top: 20px;
+                right: 20px;
+            }
+
+            .spiky-work {
+                top: 20px;
+                left: 20px;
+            }
+        }
+
         /* ===== SEZIONE SERVIZI - SCROLL STACK ===== */
         #servizi {
             background-color: var(--colore-secondario);
@@ -430,7 +518,7 @@
         .navbar {
             width: 100%;
             height: 70px;
-            background-color: var(--colore-primario);
+            background-color: transparent;
             color: var(--colore-secondario);
             position: fixed;
             top: 0;
@@ -441,6 +529,11 @@
             align-items: center;
             justify-content: space-between;
             z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar.navbar-solid {
+            background-color: var(--colore-primario);
         }
         .navbar .studio-name {
             margin: 0;
@@ -1101,6 +1194,27 @@
 
         <!-- ================== SEZIONE SERVIZI - SCROLL STACK ================== -->
         <section id="servizi">
+            <!-- Personaggio Spiky -->
+            <div class="spiky-character spiky-servizi">
+                <svg viewBox="0 0 100 100">
+                    <path class="spiky-body" d="M 50,95 L 25,70 L 5,75 L 15,50 L 0,30 L 25,35 L 35,10 L 50,30 L 65,10 L 75,35 L 100,30 L 85,50 L 95,75 L 75,70 L 50,95 Z"/>
+                    <!-- Occhio sinistro -->
+                    <ellipse class="spiky-eye" cx="38" cy="55" rx="12" ry="18">
+                        <animate attributeName="ry" values="18;2;18" keyTimes="0;0.5;1" dur="0.15s" begin="0s;blink1.end+3s" id="blink1"/>
+                    </ellipse>
+                    <ellipse class="spiky-pupil" cx="40" cy="58" rx="6" ry="10">
+                        <animate attributeName="ry" values="10;1;10" keyTimes="0;0.5;1" dur="0.15s" begin="0s;blink1p.end+3s" id="blink1p"/>
+                    </ellipse>
+                    <!-- Occhio destro -->
+                    <ellipse class="spiky-eye" cx="62" cy="55" rx="12" ry="18">
+                        <animate attributeName="ry" values="18;2;18" keyTimes="0;0.5;1" dur="0.15s" begin="0s;blink2.end+3s" id="blink2"/>
+                    </ellipse>
+                    <ellipse class="spiky-pupil" cx="64" cy="58" rx="6" ry="10">
+                        <animate attributeName="ry" values="10;1;10" keyTimes="0;0.5;1" dur="0.15s" begin="0s;blink2p.end+3s" id="blink2p"/>
+                    </ellipse>
+                </svg>
+            </div>
+
             <div class="scroll-stack-header">
                 <h2>I Nostri Servizi</h2>
                 <p>Scopri cosa possiamo fare per te.</p>
@@ -1151,6 +1265,27 @@
 
     <!-- ================== SEZIONE WORK (con autore del progetto) ====================== -->
         <section id="work">
+            <!-- Personaggio Spiky (speculare) -->
+            <div class="spiky-character spiky-work">
+                <svg viewBox="0 0 100 100">
+                    <path class="spiky-body" d="M 50,95 L 25,70 L 5,75 L 15,50 L 0,30 L 25,35 L 35,10 L 50,30 L 65,10 L 75,35 L 100,30 L 85,50 L 95,75 L 75,70 L 50,95 Z"/>
+                    <!-- Occhio sinistro -->
+                    <ellipse class="spiky-eye" cx="38" cy="55" rx="12" ry="18">
+                        <animate attributeName="ry" values="18;2;18" keyTimes="0;0.5;1" dur="0.15s" begin="1.5s;blink3.end+3s" id="blink3"/>
+                    </ellipse>
+                    <ellipse class="spiky-pupil" cx="40" cy="58" rx="6" ry="10">
+                        <animate attributeName="ry" values="10;1;10" keyTimes="0;0.5;1" dur="0.15s" begin="1.5s;blink3p.end+3s" id="blink3p"/>
+                    </ellipse>
+                    <!-- Occhio destro -->
+                    <ellipse class="spiky-eye" cx="62" cy="55" rx="12" ry="18">
+                        <animate attributeName="ry" values="18;2;18" keyTimes="0;0.5;1" dur="0.15s" begin="1.5s;blink4.end+3s" id="blink4"/>
+                    </ellipse>
+                    <ellipse class="spiky-pupil" cx="64" cy="58" rx="6" ry="10">
+                        <animate attributeName="ry" values="10;1;10" keyTimes="0;0.5;1" dur="0.15s" begin="1.5s;blink4p.end+3s" id="blink4p"/>
+                    </ellipse>
+                </svg>
+            </div>
+
             <h2>I Nostri Lavori</h2>
             <p>Una selezione dei nostri progetti più recenti.</p>
             <div class="work-gallery">
@@ -1707,6 +1842,19 @@
                 }, { root: null, threshold: 0.1 });
 
                 observer.observe(homeSection);
+            }
+
+            // ===== NAVBAR TRASPARENTE/SOLIDA =====
+            const navbar = document.querySelector('.navbar');
+            if (homeSection && navbar) {
+                const navbarObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        // Se home è visibile, navbar trasparente; altrimenti solida
+                        navbar.classList.toggle('navbar-solid', !entry.isIntersecting);
+                    });
+                }, { root: null, threshold: 0 });
+
+                navbarObserver.observe(homeSection);
             }
 
             // ===== CURSORE PERSONALIZZATO (ottimizzato con RAF) =====
