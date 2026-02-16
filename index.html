@@ -707,12 +707,6 @@
         #overlay-description a:hover {
             opacity: 0.7;
         }
-        #overlay-author {
-            margin-top: 8px;
-            font-size: 16px;
-            opacity: 0.8;
-            font-style: italic;
-        }
         #close-overlay {
             position: absolute;
             top: 24px;
@@ -1239,7 +1233,6 @@
                 <div class="work-item"
                     data-title="Strush"
                     data-description="Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.&lt;br&gt;👉 [Scopri il sito](https://www.strush.it/)"
-                    data-author="Cristiano Miolla, Silvano Sorino, Andrea Starace"
                     data-type="image-video-video-image"
                     data-image="project/asset/works/strush/image.png"
                     data-video2="project/asset/works/strush/video2.mp4"
@@ -1258,7 +1251,6 @@
                 <div class="work-item"
                     data-title="Pusho"
                     data-description="Progettazione completa per Pusho: creazione del logo, UI/UX design dell'app, animazione del brand e sviluppo del sito web.&lt;br&gt;👉 [Scopri il sito](http://www.pusho.it/)"
-                    data-author="Cristiano Miolla"
                     data-type="image-video-image"
                     data-image="project/asset/works/pusho/image.png"
                     data-video="project/asset/works/pusho/video.mp4"
@@ -1273,11 +1265,25 @@
                     <div class="work-item-marquee"><span>Pusho --- Pusho --- Pusho --- </span></div>
                 </div>
 
+                <!-- Metro -->
+                <div class="work-item"
+                    data-title="Metro"
+                    data-description="Animazione urbana con ambientazione metropolitana. Studio dei ritmi di vita cittadina e movimento delle folle."
+                    data-type="video-image"
+                    data-video="project/asset/works/metro/video.webm"
+                    data-image="project/asset/works/metro/image.png">
+                    <img src="project/asset/works/metro/preview.png" alt="Anteprima Metro" loading="lazy">
+                    <div class="work-item-chips">
+                        <span class="work-chip">motion</span>
+                        <span class="work-chip">animazione</span>
+                    </div>
+                    <div class="work-item-marquee"><span>Metro --- Metro --- Metro --- </span></div>
+                </div>
+
                 <!-- Esempio 3: Video + Immagine -->
                 <div class="work-item"
                     data-title="Alfred Hitchcock Presents"
                     data-description="Animazione di una walk cycle attraverso il rigging del personaggio. Il progetto è una rielaborazione dell'open title della serie del 1955 'Alfred Hitchcock Presents'."
-                    data-author="Ylenia Scarpellino"
                     data-type="video-image"
                     data-video="project/asset/works/alfred-hitchcock-presents/video.webm"
                     data-image="project/asset/works/alfred-hitchcock-presents/image.png">
@@ -1293,7 +1299,6 @@
                 <div class="work-item"
                     data-title="Robot LuChan"
                     data-description="Progetto di character design, rigging e run cycle animation per un robot ispirato allo stile giapponese. Il lavoro esplora la fusione tra estetica e funzionalità attraverso un movimento fluido e dinamico."
-                    data-author="Ylenia Scarpellino"
                     data-type="video-image"
                     data-video="project/asset/works/robot-luchan/video.webm"
                     data-image="project/asset/works/robot-luchan/image.png">
@@ -1309,7 +1314,6 @@
                 <div class="work-item"
                     data-title="Bloodloop"
                     data-description="Sviluppo dei character e delle copertine per il videogioco Bloodloop."
-                    data-author="Silvano Sorino"
                     data-type="image"
                     data-content="project/asset/works/bloodloop/image.png">
                     <img src="project/asset/works/bloodloop/preview.png" alt="Anteprima Bloodloop" loading="lazy">
@@ -1323,7 +1327,6 @@
                 <div class="work-item"
                     data-title="Flink"
                     data-description="Analisi preliminare del problema, strutturazione dei flussi UX e prototipazione dell'MVP della piattaforma, comprendente tutte le funzionalità minime necessarie per la validazione dell'idea di startup."
-                    data-author="Cristiano Miolla"
                     data-type="image-video"
                     data-video="project/asset/works/flink/video.webm"
                     data-image="project/asset/works/flink/image.png">
@@ -1409,7 +1412,6 @@
                 <div class="swipe-helper-text">Scorri per leggere</div>
                 <h3 id="overlay-title"></h3>
                 <p id="overlay-description"></p>
-                <p id="overlay-author"></p>
             </div>
         </div>
         <button id="close-overlay">×</button>
@@ -1486,13 +1488,11 @@
                 const overlayTitle = overlay.querySelector('#overlay-title');
                 const overlayMediaContainer = overlay.querySelector('#overlay-media-container');
                 const overlayDescription = overlay.querySelector('#overlay-description');
-                const overlayAuthor = overlay.querySelector('#overlay-author');
                 const closeButton = overlay.querySelector('#close-overlay');
 
                 const openOverlay = (item) => {
                     const title = item.dataset.title;
                     const description = item.dataset.description;
-                    const author = item.dataset.author;
                     const type = item.dataset.type;
 
                     // Aggiorna testo
@@ -1501,13 +1501,6 @@
                     // Converti markdown links in HTML per la descrizione
                     const descriptionWithLinks = description.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
                     overlayDescription.innerHTML = descriptionWithLinks;
-
-                    if (author) {
-                        overlayAuthor.textContent = `Di: ${author}`;
-                        overlayAuthor.style.display = 'block';
-                    } else {
-                        overlayAuthor.style.display = 'none';
-                    }
 
                     // Pulisci contenuto precedente
                     overlayMediaContainer.innerHTML = '';

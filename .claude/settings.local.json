@@ -25,7 +25,13 @@
       "Bash(mv:*)",
       "Bash(del \"project\\5.html\")",
       "Bash(git rm:*)",
-      "Bash(copy:*)"
+      "Bash(copy:*)",
+      "Bash(ipconfig:*)",
+      "Bash(python -m http.server:*)",
+      "Bash(npx serve:*)",
+      "Bash(git checkout:*)",
+      "Bash(git config:*)",
+      "Bash(ffprobe:*)"
     ],
     "deny": [],
     "ask": []
