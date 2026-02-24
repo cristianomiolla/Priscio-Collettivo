@@ -797,7 +797,7 @@
         .scroll-indicator-desktop .scroll-arrow {
             width: 24px;
             height: 24px;
-            border: 2px solid var(--colore-accento);
+            border: 1px solid var(--colore-primario);
             border-radius: 50%;
             background-color: var(--colore-accento);
             display: flex;
@@ -975,7 +975,15 @@
             }
 
             /* Overlay */
-            .scroll-indicator-desktop { display: none !important; }
+            .scroll-indicator-desktop {
+                /* Riposiziona l'indicatore per la visualizzazione mobile */
+                left: 50%;
+                bottom: 30vh;
+            }
+            /* Nascondi l'indicatore di scroll quando il testo è espanso su mobile */
+            #project-overlay.has-expanded-text .scroll-indicator-desktop {
+                display: none;
+            }
             .overlay-content { flex-direction: column; }
             .overlay-image-container {
                 flex: 1;
@@ -1414,17 +1422,17 @@
             <div class="overlay-image-container" id="overlay-media-container">
                 <!-- Il contenuto verrà caricato dinamicamente da JavaScript -->
             </div>
-            <div class="scroll-indicator-desktop" id="scroll-indicator-desktop">
-                <span>Scorri</span>
-                <div class="scroll-arrow">
-                    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
-            </div>
             <div class="overlay-text-container">
                 <div class="swipe-indicator"></div>
                 <div class="swipe-helper-text">Scorri per leggere</div>
                 <h3 id="overlay-title"></h3>
                 <p id="overlay-description"></p>
+            </div>
+        </div>
+        <div class="scroll-indicator-desktop" id="scroll-indicator-desktop">
+            <span>Scorri</span>
+            <div class="scroll-arrow">
+                <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
         </div>
         <button id="close-overlay">×</button>
@@ -1720,7 +1728,7 @@
 
                 // Gestione scroll indicator desktop
                 const scrollIndicator = document.getElementById('scroll-indicator-desktop');
-                if (scrollIndicator && window.matchMedia("(min-width: 769px)").matches) {
+                if (scrollIndicator) {
                     overlayMediaContainer.addEventListener('scroll', () => {
                         if (overlayMediaContainer.scrollTop > 50) {
                             scrollIndicator.classList.add('hidden');
