@@ -191,10 +191,16 @@
             min-height: 6em;
             margin-bottom: 20px;
         }
-        .home-typewriter .tw-static {
+        .home-typewriter .tw-heading {
             display: block;
             font-weight: 700;
             margin-bottom: 4px;
+        }
+        .home-typewriter .tw-active::after {
+            content: '';
+            border-right: 2px solid var(--colore-accento);
+            padding-right: 2px;
+            animation: blink-caret 0.7s step-end infinite;
         }
         .home-card .cta-button {
             display: inline-block;
@@ -202,11 +208,6 @@
             padding: 10px 20px;
             align-self: center;
             margin-top: auto;
-        }
-        .home-typewriter .tw-cursor {
-            border-right: 2px solid var(--colore-accento);
-            padding-right: 2px;
-            animation: blink-caret 0.7s step-end infinite;
         }
         @keyframes blink-caret {
             from, to { border-color: var(--colore-accento); }
@@ -1192,8 +1193,8 @@
         </div>
         <div class="home-card">
             <div class="home-typewriter">
-                <span class="tw-static" id="tw-heading"></span>
-                <span class="tw-cursor" id="tw-line"></span>
+                <span class="tw-heading" id="tw-heading"></span>
+                <span class="tw-line" id="tw-line"></span>
             </div>
             <a href="mailto:info@prisciocollettivo.com" class="cta-button">Contattaci</a>
         </div>
@@ -2204,11 +2205,15 @@
             const pauseAfterDelete = 300;
             const pauseBetweenSections = 1000;
 
+            function setCursor(el) {
+                headingEl.classList.remove('tw-active');
+                lineEl.classList.remove('tw-active');
+                el.classList.add('tw-active');
+            }
+
             // Measure the max size needed and lock it
             function lockCardSize() {
-                const allTexts = sequences.flatMap(s => [s.heading, ...s.lines]);
                 let maxW = 0, maxH = 0;
-
                 for (const seq of sequences) {
                     headingEl.textContent = seq.heading;
                     for (const line of seq.lines) {
@@ -2217,7 +2222,6 @@
                         maxH = Math.max(maxH, card.scrollHeight);
                     }
                 }
-
                 card.style.width = maxW + 'px';
                 card.style.height = maxH + 'px';
                 headingEl.textContent = '';
@@ -2232,6 +2236,7 @@
             }
 
             async function typeText(el, text) {
+                setCursor(el);
                 for (let i = 0; i <= text.length; i++) {
                     el.textContent = text.slice(0, i);
                     await sleep(typeSpeed);
@@ -2239,6 +2244,7 @@
             }
 
             async function deleteText(el) {
+                setCursor(el);
                 const text = el.textContent;
                 for (let i = text.length; i >= 0; i--) {
                     el.textContent = text.slice(0, i);
@@ -2247,6 +2253,7 @@
             }
 
             async function run() {
+                setCursor(headingEl);
                 while (true) {
                     for (const seq of sequences) {
                         await typeText(headingEl, seq.heading);
