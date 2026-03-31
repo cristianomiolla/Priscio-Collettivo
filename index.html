@@ -161,41 +161,39 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 2px solid rgba(243, 242, 241, 0.3);
-            padding: 48px 56px;
-            max-width: 520px;
-            text-align: center;
-        }
-        .home-title {
-            font-family: var(--font-principale);
-            font-size: clamp(24px, 4vw, 32px);
-            font-weight: 800;
-            color: var(--colore-secondario);
-            letter-spacing: -1px;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            text-transform: none;
-            text-align: center;
-            user-select: none;
-            white-space: nowrap;
+            padding: 28px 28px;
+            max-width: 480px;
+            text-align: left;
             display: flex;
-            justify-content: center;
-            width: 100%;
+            flex-direction: column;
         }
-        .home-title span {
-            display: inline-block;
-        }
-        .home-divider {
-            width: 60px;
-            height: 3px;
-            background-color: var(--colore-accento);
-            margin: 0 auto 20px auto;
-        }
-        .home-tagline {
-            font-size: clamp(15px, 1.8vw, 17px);
+        .home-typewriter {
+            font-size: clamp(17px, 2vw, 22px);
             font-weight: 400;
             color: var(--colore-secondario);
-            line-height: 1.7;
-            opacity: 0.9;
+            line-height: 1.6;
+            flex: 1;
+        }
+        .home-typewriter .tw-static {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .home-card .cta-button {
+            display: inline-block;
+            font-size: 12px;
+            padding: 10px 20px;
+            align-self: center;
+            margin-top: 20px;
+        }
+        .home-typewriter .tw-cursor {
+            border-right: 2px solid var(--colore-accento);
+            padding-right: 2px;
+            animation: blink-caret 0.7s step-end infinite;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: var(--colore-accento); }
+            50% { border-color: transparent; }
         }
 
         /* ===== SEZIONE WORK ===== */
@@ -596,9 +594,7 @@
             border: 2px solid var(--colore-primario);
         }
         .cta-button:hover {
-            background-color: var(--colore-secondario);
-            color: var(--colore-accento) !important;
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
         .hamburger-menu { display: none; }
 
@@ -847,20 +843,12 @@
                 padding: 24px;
             }
             .home-card {
-                padding: 32px 28px;
+                padding: 32px 24px;
                 max-width: 90%;
             }
-            .home-title {
-                font-size: clamp(16px, 5.5vw, 28px);
-                margin-bottom: 16px;
-                white-space: nowrap;
-            }
-            .home-divider {
-                width: 50px;
-                margin-bottom: 16px;
-            }
-            .home-tagline {
+            .home-typewriter {
                 font-size: 15px;
+                min-height: 3em;
             }
 
             /* Team */
@@ -1182,9 +1170,11 @@
         </video>
         <div class="home-overlay">
             <div class="home-card">
-                <h1 class="home-title">Priscio Collettivo</h1>
-                <div class="home-divider"></div>
-                <p class="home-tagline">Diamo forma alle idee con strategia, design e motion per creare identità ed esperienze digitali</p>
+                <div class="home-typewriter">
+                    <span class="tw-static" id="tw-heading"></span>
+                    <span class="tw-cursor" id="tw-line"></span>
+                </div>
+                <a href="mailto:info@prisciocollettivo.com" class="cta-button">Contattaci</a>
             </div>
         </div>
     </section>
@@ -2076,100 +2066,6 @@
 
             initSpikyScrollAnimation();
 
-            // ===== TEXT PRESSURE EFFECT (scaleX version for non-variable fonts) =====
-            const initTextPressure = () => {
-                const titleElement = document.querySelector('.home-title');
-                if (!titleElement) return;
-
-                const text = titleElement.textContent.trim();
-                const chars = text.split('');
-
-                // Svuota e ricrea con span per ogni carattere
-                titleElement.innerHTML = '';
-                const spans = chars.map((char, i) => {
-                    const span = document.createElement('span');
-                    span.textContent = char;
-                    span.dataset.char = char;
-                    // Aggiungi larghezza per lo spazio
-                    if (char === ' ') {
-                        span.style.width = '0.3em';
-                    }
-                    titleElement.appendChild(span);
-                    return span;
-                });
-
-                // Cursore e mouse tracking
-                const mouse = { x: 0, y: 0 };
-                const cursor = { x: 0, y: 0 };
-                let isNearTitle = false;
-
-                // Inizializza fuori dallo schermo per stato normale iniziale
-                mouse.x = -1000;
-                mouse.y = -1000;
-                cursor.x = -1000;
-                cursor.y = -1000;
-
-                // Event listeners per mouse e touch
-                const handleMouseMove = (e) => {
-                    cursor.x = e.clientX;
-                    cursor.y = e.clientY;
-                };
-
-                const handleTouchMove = (e) => {
-                    const t = e.touches[0];
-                    cursor.x = t.clientX;
-                    cursor.y = t.clientY;
-                };
-
-                window.addEventListener('mousemove', handleMouseMove);
-                window.addEventListener('touchmove', handleTouchMove, { passive: true });
-
-                // Funzioni helper
-                const dist = (a, b) => {
-                    const dx = b.x - a.x;
-                    const dy = b.y - a.y;
-                    return Math.sqrt(dx * dx + dy * dy);
-                };
-
-                // Animation loop
-                const animate = () => {
-                    // Smooth interpolation del mouse
-                    mouse.x += (cursor.x - mouse.x) / 15;
-                    mouse.y += (cursor.y - mouse.y) / 15;
-
-                    const titleRect = titleElement.getBoundingClientRect();
-                    const maxDist = 60; // Distanza massima per l'effetto (ridotta)
-
-                    spans.forEach(span => {
-                        if (span.dataset.char === ' ') return; // Salta gli spazi
-
-                        const rect = span.getBoundingClientRect();
-                        const charCenter = {
-                            x: rect.x + rect.width / 2,
-                            y: rect.y + rect.height / 2
-                        };
-
-                        const d = dist(mouse, charCenter);
-
-                        // Effetto inverso: più vicino = più stretto, più lontano = normale (1.0)
-                        // scaleX va da 1.0 (lontano) a 0.5 (vicino)
-                        let scaleX = 1.0;
-                        if (d < maxDist) {
-                            const proximity = 1 - (d / maxDist); // 1 = vicinissimo, 0 = lontano
-                            scaleX = 1.0 - (proximity * 0.5); // da 1.0 a 0.5
-                        }
-
-                        span.style.transform = `scaleX(${scaleX.toFixed(2)})`;
-                    });
-
-                    requestAnimationFrame(animate);
-                };
-
-                animate();
-            };
-
-            initTextPressure();
-
             // ===== GESTIONE SWIPE SU OVERLAY (SOLO MOBILE) =====
             if (window.matchMedia("(max-width: 768px)").matches && overlay) {
                 const textContainer = overlay.querySelector('.overlay-text-container');
@@ -2268,6 +2164,102 @@
                 }, { passive: true });
             }
         });
+    </script>
+
+    <!-- Typewriter Effect -->
+    <script>
+        (function() {
+            const sequences = [
+                {
+                    heading: "🎨 Facciamo design",
+                    lines: [
+                        "per testare la tua idea 💡",
+                        "per sviluppare il tuo progetto 🚀",
+                        "per creare la veste migliore per il tuo sito o la tua app ✨"
+                    ]
+                },
+                {
+                    heading: "🎬 Facciamo animazione",
+                    lines: [
+                        "per i contenuti del tuo brand 📢",
+                        "per presentare il tuo prodotto 📦",
+                        "per cortometraggi 🎥"
+                    ]
+                }
+            ];
+
+            const headingEl = document.getElementById('tw-heading');
+            const lineEl = document.getElementById('tw-line');
+            const card = document.querySelector('.home-card');
+            const typeSpeed = 45;
+            const deleteSpeed = 25;
+            const pauseAfterType = 1800;
+            const pauseAfterDelete = 300;
+            const pauseBetweenSections = 1000;
+
+            // Measure the max size needed and lock it
+            function lockCardSize() {
+                const allTexts = sequences.flatMap(s => [s.heading, ...s.lines]);
+                let maxW = 0, maxH = 0;
+
+                for (const seq of sequences) {
+                    headingEl.textContent = seq.heading;
+                    for (const line of seq.lines) {
+                        lineEl.textContent = line;
+                        maxW = Math.max(maxW, card.scrollWidth);
+                        maxH = Math.max(maxH, card.scrollHeight);
+                    }
+                }
+
+                card.style.width = maxW + 'px';
+                card.style.height = maxH + 'px';
+                headingEl.textContent = '';
+                lineEl.textContent = '';
+            }
+
+            lockCardSize();
+            window.addEventListener('resize', lockCardSize);
+
+            function sleep(ms) {
+                return new Promise(r => setTimeout(r, ms));
+            }
+
+            async function typeText(el, text) {
+                for (let i = 0; i <= text.length; i++) {
+                    el.textContent = text.slice(0, i);
+                    await sleep(typeSpeed);
+                }
+            }
+
+            async function deleteText(el) {
+                const text = el.textContent;
+                for (let i = text.length; i >= 0; i--) {
+                    el.textContent = text.slice(0, i);
+                    await sleep(deleteSpeed);
+                }
+            }
+
+            async function run() {
+                while (true) {
+                    for (const seq of sequences) {
+                        await typeText(headingEl, seq.heading);
+                        await sleep(pauseAfterDelete);
+
+                        for (const line of seq.lines) {
+                            await typeText(lineEl, line);
+                            await sleep(pauseAfterType);
+                            await deleteText(lineEl);
+                            await sleep(pauseAfterDelete);
+                        }
+
+                        await deleteText(headingEl);
+                        await sleep(pauseBetweenSections);
+                    }
+                }
+            }
+
+            run();
+        })();
     </script>
 
 </body>
