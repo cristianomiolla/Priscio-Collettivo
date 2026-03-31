@@ -144,21 +144,39 @@
             justify-content: center;
         }
         /* Background cards row */
-        .home-bg-track {
+        .home-bg-wrapper {
             position: absolute;
-            top: 50%;
-            left: -8%;
+            top: calc(50% + 35px);
+            left: 0;
             transform: translateY(-50%);
-            width: 116%;
+            width: 100%;
             display: flex;
-            gap: 16px;
-            padding: 0 16px;
-            align-items: center;
-            overflow: visible;
+            flex-direction: column;
+            gap: 12px;
+            overflow: hidden;
+        }
+        .home-bg-track {
+            display: flex;
+            gap: 12px;
+            width: max-content;
+        }
+        .home-bg-track.scroll-left {
+            animation: scrollLeft 40s linear infinite;
+        }
+        .home-bg-track.scroll-right {
+            animation: scrollRight 40s linear infinite;
+        }
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes scrollRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
         }
         .home-bg-card {
-            flex: 0 0 calc(20% - 13px);
-            aspect-ratio: 3 / 4;
+            flex: 0 0 35vw;
+            aspect-ratio: 16 / 10;
             border-radius: 12px;
             overflow: hidden;
         }
@@ -852,14 +870,15 @@
                 margin-top: 0;
                 scroll-margin-top: 0;
             }
+            .home-bg-wrapper {
+                gap: 8px;
+            }
             .home-bg-track {
-                left: 0;
-                width: 100%;
-                gap: 10px;
-                justify-content: center;
+                gap: 8px;
             }
             .home-bg-card {
-                flex: 0 0 65vw;
+                flex: 0 0 60vw;
+                aspect-ratio: 3 / 4;
             }
             .home-card {
                 padding: 32px 24px 32px;
@@ -1182,14 +1201,25 @@
 
     <!-- ================== SEZIONE HOME (LAYOUT CARD GRID) ================== -->
     <section id="home">
-        <div class="home-bg-track" id="home-bg-track">
-            <div class="home-bg-card"><video src="project/asset/works/strush/video2verticale.webm" autoplay muted loop playsinline></video></div>
-            <div class="home-bg-card"><video src="project/asset/works/pusho/video.mp4" autoplay muted loop playsinline></video></div>
-            <div class="home-bg-card"><video src="project/asset/works/metro/video.webm" autoplay muted loop playsinline></video></div>
-            <div class="home-bg-card"><video src="project/asset/works/robot-luchan/video.webm" autoplay muted loop playsinline></video></div>
-            <div class="home-bg-card"><video src="project/asset/works/alfred-hitchcock-presents/video.webm" autoplay muted loop playsinline></video></div>
-            <div class="home-bg-card"><img src="project/asset/works/bloodloop/preview.png" alt="Bloodloop" loading="eager"></div>
-            <div class="home-bg-card"><video src="project/asset/works/flink/video.webm" autoplay muted loop playsinline></video></div>
+        <div class="home-bg-wrapper">
+            <div class="home-bg-track scroll-left">
+                <div class="home-bg-card"><video src="project/asset/works/strush/video2verticale.webm" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><video src="project/asset/works/pusho/video.mp4" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><video src="project/asset/works/metro/video.webm" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><video src="project/asset/works/robot-luchan/video.webm" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><video src="project/asset/works/strush/video2verticale.webm" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><video src="project/asset/works/pusho/video.mp4" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><video src="project/asset/works/metro/video.webm" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><video src="project/asset/works/robot-luchan/video.webm" autoplay muted loop playsinline></video></div>
+            </div>
+            <div class="home-bg-track scroll-right">
+                <div class="home-bg-card"><video src="project/asset/works/alfred-hitchcock-presents/video.webm" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><picture><source media="(min-width: 769px)" srcset="project/asset/works/bloodloop/preview2alt.png"><img src="project/asset/works/bloodloop/preview.png" alt="Bloodloop" loading="eager"></picture></div>
+                <div class="home-bg-card"><video src="project/asset/works/flink/video.webm" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><video src="project/asset/works/alfred-hitchcock-presents/video.webm" autoplay muted loop playsinline></video></div>
+                <div class="home-bg-card"><picture><source media="(min-width: 769px)" srcset="project/asset/works/bloodloop/preview2alt.png"><img src="project/asset/works/bloodloop/preview.png" alt="Bloodloop" loading="eager"></picture></div>
+                <div class="home-bg-card"><video src="project/asset/works/flink/video.webm" autoplay muted loop playsinline></video></div>
+            </div>
         </div>
         <div class="home-card">
             <div class="home-typewriter">
@@ -2276,33 +2306,6 @@
         })();
     </script>
 
-    <!-- ===== HOME BG SLIDER ===== -->
-    <script>
-        (function() {
-            const track = document.getElementById('home-bg-track');
-            let offset = 0;
-
-            function getCardWidth() {
-                const card = track.children[0];
-                return card.offsetWidth + 16; // width + gap
-            }
-
-            setInterval(() => {
-                const step = getCardWidth();
-                offset += step;
-                track.style.transition = 'transform 0.8s ease';
-                track.style.transform = 'translateY(-50%) translateX(-' + offset + 'px)';
-
-                // After transition, move first card to end and reset offset
-                setTimeout(() => {
-                    track.style.transition = 'none';
-                    track.appendChild(track.children[0]);
-                    offset -= step;
-                    track.style.transform = 'translateY(-50%) translateX(-' + offset + 'px)';
-                }, 850);
-            }, 4000);
-        })();
-    </script>
 
 </body>
 </html>
