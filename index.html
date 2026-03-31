@@ -877,7 +877,7 @@
                 gap: 8px;
             }
             .home-bg-card {
-                flex: 0 0 60vw;
+                flex: 0 0 70vw;
                 aspect-ratio: 3 / 4;
             }
             .home-card {
@@ -2243,16 +2243,17 @@
 
             // Measure the max size needed and lock it
             function lockCardSize() {
-                let maxW = 0, maxH = 0;
+                // Reset fixed dimensions so CSS can determine natural width
+                card.style.width = '';
+                card.style.height = '';
+                let maxH = 0;
                 for (const seq of sequences) {
                     headingEl.textContent = seq.heading;
                     for (const line of seq.lines) {
                         lineEl.textContent = line;
-                        maxW = Math.max(maxW, card.scrollWidth);
                         maxH = Math.max(maxH, card.scrollHeight);
                     }
                 }
-                card.style.width = maxW + 'px';
                 card.style.height = maxH + 'px';
                 headingEl.textContent = '';
                 lineEl.textContent = '';
