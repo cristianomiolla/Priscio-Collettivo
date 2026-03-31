@@ -39,7 +39,9 @@
     
 
     <!-- Preload Critical Resources -->
-    <link rel="preload" href="project/asset/showreel/home-showreel-poster.png" as="image">
+    <link rel="preload" href="project/asset/works/strush/preview.png" as="image">
+    <link rel="preload" href="project/asset/works/pusho/preview.png" as="image">
+    <link rel="preload" href="project/asset/works/metro/preview.png" as="image">
 
     <!-- Preconnect per immagini esterne -->
     <link rel="preconnect" href="https://images.unsplash.com">
@@ -137,26 +139,38 @@
             margin-top: 0;
             width: 100%;
             overflow: hidden;
-        }
-        #home-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Home Overlay */
-        .home-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2;
         }
+        /* Background cards row */
+        .home-bg-track {
+            position: absolute;
+            top: 50%;
+            left: -8%;
+            transform: translateY(-50%);
+            width: 116%;
+            display: flex;
+            gap: 16px;
+            padding: 0 16px;
+            align-items: center;
+            overflow: visible;
+        }
+        .home-bg-card {
+            flex: 0 0 calc(20% - 13px);
+            aspect-ratio: 3 / 4;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .home-bg-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .home-card {
+            z-index: 2;
             background-color: rgba(29, 33, 37, 0.75);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -487,7 +501,7 @@
         .navbar {
             width: 100%;
             height: 70px;
-            background-color: transparent;
+            background-color: var(--colore-primario);
             color: var(--colore-secondario);
             position: fixed;
             top: 0;
@@ -498,11 +512,6 @@
             align-items: center;
             justify-content: space-between;
             z-index: 10;
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar.navbar-solid {
-            background-color: var(--colore-primario);
         }
         .navbar-brand {
             display: flex;
@@ -839,8 +848,8 @@
                 margin-top: 0;
                 scroll-margin-top: 0;
             }
-            .home-overlay {
-                padding: 24px;
+            .home-bg-card {
+                flex: 0 0 calc(50% - 8px);
             }
             .home-card {
                 padding: 32px 24px;
@@ -1161,21 +1170,23 @@
         </div>
     </div>
 
-    <!-- ================== SEZIONE HOME (LAYOUT VIDEO) ================== -->
+    <!-- ================== SEZIONE HOME (LAYOUT CARD GRID) ================== -->
     <section id="home">
-        <video id="home-video" autoplay loop muted playsinline preload="auto" poster="project/asset/showreel/home-showreel-poster.png">
-            <source src="project/asset/showreel/home-showreel-mobile.webm" type="video/webm" media="(max-width: 768px)">
-            <source src="project/asset/showreel/home-showreel.webm" type="video/webm">
-            Il tuo browser non supporta il tag video.
-        </video>
-        <div class="home-overlay">
-            <div class="home-card">
-                <div class="home-typewriter">
-                    <span class="tw-static" id="tw-heading"></span>
-                    <span class="tw-cursor" id="tw-line"></span>
-                </div>
-                <a href="mailto:info@prisciocollettivo.com" class="cta-button">Contattaci</a>
+        <div class="home-bg-track" id="home-bg-track">
+            <div class="home-bg-card"><img src="project/asset/works/strush/preview.png" alt="Strush" loading="eager"></div>
+            <div class="home-bg-card"><img src="project/asset/works/pusho/preview.png" alt="Pusho" loading="eager"></div>
+            <div class="home-bg-card"><img src="project/asset/works/metro/preview.png" alt="ATM Milano" loading="eager"></div>
+            <div class="home-bg-card"><img src="project/asset/works/robot-luchan/preview.png" alt="Robot LuChan" loading="eager"></div>
+            <div class="home-bg-card"><img src="project/asset/works/alfred-hitchcock-presents/preview.png" alt="Alfred Hitchcock" loading="eager"></div>
+            <div class="home-bg-card"><img src="project/asset/works/bloodloop/preview.png" alt="Bloodloop" loading="eager"></div>
+            <div class="home-bg-card"><img src="project/asset/works/flink/preview.png" alt="Flink" loading="eager"></div>
+        </div>
+        <div class="home-card">
+            <div class="home-typewriter">
+                <span class="tw-static" id="tw-heading"></span>
+                <span class="tw-cursor" id="tw-line"></span>
             </div>
+            <a href="mailto:info@prisciocollettivo.com" class="cta-button">Contattaci</a>
         </div>
     </section>
 
@@ -1794,19 +1805,6 @@
                 observer.observe(homeSection);
             }
 
-            // ===== NAVBAR TRASPARENTE/SOLIDA =====
-            const navbar = document.querySelector('.navbar');
-            if (homeSection && navbar) {
-                const navbarObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        // Se home è visibile, navbar trasparente; altrimenti solida
-                        navbar.classList.toggle('navbar-solid', !entry.isIntersecting);
-                    });
-                }, { root: null, threshold: 0 });
-
-                navbarObserver.observe(homeSection);
-            }
-
             // ===== CURSORE PERSONALIZZATO (ottimizzato con RAF) =====
             const cursor = document.getElementById('custom-cursor');
             if (cursor && window.matchMedia("(pointer: fine)").matches) {
@@ -2259,6 +2257,34 @@
             }
 
             run();
+        })();
+    </script>
+
+    <!-- ===== HOME BG SLIDER ===== -->
+    <script>
+        (function() {
+            const track = document.getElementById('home-bg-track');
+            let offset = 0;
+
+            function getCardWidth() {
+                const card = track.children[0];
+                return card.offsetWidth + 16; // width + gap
+            }
+
+            setInterval(() => {
+                const step = getCardWidth();
+                offset += step;
+                track.style.transition = 'transform 0.8s ease';
+                track.style.transform = 'translateY(-50%) translateX(-' + offset + 'px)';
+
+                // After transition, move first card to end and reset offset
+                setTimeout(() => {
+                    track.style.transition = 'none';
+                    track.appendChild(track.children[0]);
+                    offset -= step;
+                    track.style.transform = 'translateY(-50%) translateX(-' + offset + 'px)';
+                }, 850);
+            }, 4000);
         })();
     </script>
 
