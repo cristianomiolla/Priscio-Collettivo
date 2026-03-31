@@ -162,7 +162,8 @@
             border-radius: 12px;
             overflow: hidden;
         }
-        .home-bg-card img {
+        .home-bg-card img,
+        .home-bg-card video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -175,7 +176,7 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 2px solid rgba(243, 242, 241, 0.3);
-            padding: 28px 28px;
+            padding: 40px 28px 20px;
             max-width: 480px;
             text-align: left;
             display: flex;
@@ -187,6 +188,7 @@
             color: var(--colore-secondario);
             line-height: 1.6;
             flex: 1;
+            margin-bottom: 32px;
         }
         .home-typewriter .tw-static {
             display: block;
@@ -198,7 +200,7 @@
             font-size: 12px;
             padding: 10px 20px;
             align-self: center;
-            margin-top: 20px;
+            margin-top: auto;
         }
         .home-typewriter .tw-cursor {
             border-right: 2px solid var(--colore-accento);
@@ -1173,13 +1175,13 @@
     <!-- ================== SEZIONE HOME (LAYOUT CARD GRID) ================== -->
     <section id="home">
         <div class="home-bg-track" id="home-bg-track">
-            <div class="home-bg-card"><img src="project/asset/works/strush/preview.png" alt="Strush" loading="eager"></div>
-            <div class="home-bg-card"><img src="project/asset/works/pusho/preview.png" alt="Pusho" loading="eager"></div>
-            <div class="home-bg-card"><img src="project/asset/works/metro/preview.png" alt="ATM Milano" loading="eager"></div>
-            <div class="home-bg-card"><img src="project/asset/works/robot-luchan/preview.png" alt="Robot LuChan" loading="eager"></div>
-            <div class="home-bg-card"><img src="project/asset/works/alfred-hitchcock-presents/preview.png" alt="Alfred Hitchcock" loading="eager"></div>
+            <div class="home-bg-card"><video src="project/asset/works/strush/video2verticale.webm" autoplay muted loop playsinline></video></div>
+            <div class="home-bg-card"><video src="project/asset/works/pusho/video.mp4" autoplay muted loop playsinline></video></div>
+            <div class="home-bg-card"><video src="project/asset/works/metro/video.webm" autoplay muted loop playsinline></video></div>
+            <div class="home-bg-card"><video src="project/asset/works/robot-luchan/video.webm" autoplay muted loop playsinline></video></div>
+            <div class="home-bg-card"><video src="project/asset/works/alfred-hitchcock-presents/video.webm" autoplay muted loop playsinline></video></div>
             <div class="home-bg-card"><img src="project/asset/works/bloodloop/preview.png" alt="Bloodloop" loading="eager"></div>
-            <div class="home-bg-card"><img src="project/asset/works/flink/preview.png" alt="Flink" loading="eager"></div>
+            <div class="home-bg-card"><video src="project/asset/works/flink/video.webm" autoplay muted loop playsinline></video></div>
         </div>
         <div class="home-card">
             <div class="home-typewriter">
