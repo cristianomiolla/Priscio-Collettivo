@@ -867,6 +867,7 @@
                 margin-left: 0;
                 width: 100%;
                 height: 100vh;
+                height: 100dvh;
                 margin-top: 0;
                 scroll-margin-top: 0;
             }
@@ -886,7 +887,7 @@
             }
             .home-typewriter {
                 font-size: 19px;
-                min-height: 5em;
+                min-height: 6em;
             }
 
             /* Team */
@@ -2243,9 +2244,9 @@
 
             // Measure the max size needed and lock it
             function lockCardSize() {
-                // Reset fixed dimensions so CSS can determine natural width
+                // Reset so CSS determines natural width
                 card.style.width = '';
-                card.style.height = '';
+                card.style.minHeight = '';
                 let maxH = 0;
                 for (const seq of sequences) {
                     headingEl.textContent = seq.heading;
@@ -2254,7 +2255,8 @@
                         maxH = Math.max(maxH, card.scrollHeight);
                     }
                 }
-                card.style.height = maxH + 'px';
+                // Use min-height so card can grow if needed (e.g. address bar resize on mobile)
+                card.style.minHeight = maxH + 'px';
                 headingEl.textContent = '';
                 lineEl.textContent = '';
             }
