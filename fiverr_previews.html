@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiverr Gigs Previews - Priscio Collettivo</title>
+    
+    <!-- Google Fonts - Funnel Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== VARIABILI GLOBALI (Dal tuo index.html) ===== */
+        :root {
+            --colore-primario: #1D2125;
+            --colore-secondario: #f3f2f1;
+            --colore-accento: #E85A4F;
+            --font-principale: 'Funnel Display', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-principale);
+            background-color: #333; /* Sfondo scuro per l'editor, non si vedrà negli screen */
+        }
+
+        /* Contenitore per le slide */
+        .preview-container {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* Stile base della slide (Dimensione ottimizzata per Fiverr 16:9) */
+        .gig-slide {
+            width: 1280px;
+            height: 769px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin: 50px auto; /* Centra le slide e aggiunge spazio */
+        }
+
+        /* ===== SLIDE 1: MOBILE APP UI/UX ===== */
+        #slide-mobile {
+            background-color: var(--colore-primario);
+            color: var(--colore-secondario);
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 90%;
+            max-width: 1400px;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .text-content h1 {
+            font-size: 5rem;
+            line-height: 0.9;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .text-content h1 span {
+            color: var(--colore-accento);
+            display: block;
+        }
+
+        .text-content p {
+            font-size: 1.8rem;
+            opacity: 0.8;
+            font-weight: 400;
+            margin-top: 10px;
+        }
+
+        .tags-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .tag {
+            padding: 10px 20px;
+            border: 2px solid var(--colore-secondario);
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .tag.accent {
+            background-color: var(--colore-accento);
+            border-color: var(--colore-accento);
+            color: var(--colore-primario);
+        }
+
+        /* Mockup Telefoni CSS */
+        .visual-content {
+            position: relative;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-mockup {
+            width: 280px;
+            height: 580px;
+            background-color: #000;
+            border-radius: 40px;
+            border: 8px solid #333;
+            position: absolute;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background-color: #333;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+
+        /* Schermi simulati */
+        .screen-1 {
+            background: linear-gradient(135deg, #E85A4F 0%, #1D2125 100%);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 20px;
+        }
+        
+        .screen-2 {
+            background: var(--colore-secondario);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 20px;
+        }
+
+        /* Elementi UI finti */
+        .ui-header { height: 40px; width: 60%; background: rgba(255,255,255,0.2); border-radius: 8px; margin-bottom: 20px; }
+        .ui-card { height: 120px; width: 100%; background: rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 15px; }
+        .ui-circle { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.2); margin-bottom: 20px; }
+        .ui-btn { height: 50px; width: 100%; background: var(--colore-accento); border-radius: 12px; margin-top: auto; }
+
+        .screen-2 .ui-header { background: rgba(0,0,0,0.1); }
+        .screen-2 .ui-card { background: rgba(0,0,0,0.05); }
+        .screen-2 .ui-btn { background: var(--colore-primario); }
+
+        .phone-1 {
+            transform: rotate(-10deg) translateX(-80px) translateZ(0);
+            z-index: 1;
+        }
+        .phone-2 {
+            transform: rotate(5deg) translateX(80px) translateZ(20px);
+            z-index: 2;
+        }
+
+        /* ===== SLIDE 2: WEB DESIGN (Chiaro) ===== */
+        #slide-web {
+            background-color: var(--colore-secondario);
+            color: var(--colore-primario);
+        }
+
+        #slide-web .text-content h1 span {
+            color: var(--colore-primario);
+            text-decoration: underline;
+            text-decoration-color: var(--colore-accento);
+            text-decoration-thickness: 8px;
+        }
+
+        #slide-web .tag {
+            border-color: var(--colore-primario);
+        }
+        
+        #slide-web .tag.accent {
+            background-color: var(--colore-primario);
+            color: var(--colore-secondario);
+        }
+
+        .browser-mockup {
+            width: 600px;
+            height: 400px;
+            background: #fff;
+            border: 2px solid var(--colore-primario);
+            border-radius: 12px;
+            box-shadow: 20px 20px 0px var(--colore-accento);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .browser-header {
+            height: 30px;
+            border-bottom: 2px solid var(--colore-primario);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 6px;
+        }
+
+        .dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--colore-primario); }
+        .dot:nth-child(1) { background: var(--colore-accento); }
+
+        .browser-body {
+            flex: 1;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .web-hero-text { height: 20px; width: 80%; background: var(--colore-primario); margin-bottom: 10px; }
+        .web-hero-sub { height: 10px; width: 60%; background: #ccc; margin-bottom: 30px; }
+        .web-img { height: 100%; background: #eee; border: 1px solid #000; }
+
+        /* ===== SLIDE 3: BRANDING (Accento) ===== */
+        #slide-brand {
+            background-color: var(--colore-accento);
+            color: var(--colore-primario);
+        }
+
+        #slide-brand .text-content h1 {
+            color: var(--colore-secondario);
+        }
+        
+        #slide-brand .text-content h1 span {
+            color: var(--colore-primario);
+        }
+
+        #slide-brand .tag {
+            border-color: var(--colore-primario);
+            color: var(--colore-primario);
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 500px;
+            height: 500px;
+            transform: rotate(5deg);
+        }
+
+        .brand-item {
+            background: var(--colore-secondario);
+            border: 4px solid var(--colore-primario);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 2rem;
+            text-transform: uppercase;
+        }
+
+        .brand-item:nth-child(1) { border-radius: 50px 50px 0 50px; }
+        .brand-item:nth-child(2) { border-radius: 50px 50px 50px 0; background: var(--colore-primario); color: var(--colore-secondario); }
+        .brand-item:nth-child(3) { border-radius: 50px 0 50px 50px; background: transparent; border-color: var(--colore-primario); }
+        .brand-item:nth-child(4) { border-radius: 0 50px 50px 50px; }
+
+        /* ===== SLIDE 4: MOTION DESIGN (Dinamico) ===== */
+        #slide-motion {
+            background-color: #111;
+            color: var(--colore-secondario);
+        }
+
+        #slide-motion .text-content h1 span {
+            color: var(--colore-accento);
+            font-style: italic;
+        }
+
+        .motion-composition {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .motion-main-element {
+            width: 120px;
+            height: 120px;
+            background-color: var(--colore-accento);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 60px rgba(232, 90, 79, 0.4);
+            z-index: 2;
+        }
+
+        .motion-trail {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid var(--colore-accento);
+        }
+
+        .mt-1 { width: 120px; height: 120px; transform: translateX(-50px) scale(0.9); opacity: 0.5; }
+        .mt-2 { width: 120px; height: 120px; transform: translateX(-90px) scale(0.8); opacity: 0.3; }
+        .mt-3 { width: 120px; height: 120px; transform: translateX(-120px) scale(0.7); opacity: 0.1; }
+
+        .timeline-bar {
+            position: absolute;
+            bottom: 50px;
+            width: 300px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .timeline-head {
+            position: absolute;
+            left: 60%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
+            background-color: var(--colore-secondario);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* ===== SLIDE 5: ANIMATED MOTION DESIGN ===== */
+        #slide-motion-animated {
+            background-color: var(--colore-accento);
+            color: var(--colore-primario);
+        }
+
+        #slide-motion-animated .text-content h1 {
+            color: var(--colore-secondario);
+        }
+
+        #slide-motion-animated .text-content h1 span {
+            color: var(--colore-primario);
+            font-style: normal;
+        }
+
+        #slide-motion-animated .tag {
+            border-color: var(--colore-primario);
+            color: var(--colore-primario);
+        }
+
+        #slide-motion-animated .tag.accent {
+            background-color: var(--colore-primario);
+            color: var(--colore-secondario);
+        }
+
+        #slide-motion-animated .motion-main-element {
+            background-color: var(--colore-secondario);
+            box-shadow: 0 0 60px rgba(243, 242, 241, 0.4);
+            animation: bounce-ball 2s ease-in-out infinite;
+        }
+
+        #slide-motion-animated .motion-main-element svg {
+            fill: var(--colore-accento);
+        }
+
+        #slide-motion-animated .motion-trail {
+            border-color: var(--colore-primario);
+        }
+
+        #slide-motion-animated .mt-1 { animation: pulse-opacity 1.8s ease-in-out infinite 0s; }
+        #slide-motion-animated .mt-2 { animation: pulse-opacity 1.8s ease-in-out infinite 0.2s; }
+        #slide-motion-animated .mt-3 { animation: pulse-opacity 1.8s ease-in-out infinite 0.4s; }
+
+        #slide-motion-animated .timeline-bar {
+            background: rgba(0,0,0,0.2);
+        }
+
+        #slide-motion-animated .timeline-head {
+            background-color: var(--colore-primario);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            animation: scrub-timeline 4s linear infinite;
+        }
+
+        /* Keyframes per animazioni */
+        @keyframes bounce-ball {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+        @keyframes pulse-opacity {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        @keyframes scrub-timeline {
+            from { left: 0%; }
+            to { left: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-container">
+
+        <!-- SEZIONE 1: MOBILE APP UI/UX (Richiesta specifica) -->
+        <section class="gig-slide" id="slide-mobile">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h1>Mobile App <span>UI/UX Design</span></h1>
+                    <p>Design of modern, intuitive, and user-centered interfaces for iOS and Android.</p>
+                    <div class="tags-container">
+                        <div class="tag accent">Figma</div>
+                        <div class="tag">Prototyping</div>
+                        <div class="tag">Wireframing</div>
+                    </div>
+                </div>
+                <div class="visual-content">
+                    <!-- Telefono 1 (Dietro) -->
+                    <div class="phone-mockup phone-1">
+                        <div class="screen-1">
+                            <div class="ui-header"></div>
+                            <div class="ui-circle"></div>
+                            <div class="ui-card"></div>
+                            <div class="ui-card"></div>
+                        </div>
+                    </div>
+                    <!-- Telefono 2 (Davanti) -->
+                    <div class="phone-mockup phone-2">
+                        <div class="screen-2">
+                            <div class="ui-header"></div>
+                            <div class="ui-card" style="height: 180px;"></div>
+                            <div class="ui-btn"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 2: WEB DESIGN (Servizio complementare) -->
+        <section class="gig-slide" id="slide-web">
+            <div class="content-wrapper">
+                <div class="visual-content">
+                    <div class="browser-mockup">
+                        <div class="browser-header">
+                            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                        </div>
+                        <div class="browser-body">
+                            <div class="web-left">
+                                <div class="web-hero-text"></div>
+                                <div class="web-hero-text" style="width: 50%"></div>
+                                <div class="web-hero-sub"></div>
+                                <div class="ui-btn" style="width: 120px; height: 40px;"></div>
+                            </div>
+                            <div class="web-img"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-content" style="text-align: right;">
+                    <h1>Modern <span>Web Design</span></h1>
+                    <p>Responsive websites, high-converting landing pages, and complete design systems.</p>
+                    <div class="tags-container" style="justify-content: flex-end;">
+                        <div class="tag accent">Responsive</div>
+                        <div class="tag">Landing Page</div>
+                        <div class="tag">Clean UI</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 3: BRAND IDENTITY (Servizio complementare) -->
+        <section class="gig-slide" id="slide-brand">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h1>Brand <span>Identity</span></h1>
+                    <p>Creation of unique logos and visual identities that tell your brand's story.</p>
+                    <div class="tags-container">
+                        <div class="tag" style="background: #fff; color: #1D2125; border: none;">Logo Design</div>
+                        <div class="tag">Guidelines</div>
+                        <div class="tag">Typography</div>
+                    </div>
+                </div>
+                <div class="visual-content">
+                    <div class="brand-grid">
+                        <div class="brand-item">Aa</div>
+                        <div class="brand-item">Logo</div>
+                        <div class="brand-item"><svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2L2,22H22L12,2Z" /></svg></div>
+                        <div class="brand-item">#01</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 4: MOTION DESIGN (Nuovo servizio) -->
+        <section class="gig-slide" id="slide-motion">
+            <div class="content-wrapper">
+                <div class="visual-content">
+                    <div class="motion-composition">
+                        <div class="motion-trail mt-3"></div>
+                        <div class="motion-trail mt-2"></div>
+                        <div class="motion-trail mt-1"></div>
+                        <div class="motion-main-element">
+                            <svg width="50" height="50" viewBox="0 0 24 24" fill="var(--colore-primario)"><path d="M8,5.14V19.14L19,12.14L8,5.14Z" /></svg>
+                        </div>
+                        <div class="timeline-bar"><div class="timeline-head"></div></div>
+                    </div>
+                </div>
+                <div class="text-content" style="text-align: right;">
+                    <h1>Motion <span>Design</span></h1>
+                    <p>2D animations, logo reveals, and dynamic video content for your social channels.</p>
+                    <div class="tags-container" style="justify-content: flex-end;">
+                        <div class="tag accent">After Effects</div>
+                        <div class="tag">Lottie</div>
+                        <div class="tag">Social</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 5: ANIMATED MOTION DESIGN (Servizio dinamico) -->
+        <section class="gig-slide" id="slide-motion-animated">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h1>Animated <span>Motion Graphics</span></h1>
+                    <p>Dynamic logo animations, explainer videos, and engaging social media content.</p>
+                    <div class="tags-container">
+                        <div class="tag accent">Explainer Video</div>
+                        <div class="tag">Logo Animation</div>
+                        <div class="tag">2D & 3D</div>
+                    </div>
+                </div>
+                <div class="visual-content">
+                    <div class="motion-composition">
+                        <div class="motion-trail mt-3"></div>
+                        <div class="motion-trail mt-2"></div>
+                        <div class="motion-trail mt-1"></div>
+                        <div class="motion-main-element">
+                            <svg width="50" height="50" viewBox="0 0 24 24"><path d="M8,5.14V19.14L19,12.14L8,5.14Z" /></svg>
+                        </div>
+                        <div class="timeline-bar"><div class="timeline-head"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
