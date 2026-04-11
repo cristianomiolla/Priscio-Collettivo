@@ -63,6 +63,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
+    <!-- i18n - Traduzioni -->
+    <script src="project/lang/it.js"></script>
+    <script src="project/lang/en.js"></script>
+    <script src="project/lang/i18n.js"></script>
+
     <!-- ============== STILI CONSOLIDATI ============== -->
     <style>
         /* ===== FONT E VARIABILI GLOBALI ===== */
@@ -627,6 +632,34 @@
         .cta-button:hover {
             transform: scale(1.08);
         }
+        .lang-switcher {
+            display: flex;
+            gap: 0;
+            border: 1px solid rgba(243, 242, 241, 0.3);
+        }
+        .lang-switcher-mobile {
+            display: none;
+        }
+        .lang-btn {
+            background: transparent;
+            color: var(--colore-secondario);
+            border: none;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-family: var(--font-principale);
+        }
+        .lang-btn.active {
+            background-color: var(--colore-accento);
+            color: var(--colore-primario);
+        }
+        .lang-btn:hover:not(.active) {
+            background-color: rgba(243, 242, 241, 0.1);
+        }
         .hamburger-menu { display: none; }
 
         /* ===== CURSORE PERSONALIZZATO ===== */
@@ -971,6 +1004,18 @@
                 transform: translateY(-9px) rotate(-45deg);
             }
 
+            /* Lang switcher mobile */
+            .lang-switcher-mobile {
+                display: flex;
+                position: absolute;
+                top: 23px;
+                right: 60px;
+                z-index: 12;
+            }
+            .lang-btn {
+                cursor: auto;
+            }
+
             /* Cursore */
             #custom-cursor { display: none !important; }
             body, a, button { cursor: auto; }
@@ -1226,7 +1271,7 @@
                 <span class="tw-heading" id="tw-heading"></span>
                 <span class="tw-line" id="tw-line"></span>
             </div>
-            <a href="mailto:info@prisciocollettivo.com" class="cta-button">Contattaci</a>
+            <a href="mailto:info@prisciocollettivo.com" class="cta-button" data-i18n="nav.cta">Contattaci</a>
         </div>
     </section>
 
@@ -1236,8 +1281,8 @@
         <!-- ================== SEZIONE SERVIZI - SCROLL STACK ================== -->
         <section id="servizi">
             <div class="scroll-stack-header">
-                <h2>I Nostri Servizi</h2>
-                <p>Scopri cosa possiamo fare per te.</p>
+                <h2 data-i18n="servizi.title">I Nostri Servizi</h2>
+                <p data-i18n="servizi.subtitle">Scopri cosa possiamo fare per te.</p>
             </div>
 
             <div class="scroll-stack-container" id="servizi-stack">
@@ -1245,36 +1290,36 @@
                     <!-- Card 1: Visione & Strategia -->
                     <div class="scroll-stack-card" data-card-index="0">
                         <div class="service-icon">01</div>
-                        <h3>Visione & Strategia di Progetto</h3>
-                        <p>Lavoriamo sull'idea, sugli obiettivi e sul contesto.</p>
-                        <p>Impostiamo una visione solida per prendere decisioni coerenti su design, prodotto ed esperienza.</p>
+                        <h3 data-i18n="servizi.card1.title">Visione & Strategia di Progetto</h3>
+                        <p data-i18n="servizi.card1.p1">Lavoriamo sull'idea, sugli obiettivi e sul contesto.</p>
+                        <p data-i18n="servizi.card1.p2">Impostiamo una visione solida per prendere decisioni coerenti su design, prodotto ed esperienza.</p>
                     </div>
                     <div class="scroll-stack-spacer"></div>
 
                     <!-- Card 2: Brand & Visual System -->
                     <div class="scroll-stack-card" data-card-index="1">
                         <div class="service-icon">02</div>
-                        <h3>Brand & Visual System</h3>
-                        <p>Creiamo identità visive uniche che raccontano la tua storia.</p>
-                        <p>Non solo loghi, ma linguaggi visivi completi: colori, tipografia, elementi grafici per distinguerti nel mercato.</p>
+                        <h3 data-i18n="servizi.card2.title">Brand & Visual System</h3>
+                        <p data-i18n="servizi.card2.p1">Creiamo identità visive uniche che raccontano la tua storia.</p>
+                        <p data-i18n="servizi.card2.p2">Non solo loghi, ma linguaggi visivi completi: colori, tipografia, elementi grafici per distinguerti nel mercato.</p>
                     </div>
                     <div class="scroll-stack-spacer"></div>
 
                     <!-- Card 3: Web Design & UI/UX -->
                     <div class="scroll-stack-card" data-card-index="2">
                         <div class="service-icon">03</div>
-                        <h3>Web Design & UI/UX</h3>
-                        <p>Trasformiamo idee e bisogni specifici in prodotti digitali intuitivi.</p>
-                        <p>Realizziamo siti web, landing page e app mobile per coinvolgere il tuo pubblico curando struttura, UX e UI.</p>
+                        <h3 data-i18n="servizi.card3.title">Web Design & UI/UX</h3>
+                        <p data-i18n="servizi.card3.p1">Trasformiamo idee e bisogni specifici in prodotti digitali intuitivi.</p>
+                        <p data-i18n="servizi.card3.p2">Realizziamo siti web, landing page e app mobile per coinvolgere il tuo pubblico curando struttura, UX e UI.</p>
                     </div>
                     <div class="scroll-stack-spacer"></div>
 
                     <!-- Card 4: Animazioni & Motion Design -->
                     <div class="scroll-stack-card" data-card-index="3">
                         <div class="service-icon">04</div>
-                        <h3>Animazioni & Motion Design</h3>
-                        <p>Usiamo il movimento come linguaggio per raccontare i progetti.</p>
-                        <p>Progettiamo animazioni e motion per i contenuti del tuo brand nei canali digitali.</p>
+                        <h3 data-i18n="servizi.card4.title">Animazioni & Motion Design</h3>
+                        <p data-i18n="servizi.card4.p1">Usiamo il movimento come linguaggio per raccontare i progetti.</p>
+                        <p data-i18n="servizi.card4.p2">Progettiamo animazioni e motion per i contenuti del tuo brand nei canali digitali.</p>
                     </div>
 
                     <!-- Spacer per il rilascio del pin -->
@@ -1285,13 +1330,14 @@
 
     <!-- ================== SEZIONE WORK (con autore del progetto) ====================== -->
         <section id="work">
-            <h2>I Nostri Lavori</h2>
-            <p>Una selezione dei nostri progetti più recenti.</p>
+            <h2 data-i18n="work.title">I Nostri Lavori</h2>
+            <p data-i18n="work.subtitle">Una selezione dei nostri progetti più recenti.</p>
             <div class="work-gallery">
                 <!-- Strush: Immagine + Video2 + Video + Immagine2 -->
                 <div class="work-item"
                     data-title="Strush"
                     data-description="Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.&lt;br&gt;👉 [Scopri il sito](https://www.strush.it/)"
+                    data-i18n-desc="work.strush.desc"
                     data-type="image-video-video-image"
                     data-image="project/asset/works/strush/image.png"
                     data-video2="project/asset/works/strush/video2.mp4"
@@ -1310,13 +1356,14 @@
                 <div class="work-item"
                     data-title="Ninja"
                     data-description="Animazione di una scena di combattimento, con character design originale in stile flat e palette vivace. Il progetto esplora dinamismo, timing e fluidità del movimento per dare vita a uno scontro espressivo e ritmato."
+                    data-i18n-desc="work.ninja.desc"
                     data-type="video-image"
                     data-video="project/asset/works/ninja/ninja.webm"
                     data-image="project/asset/works/ninja/image.png">
                     <img src="project/asset/works/ninja/preview.png" alt="Anteprima Ninja" loading="lazy">
                     <div class="work-item-chips">
                         <span class="work-chip">motion</span>
-                        <span class="work-chip">animazione</span>
+                        <span class="work-chip" data-i18n="chip.animazione">animazione</span>
                     </div>
                     <div class="work-item-marquee"><span>Ninja --- Ninja --- Ninja --- </span></div>
                 </div>
@@ -1325,6 +1372,7 @@
                 <div class="work-item"
                     data-title="Pusho"
                     data-description="Progettazione completa per Pusho: creazione del logo, UI/UX design dell'app, animazione del brand e sviluppo del sito web.&lt;br&gt;👉 [Scopri il sito](http://www.pusho.it/)"
+                    data-i18n-desc="work.pusho.desc"
                     data-type="image-video-image"
                     data-image="project/asset/works/pusho/image.png"
                     data-video="project/asset/works/pusho/video.mp4"
@@ -1333,7 +1381,7 @@
                     <div class="work-item-chips">
                         <span class="work-chip">logo</span>
                         <span class="work-chip">UI/UX</span>
-                        <span class="work-chip">animazione</span>
+                        <span class="work-chip" data-i18n="chip.animazione">animazione</span>
                         <span class="work-chip">web design</span>
                     </div>
                     <div class="work-item-marquee"><span>Pusho --- Pusho --- Pusho --- </span></div>
@@ -1342,14 +1390,15 @@
                 <!-- Metro -->
                 <div class="work-item"
                     data-title="ATM Milano"
-                    data-description="Progetto di animazione ambientato nell'ATM di Milano, focalizzato sulla rappresentazione dei flussi urbani e delle dinamiche collettive. Il lavoro esplora ritmo, movimento e composizione per tradurre in linguaggio visivo l’energia e la complessità della vita cittadina."
+                    data-description="Progetto di animazione ambientato nell’ATM di Milano, focalizzato sulla rappresentazione dei flussi urbani e delle dinamiche collettive. Il lavoro esplora ritmo, movimento e composizione per tradurre in linguaggio visivo l’energia e la complessità della vita cittadina."
+                    data-i18n-desc="work.metro.desc"
                     data-type="video-image"
                     data-video="project/asset/works/metro/video.webm"
                     data-image="project/asset/works/metro/image.png">
                     <img src="project/asset/works/metro/preview.png" alt="Anteprima Metro" loading="lazy">
                     <div class="work-item-chips">
                         <span class="work-chip">motion</span>
-                        <span class="work-chip">animazione</span>
+                        <span class="work-chip" data-i18n="chip.animazione">animazione</span>
                     </div>
                     <div class="work-item-marquee"><span>ATM Milano --- ATM Milano --- ATM Milano --- </span></div>
                 </div>
@@ -1358,6 +1407,7 @@
                 <div class="work-item"
                     data-title="Robot LuChan"
                     data-description="Progetto di character design, rigging e run cycle animation per un robot ispirato allo stile giapponese. Il lavoro esplora la fusione tra estetica e funzionalità attraverso un movimento fluido e dinamico."
+                    data-i18n-desc="work.robot.desc"
                     data-type="video-image"
                     data-video="project/asset/works/robot-luchan/video.webm"
                     data-image="project/asset/works/robot-luchan/image.png">
@@ -1373,6 +1423,7 @@
                 <div class="work-item"
                     data-title="Alfred Hitchcock Presents"
                     data-description="Animazione di una walk cycle attraverso il rigging del personaggio. Il progetto è una rielaborazione dell'open title della serie del 1955 'Alfred Hitchcock Presents'."
+                    data-i18n-desc="work.hitchcock.desc"
                     data-type="video-image"
                     data-video="project/asset/works/alfred-hitchcock-presents/video.webm"
                     data-image="project/asset/works/alfred-hitchcock-presents/image.png">
@@ -1388,6 +1439,7 @@
                 <div class="work-item"
                     data-title="Bloodloop"
                     data-description="Progetto di character design e sviluppo delle copertine ufficiali per il videogioco Bloodloop. Il lavoro si concentra sulla definizione dell’identità visiva dei personaggi e sulla creazione di materiali promozionali coerenti con l’estetica e il tono del gioco."
+                    data-i18n-desc="work.bloodloop.desc"
                     data-type="image"
                     data-content="project/asset/works/bloodloop/image.png">
                     <img src="project/asset/works/bloodloop/preview.png" alt="Anteprima Bloodloop" loading="lazy">
@@ -1401,12 +1453,13 @@
                 <div class="work-item"
                     data-title="Flink"
                     data-description="Analisi preliminare del problema, strutturazione dei flussi UX e prototipazione dell'MVP della piattaforma, comprendente tutte le funzionalità minime necessarie per la validazione dell'idea di startup."
+                    data-i18n-desc="work.flink.desc"
                     data-type="image-video"
                     data-video="project/asset/works/flink/video.webm"
                     data-image="project/asset/works/flink/image.png">
                     <img src="project/asset/works/flink/preview.png" alt="Anteprima Flink" loading="lazy">
                     <div class="work-item-chips">
-                        <span class="work-chip">prototipo</span>
+                        <span class="work-chip" data-i18n="chip.prototipo">prototipo</span>
                         <span class="work-chip">UI/UX</span>
                     </div>
                     <div class="work-item-marquee"><span>Flink --- Flink --- Flink --- </span></div>
@@ -1416,8 +1469,8 @@
 
         <!-- ================== SEZIONE TEAM ================== -->
         <section id="team">
-            <h2>Il Team</h2>
-            <p>Le menti creative dietro ogni progetto.</p>
+            <h2 data-i18n="team.title">Il Team</h2>
+            <p data-i18n="team.subtitle">Le menti creative dietro ogni progetto.</p>
 
             <div class="team-container">
                 <div class="team-member">
@@ -1455,12 +1508,20 @@
                 <h1 class="studio-name">Priscio Collettivo</h1>
             </a>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#servizi">Servizi</a></li>
-                <li><a href="#work">Work</a></li>
+                <li><a href="#home" data-i18n="nav.home">Home</a></li>
+                <li><a href="#servizi" data-i18n="nav.servizi">Servizi</a></li>
+                <li><a href="#work" data-i18n="nav.work">Work</a></li>
             </ul>
             <div class="navbar-right">
-                <a href="mailto:info@prisciocollettivo.com" class="cta-button">Contattaci</a>
+                <div class="lang-switcher">
+                    <button class="lang-btn active" data-lang="it" onclick="I18n.setLanguage('it')">IT</button>
+                    <button class="lang-btn" data-lang="en" onclick="I18n.setLanguage('en')">EN</button>
+                </div>
+                <a href="mailto:info@prisciocollettivo.com" class="cta-button" data-i18n="nav.cta">Contattaci</a>
+            </div>
+            <div class="lang-switcher lang-switcher-mobile">
+                <button class="lang-btn active" data-lang="it" onclick="I18n.setLanguage('it')">IT</button>
+                <button class="lang-btn" data-lang="en" onclick="I18n.setLanguage('en')">EN</button>
             </div>
             <button class="hamburger-menu">
                 <span class="bar"></span>
@@ -1470,7 +1531,7 @@
         </nav>
 
     <!-- ============== PULSANTE CTA PER MOBILE ============== -->
-    <a href="mailto:info@prisciocollettivo.com" id="mobile-cta">Contattaci</a>
+    <a href="mailto:info@prisciocollettivo.com" id="mobile-cta" data-i18n="nav.cta">Contattaci</a>
     
     <!-- ================== OVERLAY DEL PROGETTO (con autore) ================== -->
     <div id="project-overlay">
@@ -1480,13 +1541,13 @@
             </div>
             <div class="overlay-text-container">
                 <div class="swipe-indicator"></div>
-                <div class="swipe-helper-text">Scorri per leggere</div>
+                <div class="swipe-helper-text" data-i18n="overlay.swipe">Scorri per leggere</div>
                 <h3 id="overlay-title"></h3>
                 <p id="overlay-description"></p>
             </div>
         </div>
         <div class="scroll-indicator-desktop" id="scroll-indicator-desktop">
-            <span>Scorri</span>
+            <span data-i18n="overlay.scroll">Scorri</span>
             <div class="scroll-arrow">
                 <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
@@ -1502,7 +1563,7 @@
             <a href="https://behance.net" target="_blank" rel="noopener noreferrer" title="Behance"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5,4.5H13.11C13.85,4.5 14.53,4.65 15.14,4.94C15.76,5.24 16.24,5.65 16.59,6.18C16.94,6.71 17.11,7.32 17.11,8C17.11,8.5 17,8.94 16.79,9.32C16.58,9.7 16.29,10 15.93,10.24C16.5,10.47 16.93,10.82 17.21,11.29C17.5,11.76 17.64,12.32 17.64,12.97C17.64,13.69 17.45,14.32 17.08,14.86C16.71,15.4 16.2,15.82 15.55,16.12C14.9,16.42 14.16,16.57 13.33,16.57H6.5V4.5M8.77,9.56H12.92C13.39,9.56 13.76,9.43 14.03,9.17C14.3,8.91 14.44,8.57 14.44,8.16C14.44,7.76 14.31,7.43 14.04,7.17C13.77,6.91 13.4,6.78 12.92,6.78H8.77V9.56M8.77,14.29H13.33C13.83,14.29 14.23,14.15 14.53,13.87C14.83,13.59 14.98,13.22 14.98,12.76C14.98,12.32 14.84,11.96 14.56,11.68C14.28,11.4 13.9,11.26 13.42,11.26H8.77V14.29M18.64,7.68H21.5V6.5H18.64V7.68Z"/></svg></a>
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.43 12.9,11.2V10.13H10.13V18.5H12.9V13.57C12.9,12.8 13.54,12.17 14.31,12.17C15.08,12.17 15.71,12.8 15.71,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,6 7.88,5.32 7.06,5.32C6.24,5.32 5.56,6 5.56,6.88C5.56,7.76 6.24,8.56 7.06,8.56C7.08,8.56 7.1,8.56 7.12,8.56L6.88,8.56M8.27,18.5V10.13H5.56V18.5H8.27Z"/></svg></a>
         </div>
-        <p>&copy; 2026 Priscio Collettivo. Tutti i diritti riservati.</p>
+        <p data-i18n="footer.copy">&copy; 2026 Priscio Collettivo. Tutti i diritti riservati.</p>
     </footer>
 
     <!-- ======================= JAVASCRIPT CONSOLIDATO ======================= -->
@@ -2219,28 +2280,9 @@
         });
     </script>
 
-    <!-- Typewriter Effect -->
+    <!-- Typewriter Effect (i18n-aware) -->
     <script>
         (function() {
-            const sequences = [
-                {
-                    heading: "🎨 Facciamo design",
-                    lines: [
-                        "per testare la tua idea 💡",
-                        "per sviluppare il tuo progetto 🚀",
-                        "per creare la veste migliore per il tuo sito o la tua app ✨"
-                    ]
-                },
-                {
-                    heading: "🎬 Facciamo animazione",
-                    lines: [
-                        "per i contenuti del tuo brand 📢",
-                        "per presentare il tuo prodotto 📦",
-                        "per cortometraggi 🎥"
-                    ]
-                }
-            ];
-
             const headingEl = document.getElementById('tw-heading');
             const lineEl = document.getElementById('tw-line');
             const card = document.querySelector('.home-card');
@@ -2250,22 +2292,32 @@
             const pauseAfterDelete = 300;
             const pauseBetweenSections = 1000;
 
+            let langChanged = false;
+            let abortController = null;
+
+            function getSequences() {
+                return I18n.getTypewriterSequences();
+            }
+
             function setCursor(el) {
                 headingEl.classList.remove('tw-active');
                 lineEl.classList.remove('tw-active');
                 el.classList.add('tw-active');
             }
 
-            // Measure the max size needed and lock it
             function lockCardSize() {
                 card.style.width = '';
                 card.style.height = '';
                 let maxH = 0;
-                for (const seq of sequences) {
-                    headingEl.textContent = seq.heading;
-                    for (const line of seq.lines) {
-                        lineEl.textContent = line;
-                        maxH = Math.max(maxH, card.scrollHeight);
+                // Misura per entrambe le lingue per evitare salti
+                const allSequences = [it['tw.sequences'], en['tw.sequences']];
+                for (const sequences of allSequences) {
+                    for (const seq of sequences) {
+                        headingEl.textContent = seq.heading;
+                        for (const line of seq.lines) {
+                            lineEl.textContent = line;
+                            maxH = Math.max(maxH, card.scrollHeight);
+                        }
                     }
                 }
                 card.style.height = maxH + 'px';
@@ -2276,13 +2328,21 @@
             lockCardSize();
             window.addEventListener('resize', lockCardSize);
 
+            // Ascolta cambio lingua
+            window.addEventListener('langchange', () => {
+                langChanged = true;
+            });
+
             function sleep(ms) {
-                return new Promise(r => setTimeout(r, ms));
+                return new Promise(resolve => {
+                    const timer = setTimeout(resolve, ms);
+                });
             }
 
             async function typeText(el, text) {
                 setCursor(el);
                 for (let i = 0; i <= text.length; i++) {
+                    if (langChanged) return;
                     el.textContent = text.slice(0, i);
                     await sleep(typeSpeed);
                 }
@@ -2292,31 +2352,46 @@
                 setCursor(el);
                 const text = el.textContent;
                 for (let i = text.length; i >= 0; i--) {
+                    if (langChanged) return;
                     el.textContent = text.slice(0, i);
                     await sleep(deleteSpeed);
                 }
             }
 
+            async function clearAndRestart() {
+                headingEl.textContent = '';
+                lineEl.textContent = '';
+                langChanged = false;
+                await run();
+            }
+
             async function run() {
                 setCursor(headingEl);
                 while (true) {
+                    const sequences = getSequences();
                     for (const seq of sequences) {
+                        if (langChanged) { await clearAndRestart(); return; }
                         await typeText(headingEl, seq.heading);
                         await sleep(pauseAfterDelete);
 
                         for (const line of seq.lines) {
+                            if (langChanged) { await clearAndRestart(); return; }
                             await typeText(lineEl, line);
                             await sleep(pauseAfterType);
+                            if (langChanged) { await clearAndRestart(); return; }
                             await deleteText(lineEl);
                             await sleep(pauseAfterDelete);
                         }
 
+                        if (langChanged) { await clearAndRestart(); return; }
                         await deleteText(headingEl);
                         await sleep(pauseBetweenSections);
                     }
                 }
             }
 
+            // Init i18n e avvia typewriter
+            I18n.init();
             run();
         })();
     </script>
