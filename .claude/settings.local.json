@@ -57,7 +57,13 @@
       "Bash(\"$FFMPEG\" -i \"project/asset/works/flink/video.webm\" -vf \"scale=-2:480\" -c:v libvpx-vp9 -b:v 300k -an -deadline good \"project/asset/works/flink/preview.webm\" -y)",
       "Bash(\"$FFMPEG\" -i \"project/asset/works/alfred-hitchcock-presents/video.webm\" -vf \"scale=-2:480\" -c:v libvpx-vp9 -b:v 300k -an -deadline good \"project/asset/works/alfred-hitchcock-presents/preview.webm\" -y)",
       "Bash(\"$FFMPEG\" -i \"project/asset/works/strush/video2verticale.webm\" -vf \"scale=-2:480\" -c:v libvpx-vp9 -b:v 300k -an -deadline good \"project/asset/works/strush/preview.webm\" -y)",
-      "Bash(ls -lh project/asset/works/*/preview.webm)"
+      "Bash(ls -lh project/asset/works/*/preview.webm)",
+      "Bash(find . -name *.js -o -name *.ts -o -name *.jsx -o -name *.tsx)",
+      "Bash(find . -name \"*en*\\\\|*it*\\\\|*locale*\\\\|*lang*\\\\|*i18n*\" -type f)",
+      "Bash(node -c project/lang/it.js)",
+      "Bash(node -c project/lang/en.js)",
+      "Bash(node -c project/lang/i18n.js)",
+      "Bash(ls -1 *.html)"
     ],
     "deny": [],
     "ask": []
