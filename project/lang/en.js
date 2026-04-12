@@ -46,9 +46,9 @@ const en = {
     "work.subtitle": "A selection of our most recent projects.",
 
     // Work - Descrizioni progetti
-    "work.strush.desc": "Full design for Strush: brand identity, app UI/UX, and web design.&lt;br&gt;👉 [Visit the website](https://www.strush.it/)",
+    "work.strush.desc": "Full design for Strush: brand identity, app UI/UX, and web design.\n👉 [Visit the website](https://www.strush.it/)",
     "work.ninja.desc": "Animation of a combat scene, with original character design in flat style and vibrant palette. The project explores dynamism, timing, and fluidity of movement to bring an expressive and rhythmic clash to life.",
-    "work.pusho.desc": "Full design for Pusho: logo creation, app UI/UX design, brand animation, and website development.&lt;br&gt;👉 [Visit the website](http://www.pusho.it/)",
+    "work.pusho.desc": "Full design for Pusho: logo creation, app UI/UX design, brand animation, and website development.\n👉 [Visit the website](http://www.pusho.it/)",
     "work.metro.desc": "Animation project set in Milan's public transport system, focused on representing urban flows and collective dynamics. The work explores rhythm, movement, and composition to translate the energy and complexity of city life into visual language.",
     "work.robot.desc": "Character design, rigging, and run cycle animation project for a robot inspired by Japanese style. The work explores the fusion of aesthetics and functionality through fluid, dynamic movement.",
     "work.hitchcock.desc": "Walk cycle animation through character rigging. The project is a reimagining of the 1955 series 'Alfred Hitchcock Presents' opening title.",

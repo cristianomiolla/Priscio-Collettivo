@@ -46,9 +46,9 @@ const it = {
     "work.subtitle": "Una selezione dei nostri progetti più recenti.",
 
     // Work - Descrizioni progetti
-    "work.strush.desc": "Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.&lt;br&gt;👉 [Scopri il sito](https://www.strush.it/)",
+    "work.strush.desc": "Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.\n👉 [Scopri il sito](https://www.strush.it/)",
     "work.ninja.desc": "Animazione di una scena di combattimento, con character design originale in stile flat e palette vivace. Il progetto esplora dinamismo, timing e fluidità del movimento per dare vita a uno scontro espressivo e ritmato.",
-    "work.pusho.desc": "Progettazione completa per Pusho: creazione del logo, UI/UX design dell'app, animazione del brand e sviluppo del sito web.&lt;br&gt;👉 [Scopri il sito](http://www.pusho.it/)",
+    "work.pusho.desc": "Progettazione completa per Pusho: creazione del logo, UI/UX design dell'app, animazione del brand e sviluppo del sito web.\n👉 [Scopri il sito](http://www.pusho.it/)",
     "work.metro.desc": "Progetto di animazione ambientato nell'ATM di Milano, focalizzato sulla rappresentazione dei flussi urbani e delle dinamiche collettive. Il lavoro esplora ritmo, movimento e composizione per tradurre in linguaggio visivo l'energia e la complessità della vita cittadina.",
     "work.robot.desc": "Progetto di character design, rigging e run cycle animation per un robot ispirato allo stile giapponese. Il lavoro esplora la fusione tra estetica e funzionalità attraverso un movimento fluido e dinamico.",
     "work.hitchcock.desc": "Animazione di una walk cycle attraverso il rigging del personaggio. Il progetto è una rielaborazione dell'open title della serie del 1955 'Alfred Hitchcock Presents'.",

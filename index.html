@@ -1342,7 +1342,8 @@
                 <!-- Strush: Immagine + Video2 + Video + Immagine2 -->
                 <div class="work-item"
                     data-title="Strush"
-                    data-description="Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.&lt;br&gt;👉 [Scopri il sito](https://www.strush.it/)"
+                    data-description="Progettazione completa per Strush: brand identity, UI/UX dell'app e web design.
+👉 [Scopri il sito](https://www.strush.it/)"
                     data-i18n-desc="work.strush.desc"
                     data-type="image-video-video-image"
                     data-image="project/asset/works/strush/image.png"
@@ -1377,7 +1378,8 @@
                 <!-- Pusho: App UI/UX, Logo, Animazione, Sito Web -->
                 <div class="work-item"
                     data-title="Pusho"
-                    data-description="Progettazione completa per Pusho: creazione del logo, UI/UX design dell'app, animazione del brand e sviluppo del sito web.&lt;br&gt;👉 [Scopri il sito](http://www.pusho.it/)"
+                    data-description="Progettazione completa per Pusho: creazione del logo, UI/UX design dell'app, animazione del brand e sviluppo del sito web.
+👉 [Scopri il sito](http://www.pusho.it/)"
                     data-i18n-desc="work.pusho.desc"
                     data-type="image-video-image"
                     data-image="project/asset/works/pusho/image.png"
@@ -1642,8 +1644,8 @@
                     // Aggiorna testo
                     overlayTitle.textContent = title;
 
-                    // Converti markdown links in HTML per la descrizione
-                    const descriptionWithLinks = description.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+                    // Converti markdown links in HTML e newline in <br> per la descrizione
+                    const descriptionWithLinks = description.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>').replace(/\n/g, '<br>');
                     overlayDescription.innerHTML = descriptionWithLinks;
 
                     // Pulisci contenuto precedente
