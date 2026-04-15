@@ -1626,6 +1626,24 @@
                 imageObserver.observe(img);
             });
 
+            // ===== PLAY/PAUSE VIDEO HERO IN BASE ALLA VISIBILITÀ =====
+            const heroVideos = document.querySelectorAll('.home-bg-card video');
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target;
+                    if (entry.isIntersecting) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+            heroVideos.forEach(video => videoObserver.observe(video));
+
             // ===== GESTIONE OVERLAY PROGETTI =====
             const workItems = document.querySelectorAll('#work .work-item');
             const overlay = document.querySelector('#project-overlay');
