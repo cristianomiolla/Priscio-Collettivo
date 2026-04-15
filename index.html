@@ -2332,6 +2332,9 @@
             }
 
             function lockCardSize() {
+                // Salva il testo corrente per non interrompere il typewriter
+                const savedHeading = headingEl.textContent;
+                const savedLine = lineEl.textContent;
                 card.style.width = '';
                 card.style.height = '';
                 let maxH = 0;
@@ -2347,8 +2350,8 @@
                     }
                 }
                 card.style.height = maxH + 'px';
-                headingEl.textContent = '';
-                lineEl.textContent = '';
+                headingEl.textContent = savedHeading;
+                lineEl.textContent = savedLine;
             }
 
             lockCardSize();
