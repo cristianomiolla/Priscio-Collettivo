@@ -1,0 +1,1108 @@
+[
+  {
+    "id": 1,
+    "category": "abitudini",
+    "image": "talking-eating.png",
+    "maleText": "Parla mentre mangia.",
+    "femaleText": "Parla mentre mangia."
+  },
+  {
+    "id": 2,
+    "category": "fisico",
+    "image": "bad-voice.png",
+    "maleText": "Ha una voce insopportabile.",
+    "femaleText": "Ha una voce insopportabile."
+  },
+  {
+    "id": 3,
+    "category": "abitudini",
+    "image": "plate-thief.png",
+    "maleText": "Interviene sempre nel tuo piatto.",
+    "femaleText": "Interviene sempre nel tuo piatto."
+  },
+  {
+    "id": 4,
+    "category": "igiene",
+    "image": "stinks.png",
+    "maleText": "Puzza spesso.",
+    "femaleText": "Puzza spesso."
+  },
+  {
+    "id": 5,
+    "category": "igiene",
+    "image": "bad-breath.png",
+    "maleText": "Ha l'alito cattivo.",
+    "femaleText": "Ha l'alito cattivo."
+  },
+  {
+    "id": 6,
+    "category": "abitudini",
+    "image": "socks.png",
+    "maleText": "Non si toglie mai i calzini.",
+    "femaleText": "Non si toglie mai i calzini."
+  },
+  {
+    "id": 7,
+    "category": "fisico",
+    "image": "short-tall.png",
+    "maleText": "È più basso del previsto.",
+    "femaleText": "È più bassa del previsto."
+  },
+  {
+    "id": 8,
+    "category": "fisico",
+    "image": "very-tall.png",
+    "maleText": "È alto due metri.",
+    "femaleText": "È alta due metri."
+  },
+  {
+    "id": 9,
+    "category": "abitudini",
+    "image": "burp-fart.png",
+    "maleText": "Rutta forte e scorreggia in pubblico.",
+    "femaleText": "Rutta forte e scorreggia in pubblico."
+  },
+  {
+    "id": 10,
+    "category": "abitudini",
+    "image": "loud-eater.png",
+    "maleText": "Mangia facendo troppo rumore.",
+    "femaleText": "Mangia facendo troppo rumore."
+  },
+  {
+    "id": 11,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Fuma come un turco.",
+    "femaleText": "Fuma come un turco."
+  },
+  {
+    "id": 12,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Fuma IQOS.",
+    "femaleText": "Fuma IQOS."
+  },
+  {
+    "id": 13,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "È sempre in ritardo.",
+    "femaleText": "È sempre in ritardo."
+  },
+  {
+    "id": 14,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Non chiama mai per prenotare.",
+    "femaleText": "Non chiama mai per prenotare."
+  },
+  {
+    "id": 15,
+    "category": "igiene",
+    "image": "default.png",
+    "maleText": "Lascia il bagno sporco.",
+    "femaleText": "Lascia il bagno sporco."
+  },
+  {
+    "id": 16,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Lascia sempre i piatti nel lavandino.",
+    "femaleText": "Lascia sempre i piatti nel lavandino."
+  },
+  {
+    "id": 17,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "È ossessionato dalla conservazione dei cibi.",
+    "femaleText": "È ossessionata dalla conservazione dei cibi."
+  },
+  {
+    "id": 18,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "È ossessionato dalla pulizia della casa.",
+    "femaleText": "È ossessionata dalla pulizia della casa."
+  },
+  {
+    "id": 19,
+    "category": "igiene",
+    "image": "default.png",
+    "maleText": "Ha poca cura dell'igiene personale.",
+    "femaleText": "Ha poca cura dell'igiene personale."
+  },
+  {
+    "id": 20,
+    "category": "fisico",
+    "image": "default.png",
+    "maleText": "Ha sempre il moccio al naso.",
+    "femaleText": "Ha sempre il moccio al naso."
+  },
+  {
+    "id": 21,
+    "category": "fisico",
+    "image": "default.png",
+    "maleText": "Ha unghie lunghissime e finte.",
+    "femaleText": "Ha unghie lunghissime e finte."
+  },
+  {
+    "id": 22,
+    "category": "fisico",
+    "image": "default.png",
+    "maleText": "Ha molti tatuaggi in faccia.",
+    "femaleText": "Ha molti tatuaggi in faccia."
+  },
+  {
+    "id": 23,
+    "category": "stile",
+    "image": "default.png",
+    "maleText": "Indossa solo magliette di Che Guevara.",
+    "femaleText": "Indossa solo magliette di Che Guevara."
+  },
+  {
+    "id": 24,
+    "category": "stile",
+    "image": "default.png",
+    "maleText": "È nudista.",
+    "femaleText": "È nudista."
+  },
+  {
+    "id": 25,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Beve solo bibite gassate e mai acqua.",
+    "femaleText": "Beve solo bibite gassate e mai acqua."
+  },
+  {
+    "id": 26,
+    "category": "igiene",
+    "image": "default.png",
+    "maleText": "Si scaccola continuamente.",
+    "femaleText": "Si scaccola continuamente."
+  },
+  {
+    "id": 27,
+    "category": "fisico",
+    "image": "default.png",
+    "maleText": "Gli manca un incisivo.",
+    "femaleText": "Le manca un incisivo."
+  },
+  {
+    "id": 28,
+    "category": "fisico",
+    "image": "default.png",
+    "maleText": "È balbuziente.",
+    "femaleText": "È balbuziente."
+  },
+  {
+    "id": 29,
+    "category": "fisico",
+    "image": "default.png",
+    "maleText": "Ha un neo molto peloso sul volto.",
+    "femaleText": "Ha un neo molto peloso sul volto."
+  },
+  {
+    "id": 30,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Ha incidenti imbarazzanti in pubblico.",
+    "femaleText": "Ha incidenti imbarazzanti in pubblico."
+  },
+  {
+    "id": 31,
+    "category": "fisico",
+    "image": "default.png",
+    "maleText": "Ha troppo filler.",
+    "femaleText": "Ha troppo filler."
+  },
+  {
+    "id": 32,
+    "category": "fisico",
+    "image": "default.png",
+    "maleText": "Ha una caratteristica fisica che ti spiazza.",
+    "femaleText": "Ha una caratteristica fisica che ti spiazza."
+  },
+  {
+    "id": 33,
+    "category": "stile",
+    "image": "default.png",
+    "maleText": "Indossa solo scarpe rosse.",
+    "femaleText": "Indossa solo scarpe rosse."
+  },
+  {
+    "id": 34,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "È sonnambulo.",
+    "femaleText": "È sonnambula."
+  },
+  {
+    "id": 35,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Non ama farsi foto.",
+    "femaleText": "Non ama farsi foto."
+  },
+  {
+    "id": 36,
+    "category": "igiene",
+    "image": "default.png",
+    "maleText": "Non si lava mai i piedi prima di andare a letto.",
+    "femaleText": "Non si lava mai i piedi prima di andare a letto."
+  },
+  {
+    "id": 37,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "È super disordinato.",
+    "femaleText": "È super disordinata."
+  },
+  {
+    "id": 38,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Non canta mai ad alta voce.",
+    "femaleText": "Non canta mai ad alta voce."
+  },
+  {
+    "id": 39,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Mangia solo un tipo di pasta.",
+    "femaleText": "Mangia solo un tipo di pasta."
+  },
+  {
+    "id": 40,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Non mangia mai il sugo.",
+    "femaleText": "Non mangia mai il sugo."
+  },
+  {
+    "id": 41,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Odia l'aria condizionata anche con 40 gradi.",
+    "femaleText": "Odia l'aria condizionata anche con 40 gradi."
+  },
+  {
+    "id": 42,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ha paura dei palloncini.",
+    "femaleText": "Ha paura dei palloncini."
+  },
+  {
+    "id": 43,
+    "category": "lavoro",
+    "image": "default.png",
+    "maleText": "È agente immobiliare.",
+    "femaleText": "È agente immobiliare."
+  },
+  {
+    "id": 44,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È una pippa.",
+    "femaleText": "È una pippa."
+  },
+  {
+    "id": 45,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Ama l'ICE.",
+    "femaleText": "Ama l'ICE."
+  },
+  {
+    "id": 46,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Fa sempre cosplay.",
+    "femaleText": "Fa sempre cosplay."
+  },
+  {
+    "id": 47,
+    "category": "fisico",
+    "image": "default.png",
+    "maleText": "Soffre il mal di mare o il mal di macchina.",
+    "femaleText": "Soffre il mal di mare o il mal di macchina."
+  },
+  {
+    "id": 48,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Non sa cucinare.",
+    "femaleText": "Non sa cucinare."
+  },
+  {
+    "id": 49,
+    "category": "gusti",
+    "image": "default.png",
+    "maleText": "Ascolta solo neomelodico.",
+    "femaleText": "Ascolta solo neomelodico."
+  },
+  {
+    "id": 50,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Non guida.",
+    "femaleText": "Non guida."
+  },
+  {
+    "id": 51,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Non ha la patente.",
+    "femaleText": "Non ha la patente."
+  },
+  {
+    "id": 52,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "È ossessionato dalle armi.",
+    "femaleText": "È ossessionata dalle armi."
+  },
+  {
+    "id": 53,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Gioca a Magic.",
+    "femaleText": "Gioca a Magic."
+  },
+  {
+    "id": 54,
+    "category": "stile",
+    "image": "default.png",
+    "maleText": "Indossa magliette dei Pokémon.",
+    "femaleText": "Indossa magliette dei Pokémon."
+  },
+  {
+    "id": 55,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Colleziona figurine Pokémon.",
+    "femaleText": "Colleziona figurine Pokémon."
+  },
+  {
+    "id": 56,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non esce mai.",
+    "femaleText": "Non esce mai."
+  },
+  {
+    "id": 57,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non vuole mai uscire.",
+    "femaleText": "Non vuole mai uscire."
+  },
+  {
+    "id": 58,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Passa tutto il tempo in palestra.",
+    "femaleText": "Passa tutto il tempo in palestra."
+  },
+  {
+    "id": 59,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Frequenta ACR.",
+    "femaleText": "Frequenta ACR."
+  },
+  {
+    "id": 60,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È scout.",
+    "femaleText": "È scout."
+  },
+  {
+    "id": 61,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Va ai rave.",
+    "femaleText": "Va ai rave."
+  },
+  {
+    "id": 62,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Elon Musk è il suo idolo.",
+    "femaleText": "Elon Musk è il suo idolo."
+  },
+  {
+    "id": 63,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non ha passioni.",
+    "femaleText": "Non ha passioni."
+  },
+  {
+    "id": 64,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non ama giocare a nulla.",
+    "femaleText": "Non ama giocare a nulla."
+  },
+  {
+    "id": 65,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Va a pesca.",
+    "femaleText": "Va a pesca."
+  },
+  {
+    "id": 66,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Parla solo di università o lavoro.",
+    "femaleText": "Parla solo di università o lavoro."
+  },
+  {
+    "id": 67,
+    "category": "gusti",
+    "image": "default.png",
+    "maleText": "La sua città preferita è Milano.",
+    "femaleText": "La sua città preferita è Milano."
+  },
+  {
+    "id": 68,
+    "category": "gusti",
+    "image": "default.png",
+    "maleText": "Il suo artista preferito è Olly.",
+    "femaleText": "Il suo artista preferito è Olly."
+  },
+  {
+    "id": 69,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Parla solo di calcio.",
+    "femaleText": "Parla solo di calcio."
+  },
+  {
+    "id": 70,
+    "category": "gusti",
+    "image": "default.png",
+    "maleText": "Guarda solo reality show.",
+    "femaleText": "Guarda solo reality show."
+  },
+  {
+    "id": 71,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Va solo in bicicletta.",
+    "femaleText": "Va solo in bicicletta."
+  },
+  {
+    "id": 72,
+    "category": "gusti",
+    "image": "default.png",
+    "maleText": "È interista sfegatato.",
+    "femaleText": "È interista sfegatata."
+  },
+  {
+    "id": 73,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Va a caccia.",
+    "femaleText": "Va a caccia."
+  },
+  {
+    "id": 74,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È estremamente tirchio.",
+    "femaleText": "È estremamente tirchia."
+  },
+  {
+    "id": 75,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È figlio di papà.",
+    "femaleText": "È figlia di papà."
+  },
+  {
+    "id": 76,
+    "category": "lavoro",
+    "image": "default.png",
+    "maleText": "Lavora in una Big Four.",
+    "femaleText": "Lavora in una Big Four."
+  },
+  {
+    "id": 77,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È di Cerignola.",
+    "femaleText": "È di Cerignola."
+  },
+  {
+    "id": 78,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Parla solo dialetto stretto.",
+    "femaleText": "Parla solo dialetto stretto."
+  },
+  {
+    "id": 79,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Quando si arrabbia parla solo in dialetto.",
+    "femaleText": "Quando si arrabbia parla solo in dialetto."
+  },
+  {
+    "id": 80,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non balla mai.",
+    "femaleText": "Non balla mai."
+  },
+  {
+    "id": 81,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Ordina Glovo quando diluvia.",
+    "femaleText": "Ordina Glovo quando diluvia."
+  },
+  {
+    "id": 82,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È troppo paesano.",
+    "femaleText": "È troppo paesana."
+  },
+  {
+    "id": 83,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Guida malissimo.",
+    "femaleText": "Guida malissimo."
+  },
+  {
+    "id": 84,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Guida in maniera spericolata.",
+    "femaleText": "Guida in maniera spericolata."
+  },
+  {
+    "id": 85,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Era destinato a diventare un calciatore professionista.",
+    "femaleText": "Era destinata a diventare una calciatrice professionista."
+  },
+  {
+    "id": 86,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È ipocondriaco.",
+    "femaleText": "È ipocondriaca."
+  },
+  {
+    "id": 87,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È uno scroccone.",
+    "femaleText": "È una scroccona."
+  },
+  {
+    "id": 88,
+    "category": "gusti",
+    "image": "default.png",
+    "maleText": "La sua serie preferita è Mare Fuori.",
+    "femaleText": "La sua serie preferita è Mare Fuori."
+  },
+  {
+    "id": 89,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Vuole iscriversi a Uomini e Donne.",
+    "femaleText": "Vuole iscriversi a Uomini e Donne."
+  },
+  {
+    "id": 90,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È un gattaro.",
+    "femaleText": "È una gattara."
+  },
+  {
+    "id": 91,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Ti rimprovera quando mangi schifezze.",
+    "femaleText": "Ti rimprovera quando mangi schifezze."
+  },
+  {
+    "id": 92,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Organizza tornei sportivi.",
+    "femaleText": "Organizza tornei sportivi."
+  },
+  {
+    "id": 93,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Odia viaggiare.",
+    "femaleText": "Odia viaggiare."
+  },
+  {
+    "id": 94,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ha paura dell'aereo.",
+    "femaleText": "Ha paura dell'aereo."
+  },
+  {
+    "id": 95,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Odia il mare.",
+    "femaleText": "Odia il mare."
+  },
+  {
+    "id": 96,
+    "category": "gusti",
+    "image": "default.png",
+    "maleText": "Preferisce Ianus a Ekoine.",
+    "femaleText": "Preferisce Ianus a Ekoine."
+  },
+  {
+    "id": 97,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ha la villa a Rosamarina.",
+    "femaleText": "Ha la villa a Rosamarina."
+  },
+  {
+    "id": 98,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ha la terza media.",
+    "femaleText": "Ha la terza media."
+  },
+  {
+    "id": 99,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ruba cose senza motivo.",
+    "femaleText": "Ruba cose senza motivo."
+  },
+  {
+    "id": 100,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Odia gli animali.",
+    "femaleText": "Odia gli animali."
+  },
+  {
+    "id": 101,
+    "category": "gusti",
+    "image": "default.png",
+    "maleText": "Odia la Disney.",
+    "femaleText": "Odia la Disney."
+  },
+  {
+    "id": 102,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È scaramantico.",
+    "femaleText": "È scaramantica."
+  },
+  {
+    "id": 103,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Compra troppe action figure.",
+    "femaleText": "Compra troppe action figure."
+  },
+  {
+    "id": 104,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Chiama tutti \"amo\".",
+    "femaleText": "Chiama tutti \"amo\"."
+  },
+  {
+    "id": 105,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Ha sempre il telefono scarico.",
+    "femaleText": "Ha sempre il telefono scarico."
+  },
+  {
+    "id": 106,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Sta sempre al telefono.",
+    "femaleText": "Sta sempre al telefono."
+  },
+  {
+    "id": 107,
+    "category": "hobby",
+    "image": "default.png",
+    "maleText": "Gioca a Fortnite.",
+    "femaleText": "Gioca a Fortnite."
+  },
+  {
+    "id": 108,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ha già un figlio.",
+    "femaleText": "Ha già un figlio."
+  },
+  {
+    "id": 109,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ha un figlio con l'ex.",
+    "femaleText": "Ha un figlio con l'ex."
+  },
+  {
+    "id": 110,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ha divorziato due volte.",
+    "femaleText": "Ha divorziato due volte."
+  },
+  {
+    "id": 111,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Ha le storie in evidenza con le bandierine.",
+    "femaleText": "Ha le storie in evidenza con le bandierine."
+  },
+  {
+    "id": 112,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Dice sempre che la mamma cucina meglio.",
+    "femaleText": "Dice sempre che la mamma cucina meglio."
+  },
+  {
+    "id": 113,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Dice che il cane è suo figlio.",
+    "femaleText": "Dice che il cane è suo figlio."
+  },
+  {
+    "id": 114,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Sputa sui cani e sui gatti.",
+    "femaleText": "Sputa sui cani e sui gatti."
+  },
+  {
+    "id": 115,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Vuole diventare famoso a tutti i costi.",
+    "femaleText": "Vuole diventare famosa a tutti i costi."
+  },
+  {
+    "id": 116,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Odia la natura.",
+    "femaleText": "Odia la natura."
+  },
+  {
+    "id": 117,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Odia la musica.",
+    "femaleText": "Odia la musica."
+  },
+  {
+    "id": 118,
+    "category": "lavoro",
+    "image": "default.png",
+    "maleText": "Lavora nelle fogne.",
+    "femaleText": "Lavora nelle fogne."
+  },
+  {
+    "id": 119,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Parla solo di ponti.",
+    "femaleText": "Parla solo di ponti."
+  },
+  {
+    "id": 120,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ha una madre troppo controllante.",
+    "femaleText": "Ha una madre troppo controllante."
+  },
+  {
+    "id": 121,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Vuole fare sempre tutto con la famiglia.",
+    "femaleText": "Vuole fare sempre tutto con la famiglia."
+  },
+  {
+    "id": 122,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Odia leggere.",
+    "femaleText": "Odia leggere."
+  },
+  {
+    "id": 123,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non riesce mai a riposarsi.",
+    "femaleText": "Non riesce mai a riposarsi."
+  },
+  {
+    "id": 124,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Parla solo di orologi.",
+    "femaleText": "Parla solo di orologi."
+  },
+  {
+    "id": 125,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Durante i viaggi deve vedere per forza cose noiosissime.",
+    "femaleText": "Durante i viaggi deve vedere per forza cose noiosissime."
+  },
+  {
+    "id": 126,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È maleducato.",
+    "femaleText": "È maleducata."
+  },
+  {
+    "id": 127,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È super competitivo.",
+    "femaleText": "È super competitiva."
+  },
+  {
+    "id": 128,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non gli piacciono gli sport.",
+    "femaleText": "Non le piacciono gli sport."
+  },
+  {
+    "id": 129,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Non ti fa mai assaggiare il suo piatto.",
+    "femaleText": "Non ti fa mai assaggiare il suo piatto."
+  },
+  {
+    "id": 130,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Deve guardare YouTube prima di dormire.",
+    "femaleText": "Deve guardare YouTube prima di dormire."
+  },
+  {
+    "id": 131,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Lascia sempre le sveglie attive.",
+    "femaleText": "Lascia sempre le sveglie attive."
+  },
+  {
+    "id": 132,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non sa cosa vuole fare nella vita.",
+    "femaleText": "Non sa cosa vuole fare nella vita."
+  },
+  {
+    "id": 133,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Si lamenta sempre ma non cambia mai nulla.",
+    "femaleText": "Si lamenta sempre ma non cambia mai nulla."
+  },
+  {
+    "id": 134,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Suona la batteria quando gli va.",
+    "femaleText": "Suona la batteria quando le va."
+  },
+  {
+    "id": 135,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non gli piacciono i tramonti.",
+    "femaleText": "Non le piacciono i tramonti."
+  },
+  {
+    "id": 136,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Odia la montagna.",
+    "femaleText": "Odia la montagna."
+  },
+  {
+    "id": 137,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È egoriferito.",
+    "femaleText": "È egoriferita."
+  },
+  {
+    "id": 138,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non vuole mai vedere film o serie.",
+    "femaleText": "Non vuole mai vedere film o serie."
+  },
+  {
+    "id": 139,
+    "category": "gusti",
+    "image": "default.png",
+    "maleText": "Odia il tuo cantante preferito.",
+    "femaleText": "Odia il tuo cantante preferito."
+  },
+  {
+    "id": 140,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non vuole mai invitare nessuno a casa.",
+    "femaleText": "Non vuole mai invitare nessuno a casa."
+  },
+  {
+    "id": 141,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Procrastina sempre.",
+    "femaleText": "Procrastina sempre."
+  },
+  {
+    "id": 142,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Va a correre ogni giorno anche in vacanza.",
+    "femaleText": "Va a correre ogni giorno anche in vacanza."
+  },
+  {
+    "id": 143,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Non fa la raccolta differenziata.",
+    "femaleText": "Non fa la raccolta differenziata."
+  },
+  {
+    "id": 144,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ha un serpente come animale domestico.",
+    "femaleText": "Ha un serpente come animale domestico."
+  },
+  {
+    "id": 145,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Si vanta continuamente.",
+    "femaleText": "Si vanta continuamente."
+  },
+  {
+    "id": 146,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Non tifa mai per la tua squadra.",
+    "femaleText": "Non tifa mai per la tua squadra."
+  },
+  {
+    "id": 147,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Usa l'oroscopo per decidere cose importanti.",
+    "femaleText": "Usa l'oroscopo per decidere cose importanti."
+  },
+  {
+    "id": 148,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "È sempre online ma risponde dopo giorni.",
+    "femaleText": "È sempre online ma risponde dopo giorni."
+  },
+  {
+    "id": 149,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Lavora sempre anche in vacanza.",
+    "femaleText": "Lavora sempre anche in vacanza."
+  },
+  {
+    "id": 150,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ride solo alle sue battute.",
+    "femaleText": "Ride solo alle sue battute."
+  },
+  {
+    "id": 151,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Dimentica sempre le date importanti.",
+    "femaleText": "Dimentica sempre le date importanti."
+  },
+  {
+    "id": 152,
+    "category": "abitudini",
+    "image": "default.png",
+    "maleText": "Passa più tempo a fare stories che a vivere il momento.",
+    "femaleText": "Passa più tempo a fare stories che a vivere il momento."
+  },
+  {
+    "id": 153,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Fa battute squallide.",
+    "femaleText": "Fa battute squallide."
+  },
+  {
+    "id": 154,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Vota Forza Italia.",
+    "femaleText": "Vota Forza Italia."
+  },
+  {
+    "id": 155,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Ti controlla il telefono.",
+    "femaleText": "Ti controlla il telefono."
+  },
+  {
+    "id": 156,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È ancora amico di tutte le ex.",
+    "femaleText": "È ancora amica di tutti gli ex."
+  },
+  {
+    "id": 157,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "Appartiene.",
+    "femaleText": "Appartiene."
+  },
+  {
+    "id": 158,
+    "category": "personalita",
+    "image": "default.png",
+    "maleText": "È antisemita.",
+    "femaleText": "È antisemita."
+  }
+]
