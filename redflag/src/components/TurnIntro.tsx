@@ -3,6 +3,7 @@ import { Hand, XCircle } from 'lucide-react';
 import type { Player } from '../types';
 import { STAGES } from '../config';
 import ProgressBar from './ProgressBar';
+import ConfirmModal from './ConfirmModal';
 
 interface TurnIntroProps {
   player: Player;
@@ -12,6 +13,7 @@ interface TurnIntroProps {
 
 export default function TurnIntro({ player, onReady, onEndGame }: TurnIntroProps) {
   const [visible, setVisible] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const stage = STAGES[player.currentStageIndex];
 
   useEffect(() => {
@@ -126,7 +128,7 @@ export default function TurnIntro({ player, onReady, onEndGame }: TurnIntroProps
       {/* End game */}
       <div style={{ paddingBottom: 8 }}>
         <button
-          onClick={onEndGame}
+          onClick={() => setShowConfirm(true)}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -144,6 +146,14 @@ export default function TurnIntro({ player, onReady, onEndGame }: TurnIntroProps
           Termina partita
         </button>
       </div>
+
+      {showConfirm && (
+        <ConfirmModal
+          message="Sei sicuro di voler terminare la partita?"
+          onConfirm={onEndGame}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
     </div>
   );
 }

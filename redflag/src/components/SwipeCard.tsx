@@ -4,6 +4,7 @@ import { Heart, HeartCrack, Flag, MapPin, XCircle, History, X } from 'lucide-rea
 import type { Turn, Player } from '../types';
 import { MAX_ACCEPT_PER_TURN } from '../config';
 import ProgressBar from './ProgressBar';
+import ConfirmModal from './ConfirmModal';
 import { playSwipeAccept, playSwipeReject, playFlipReveal } from '../utils/sounds';
 
 const illustrationModules = import.meta.glob('../assets/illustration/*.png', { eager: true, import: 'default' }) as Record<string, string>;
@@ -45,6 +46,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
   const [exitDir, setExitDir] = useState<'left' | 'right' | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const [cardEnter, setCardEnter] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const startX = useRef(0);
   const redFlagText = turn.partner.gender === 'male'
@@ -459,7 +461,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
 
       {/* End game */}
       <button
-        onClick={onEndGame}
+        onClick={() => setShowConfirm(true)}
         style={{
           marginTop: 12,
           display: 'flex',
@@ -554,6 +556,14 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
             </div>
           </div>
         </div>
+      )}
+
+      {showConfirm && (
+        <ConfirmModal
+          message="Sei sicuro di voler terminare la partita?"
+          onConfirm={onEndGame}
+          onCancel={() => setShowConfirm(false)}
+        />
       )}
     </div>
   );
