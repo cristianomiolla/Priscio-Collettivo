@@ -98,7 +98,7 @@ export default function RedFlagHistory({ player, onClose }: RedFlagHistoryProps)
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#16A34A', fontWeight: 600 }}>
             <Heart size={14} fill="#4ADE80" color="#4ADE80" />
-            <span>{accepted.length} accettate</span>
+            <span>{accepted.filter((af) => af.flag.category !== 'green').length} accettate</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#DC2626', fontWeight: 600 }}>
             <HeartCrack size={14} />
@@ -114,15 +114,17 @@ export default function RedFlagHistory({ player, onClose }: RedFlagHistoryProps)
             </p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {accepted.map((flag, i) => {
-                const stage = STAGES[i];
+              {accepted.map((af, i) => {
+                const isGreen = af.flag.category === 'green';
+                const stage = isGreen ? null : STAGES[af.stageIndex];
                 return (
                   <div
-                    key={`${flag.id}-${i}`}
+                    key={`${af.flag.id}-${i}`}
                     style={{
-                      background: '#F9FAFB',
+                      background: isGreen ? 'rgba(74,222,128,0.08)' : '#F9FAFB',
                       borderRadius: 16,
                       padding: '12px 16px',
+                      border: isGreen ? '1px solid rgba(74,222,128,0.2)' : 'none',
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
@@ -140,14 +142,14 @@ export default function RedFlagHistory({ player, onClose }: RedFlagHistoryProps)
                           {stage.emoji} {stage.label}
                         </span>
                       )}
-                      <span style={{ marginLeft: 'auto', fontSize: 10, color: '#9CA3AF', fontWeight: 500 }}>
-                        🚩 {flag.category}
+                      <span style={{ marginLeft: 'auto', fontSize: 10, color: isGreen ? '#16A34A' : '#9CA3AF', fontWeight: 500 }}>
+                        {isGreen ? '💚 green flag' : `🚩 ${af.flag.category}`}
                       </span>
                     </div>
-                    <p style={{ fontSize: 13, color: '#374151', lineHeight: 1.5, margin: 0 }}>
+                    <p style={{ fontSize: 13, color: isGreen ? '#16A34A' : '#374151', lineHeight: 1.5, margin: 0 }}>
                       {player.partnerGender === 'female'
-                        ? flag.femaleText
-                        : flag.maleText}
+                        ? af.flag.femaleText
+                        : af.flag.maleText}
                     </p>
                   </div>
                 );

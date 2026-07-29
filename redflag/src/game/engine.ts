@@ -145,7 +145,7 @@ export function acceptFlag(state: GameState): GameState {
 
     return {
       ...p,
-      acceptedFlags: [...p.acceptedFlags, turn.redFlag],
+      acceptedFlags: [...p.acceptedFlags, { flag: turn.redFlag, stageIndex: p.currentStageIndex }],
       totalAttempts: p.totalAttempts + 1,
       currentStageIndex: p.currentStageIndex + 1,
       currentPartnerName: turn.partner.name,
@@ -254,7 +254,11 @@ export function acceptGreenFlag(state: GameState): GameState {
 
     return {
       ...p,
-      acceptedFlags: [...p.acceptedFlags, originalTurn.redFlag, greenFlag],
+      acceptedFlags: [
+        ...p.acceptedFlags,
+        { flag: originalTurn.redFlag, stageIndex: p.currentStageIndex },
+        { flag: greenFlag, stageIndex: -1 },
+      ],
       totalAttempts: p.totalAttempts + 1,
       currentStageIndex: p.currentStageIndex + 1,
       currentPartnerName: originalTurn.partner.name,
@@ -413,7 +417,7 @@ function assignBadges(player: Player): Badge[] {
   }
 
   // Accepted the worst categories
-  const igieneCount = player.acceptedFlags.filter((f) => f.category === 'igiene').length;
+  const igieneCount = player.acceptedFlags.filter((af) => af.flag.category === 'igiene').length;
   if (igieneCount >= 2) {
     badges.push({
       icon: '🤢',
@@ -423,7 +427,7 @@ function assignBadges(player: Player): Badge[] {
   }
 
   // Got a green flag
-  const greenCount = player.acceptedFlags.filter((f) => f.category === 'green').length;
+  const greenCount = player.acceptedFlags.filter((af) => af.flag.category === 'green').length;
   if (greenCount > 0) {
     badges.push({
       icon: '🍀',
@@ -433,8 +437,9 @@ function assignBadges(player: Player): Badge[] {
   }
 
   // Low rejection count relative to attempts
+  const redFlagCount = player.acceptedFlags.filter((af) => af.flag.category !== 'green').length;
   const acceptRate = player.totalAttempts > 0
-    ? (player.acceptedFlags.length / player.totalAttempts) * 100
+    ? (redFlagCount / player.totalAttempts) * 100
     : 0;
   if (acceptRate >= 80 && player.totalAttempts >= NUM_STAGES) {
     badges.push({
@@ -449,13 +454,14 @@ function assignBadges(player: Player): Badge[] {
 
 export function calculateStatistics(players: Player[]): PlayerStatistics[] {
   return players.map((player) => {
+    const redFlagCount = player.acceptedFlags.filter((af) => af.flag.category !== 'green').length;
     const acceptRate = player.totalAttempts > 0
-      ? (player.acceptedFlags.length / player.totalAttempts) * 100
+      ? (redFlagCount / player.totalAttempts) * 100
       : 0;
 
     return {
       player,
-      acceptedCount: player.acceptedFlags.length,
+      acceptedCount: redFlagCount,
       rejectedCount: player.rejectedCount,
       totalAttempts: player.totalAttempts,
       acceptRate: Math.round(acceptRate),

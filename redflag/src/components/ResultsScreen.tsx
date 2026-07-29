@@ -1,9 +1,20 @@
 import { useEffect, useState, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Trophy, Heart, HeartCrack, Flag, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
-import type { PlayerStatistics } from '../types';
+import type { PlayerStatistics, AcceptedFlag } from '../types';
 import { STAGES } from '../config';
 import { playResults } from '../utils/sounds';
+
+function getFinalPartnerFlags(flags: AcceptedFlag[]): AcceptedFlag[] {
+  let startIdx = flags.length - 1;
+  for (let i = flags.length - 1; i >= 0; i--) {
+    if (flags[i].flag.category !== 'green' && flags[i].stageIndex === 0) {
+      startIdx = i;
+      break;
+    }
+  }
+  return flags.slice(startIdx);
+}
 
 interface ResultsScreenProps {
   statistics: PlayerStatistics[];
@@ -223,25 +234,27 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
             </div>
           )}
 
-          {/* Accepted red flags */}
-          {stat.player.acceptedFlags.length > 0 && (
+          {/* Red flags of the final partner only */}
+          {getFinalPartnerFlags(stat.player.acceptedFlags).length > 0 && (
             <div style={{ padding: '0 20px 20px' }}>
               <p style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>
-                Red Flag accettate
+                Red Flag del partner finale
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {stat.player.acceptedFlags.map((flag, i) => {
-                  const stage = STAGES[i];
+                {getFinalPartnerFlags(stat.player.acceptedFlags).map((af, i) => {
+                  const isGreen = af.flag.category === 'green';
+                  const stage = isGreen ? null : STAGES[af.stageIndex];
                   const text = stat.player.partnerGender === 'female'
-                    ? flag.femaleText
-                    : flag.maleText;
+                    ? af.flag.femaleText
+                    : af.flag.maleText;
                   return (
                     <div
-                      key={`${flag.id}-${i}`}
+                      key={`${af.flag.id}-${i}`}
                       style={{
-                        background: '#F9FAFB',
+                        background: isGreen ? 'rgba(74,222,128,0.08)' : '#F9FAFB',
                         borderRadius: 16,
                         padding: '12px 16px',
+                        border: isGreen ? '1px solid rgba(74,222,128,0.2)' : 'none',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
@@ -259,11 +272,11 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
                             {stage.emoji} {stage.label}
                           </span>
                         )}
-                        <span style={{ marginLeft: 'auto', fontSize: 10, color: '#9CA3AF', fontWeight: 500 }}>
-                          🚩 {flag.category}
+                        <span style={{ marginLeft: 'auto', fontSize: 10, color: isGreen ? '#16A34A' : '#9CA3AF', fontWeight: 500 }}>
+                          {isGreen ? '💚 green flag' : `🚩 ${af.flag.category}`}
                         </span>
                       </div>
-                      <p style={{ fontSize: 13, color: '#374151', lineHeight: 1.5, margin: 0 }}>{text}</p>
+                      <p style={{ fontSize: 13, color: isGreen ? '#16A34A' : '#374151', lineHeight: 1.5, margin: 0 }}>{text}</p>
                     </div>
                   );
                 })}

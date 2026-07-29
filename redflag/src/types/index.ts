@@ -10,11 +10,16 @@ export interface RedFlag {
   femaleText: string;
 }
 
+export interface AcceptedFlag {
+  flag: RedFlag;
+  stageIndex: number;
+}
+
 export interface Player {
   id: string;
   name: string;
   partnerGender: Gender;
-  acceptedFlags: RedFlag[];
+  acceptedFlags: AcceptedFlag[];
   rejectedCount: number;
   totalAttempts: number;
   currentStageIndex: number;
