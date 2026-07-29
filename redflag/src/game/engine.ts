@@ -784,8 +784,10 @@ export function calculateStatistics(players: Player[]): PlayerStatistics[] {
 // --- LocalStorage persistence ---
 
 const STORAGE_KEY = 'redflag-game-state';
+const STORAGE_VERSION = 2;
 
 interface SerializedGameState {
+  version?: number;
   screen: string;
   players: Array<Omit<Player, 'usedFlagIds'> & { usedFlagIds: number[] }>;
   currentPlayerIndex: number;
@@ -803,6 +805,7 @@ export function saveGameState(state: GameState): void {
   }
 
   const serialized: SerializedGameState = {
+    version: STORAGE_VERSION,
     screen: state.screen,
     players: state.players.map((p) => ({
       ...p,
@@ -828,6 +831,12 @@ export function loadGameState(): GameState | null {
     if (!raw) return null;
 
     const data: SerializedGameState = JSON.parse(raw);
+
+    // Discard saved state from incompatible older versions
+    if (data.version !== STORAGE_VERSION) {
+      localStorage.removeItem(STORAGE_KEY);
+      return null;
+    }
 
     return {
       screen: data.screen as GameState['screen'],
