@@ -108,7 +108,7 @@ export default function GreenFlagOffer({ offer, player, onAccept, onReject }: Gr
           {/* Message */}
           <div style={{ padding: '24px 24px 8px', textAlign: 'center' }}>
             <p style={{ fontSize: 13, color: '#6B7280', fontWeight: 600, margin: '0 0 12px', textTransform: 'uppercase', letterSpacing: 0.5 }}>
-              Ultima possibilit\u00E0!
+              Green Flag!
             </p>
             <p style={{ fontSize: 17, color: '#1A1A2E', fontWeight: 500, lineHeight: 1.5, margin: 0 }}>
               {flagText}
@@ -166,7 +166,7 @@ export default function GreenFlagOffer({ offer, player, onAccept, onReject }: Gr
         {/* Hint */}
         <div style={{ textAlign: 'center', marginTop: 12 }}>
           <p style={{ fontSize: 12, color: '#9CA3AF', margin: 0, fontWeight: 500 }}>
-            \u2190 Rifiuta \u00A0\u00A0\u00A0 Accetta \u2192
+            ← Rifiuta &nbsp;&nbsp;&nbsp; Accetta →
           </p>
         </div>
       </div>
