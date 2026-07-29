@@ -1,5 +1,5 @@
-import type { Player, Partner, RedFlag, GameState, Turn, Gender, PlayerStatistics, Badge } from '../types';
-import { NUM_STAGES, GREEN_FLAG_CHANCE, MAX_ACCEPT_PER_TURN } from '../config';
+import type { Player, Partner, RedFlag, GameState, Turn, Gender, PlayerStatistics, Badge, RejectedPartner } from '../types';
+import { NUM_STAGES, GREEN_FLAG_CHANCE, MAX_ACCEPT_PER_TURN, EX_PARTNER_CHANCE } from '../config';
 import nomiMaschili from '../data/nomi_maschili.json';
 import nomiFemminili from '../data/nomi_femminili.json';
 import redflagsData from '../data/redflags.json';
@@ -9,12 +9,21 @@ const allRedFlags: RedFlag[] = redflagsData as RedFlag[];
 // --- Green flags (positive traits shown with 5% chance) ---
 
 const greenFlags: RedFlag[] = [
-  { id: 9000, category: 'green', image: '', maleText: 'Ti prepara la colazione a letto ogni mattina', femaleText: 'Ti prepara la colazione a letto ogni mattina' },
-  { id: 9001, category: 'green', image: '', maleText: 'Si ricorda sempre i tuoi anniversari', femaleText: 'Si ricorda sempre i tuoi anniversari' },
-  { id: 9002, category: 'green', image: '', maleText: 'Ti manda meme divertenti durante la giornata', femaleText: 'Ti manda meme divertenti durante la giornata' },
-  { id: 9003, category: 'green', image: '', maleText: 'Adora cucinare per te', femaleText: 'Adora cucinare per te' },
-  { id: 9004, category: 'green', image: '', maleText: 'Va d\'accordo con la tua famiglia', femaleText: 'Va d\'accordo con la tua famiglia' },
-  { id: 9005, category: 'green', image: '', maleText: 'Ti ascolta sempre senza giudicare', femaleText: 'Ti ascolta sempre senza giudicare' },
+  { id: 9000, category: 'green', image: '', maleText: 'È molto ricco', femaleText: 'È molto ricca' },
+  { id: 9001, category: 'green', image: '', maleText: 'È un cuoco stellato', femaleText: 'È una cuoca stellata' },
+  { id: 9002, category: 'green', image: '', maleText: 'Ha un attico in centro', femaleText: 'Ha un attico in centro' },
+  { id: 9003, category: 'green', image: '', maleText: 'Ti porta in vacanza ogni mese', femaleText: 'Ti porta in vacanza ogni mese' },
+  { id: 9004, category: 'green', image: '', maleText: 'Ha il fisico di un modello', femaleText: 'Ha il fisico di una modella' },
+  { id: 9005, category: 'green', image: '', maleText: 'I suoi amici ti adorano', femaleText: 'Le sue amiche ti adorano' },
+  { id: 9006, category: 'green', image: '', maleText: 'Non guarda mai il telefono quando state insieme', femaleText: 'Non guarda mai il telefono quando state insieme' },
+  { id: 9007, category: 'green', image: '', maleText: 'Ti difende sempre davanti agli altri', femaleText: 'Ti difende sempre davanti agli altri' },
+  { id: 9008, category: 'green', image: '', maleText: 'Ha un senso dell\'umorismo pazzesco', femaleText: 'Ha un senso dell\'umorismo pazzesco' },
+  { id: 9009, category: 'green', image: '', maleText: 'Ti fa i massaggi senza che tu lo chieda', femaleText: 'Ti fa i massaggi senza che tu lo chieda' },
+  { id: 9010, category: 'green', image: '', maleText: 'Ha la macchina dei tuoi sogni', femaleText: 'Ha la macchina dei tuoi sogni' },
+  { id: 9011, category: 'green', image: '', maleText: 'Ti organizza sorprese a caso', femaleText: 'Ti organizza sorprese a caso' },
+  { id: 9012, category: 'green', image: '', maleText: 'Va d\'accordo perfettamente con i tuoi amici', femaleText: 'Va d\'accordo perfettamente con le tue amiche' },
+  { id: 9013, category: 'green', image: '', maleText: 'Ti porta la pizza a casa senza chiedere', femaleText: 'Ti porta la pizza a casa senza chiedere' },
+  { id: 9014, category: 'green', image: '', maleText: 'Ha un golden retriever adorabile', femaleText: 'Ha un golden retriever adorabile' },
 ];
 
 // --- Utility ---
@@ -89,6 +98,8 @@ export function createInitialState(): GameState {
     globalUsedFlagIds: new Set(),
     isFinished: false,
     greenFlagOffer: null,
+    rejectedPartners: [],
+    exPartnerOffer: null,
   };
 }
 
@@ -101,6 +112,8 @@ export function startGame(players: Player[]): GameState {
     globalUsedFlagIds: new Set(),
     isFinished: false,
     greenFlagOffer: null,
+    rejectedPartners: [],
+    exPartnerOffer: null,
   };
 }
 
@@ -205,6 +218,8 @@ export function rejectFlag(state: GameState): GameState {
     };
   }
 
+  const rejectingPlayer = state.players.find((p) => p.id === turn.playerId)!;
+
   const players = state.players.map((p) => {
     if (p.id !== turn.playerId) return p;
 
@@ -223,6 +238,18 @@ export function rejectFlag(state: GameState): GameState {
   const globalUsedFlagIds = new Set(state.globalUsedFlagIds);
   globalUsedFlagIds.add(turn.redFlag.id);
 
+  // Save rejected partner to the pool (only if multiplayer)
+  const rejectedPartners = [...state.rejectedPartners];
+  if (state.players.length > 1) {
+    rejectedPartners.push({
+      partner: turn.partner,
+      revealedFlags: turn.acceptedInTurn,
+      rejectionFlag: turn.redFlag,
+      rejectedByPlayerId: turn.playerId,
+      rejectedByPlayerName: rejectingPlayer.name,
+    });
+  }
+
   // Move to the next player
   const nextPlayerIndex = getNextPlayerIndex(players, state.currentPlayerIndex);
 
@@ -233,6 +260,7 @@ export function rejectFlag(state: GameState): GameState {
     currentTurn: null,
     globalUsedFlagIds,
     greenFlagOffer: null,
+    rejectedPartners,
     screen: 'turn-intro',
   };
 }
@@ -309,6 +337,7 @@ export function rejectGreenFlag(state: GameState): GameState {
   if (!state.greenFlagOffer) return state;
 
   const { originalTurn } = state.greenFlagOffer;
+  const rejectingPlayer = state.players.find((p) => p.id === originalTurn.playerId)!;
 
   const players = state.players.map((p) => {
     if (p.id !== originalTurn.playerId) return p;
@@ -328,6 +357,18 @@ export function rejectGreenFlag(state: GameState): GameState {
   const globalUsedFlagIds = new Set(state.globalUsedFlagIds);
   globalUsedFlagIds.add(originalTurn.redFlag.id);
 
+  // Save rejected partner to the pool (only if multiplayer)
+  const rejectedPartners = [...state.rejectedPartners];
+  if (state.players.length > 1) {
+    rejectedPartners.push({
+      partner: originalTurn.partner,
+      revealedFlags: originalTurn.acceptedInTurn,
+      rejectionFlag: originalTurn.redFlag,
+      rejectedByPlayerId: originalTurn.playerId,
+      rejectedByPlayerName: rejectingPlayer.name,
+    });
+  }
+
   const nextPlayerIndex = getNextPlayerIndex(players, state.currentPlayerIndex);
 
   return {
@@ -337,6 +378,124 @@ export function rejectGreenFlag(state: GameState): GameState {
     currentTurn: null,
     globalUsedFlagIds,
     greenFlagOffer: null,
+    rejectedPartners,
+    screen: 'turn-intro',
+  };
+}
+
+// --- Ex-partner offer: try to offer a recycled partner at turn start ---
+
+export function tryExPartnerOffer(state: GameState): GameState {
+  const currentPlayer = state.players[state.currentPlayerIndex];
+
+  // Find eligible ex partners: not rejected by this player, matching gender preference
+  const eligible = state.rejectedPartners.filter((rp) => {
+    if (rp.rejectedByPlayerId === currentPlayer.id) return false;
+    if (currentPlayer.partnerGender === 'any') return true;
+    return rp.partner.gender === currentPlayer.partnerGender;
+  });
+
+  if (eligible.length === 0) return state;
+  if (Math.random() >= EX_PARTNER_CHANCE) return state;
+
+  const chosen = randomItem(eligible);
+
+  return {
+    ...state,
+    exPartnerOffer: { rejectedPartner: chosen },
+    screen: 'ex-partner-offer',
+  };
+}
+
+// --- Ex-partner offer: accept (start turn with this partner, revealed flags pre-accepted) ---
+
+export function acceptExPartner(state: GameState): GameState {
+  if (!state.exPartnerOffer) return state;
+
+  const { rejectedPartner } = state.exPartnerOffer;
+  const currentPlayer = state.players[state.currentPlayerIndex];
+
+  // All previously revealed flags + the rejection flag = flags already known
+  const allKnownFlags = [...rejectedPartner.revealedFlags, rejectedPartner.rejectionFlag];
+
+  // Pre-accept all known flags for this player
+  const players = state.players.map((p) => {
+    if (p.id !== currentPlayer.id) return p;
+
+    const newUsedIds = new Set(p.usedFlagIds);
+    allKnownFlags.forEach((f) => newUsedIds.add(f.id));
+
+    return {
+      ...p,
+      acceptedFlags: [
+        ...p.acceptedFlags,
+        ...allKnownFlags.map((flag) => ({ flag, stageIndex: p.currentStageIndex })),
+      ],
+      totalAttempts: p.totalAttempts + allKnownFlags.length,
+      currentStageIndex: p.currentStageIndex + allKnownFlags.length,
+      currentPartnerName: rejectedPartner.partner.name,
+      usedFlagIds: newUsedIds,
+    };
+  });
+
+  const globalUsedFlagIds = new Set(state.globalUsedFlagIds);
+  allKnownFlags.forEach((f) => globalUsedFlagIds.add(f.id));
+
+  // Remove this partner from the rejected pool
+  const rejectedPartners = state.rejectedPartners.filter((rp) => rp !== rejectedPartner);
+
+  const updatedPlayer = players[state.currentPlayerIndex];
+
+  // Check if the turn is already complete (all 5 stages filled)
+  if (updatedPlayer.currentStageIndex >= NUM_STAGES) {
+    const nextPlayerIndex = getNextPlayerIndex(players, state.currentPlayerIndex);
+    const isFinished = players.every((p) => p.currentStageIndex >= NUM_STAGES);
+
+    return {
+      ...state,
+      players,
+      currentPlayerIndex: nextPlayerIndex,
+      currentTurn: null,
+      globalUsedFlagIds,
+      isFinished,
+      exPartnerOffer: null,
+      rejectedPartners,
+      screen: isFinished ? 'results' : 'turn-intro',
+    };
+  }
+
+  // Continue: generate next red flag for the same partner
+  const updatedState: GameState = {
+    ...state,
+    players,
+    globalUsedFlagIds,
+    exPartnerOffer: null,
+    rejectedPartners,
+  };
+
+  const nextTurn = generateTurn(updatedState, rejectedPartner.partner, allKnownFlags);
+
+  return {
+    ...updatedState,
+    currentTurn: nextTurn,
+    screen: 'suspense',
+  };
+}
+
+// --- Ex-partner offer: reject (partner is removed permanently, proceed normally) ---
+
+export function rejectExPartner(state: GameState): GameState {
+  if (!state.exPartnerOffer) return state;
+
+  // Remove this partner permanently from the pool
+  const rejectedPartners = state.rejectedPartners.filter(
+    (rp) => rp !== state.exPartnerOffer!.rejectedPartner,
+  );
+
+  return {
+    ...state,
+    exPartnerOffer: null,
+    rejectedPartners,
     screen: 'turn-intro',
   };
 }
@@ -349,6 +508,7 @@ export function endGameEarly(state: GameState): GameState {
     currentTurn: null,
     isFinished: true,
     greenFlagOffer: null,
+    exPartnerOffer: null,
     screen: 'results',
   };
 }
@@ -482,6 +642,7 @@ interface SerializedGameState {
   currentTurn: Turn | null;
   globalUsedFlagIds: number[];
   isFinished: boolean;
+  rejectedPartners?: RejectedPartner[];
 }
 
 export function saveGameState(state: GameState): void {
@@ -501,6 +662,7 @@ export function saveGameState(state: GameState): void {
     currentTurn: state.currentTurn,
     globalUsedFlagIds: [...state.globalUsedFlagIds],
     isFinished: state.isFinished,
+    rejectedPartners: state.rejectedPartners,
   };
 
   try {
@@ -528,6 +690,8 @@ export function loadGameState(): GameState | null {
       globalUsedFlagIds: new Set(data.globalUsedFlagIds),
       isFinished: data.isFinished,
       greenFlagOffer: null,
+      rejectedPartners: data.rejectedPartners ?? [],
+      exPartnerOffer: null,
     };
   } catch {
     localStorage.removeItem(STORAGE_KEY);

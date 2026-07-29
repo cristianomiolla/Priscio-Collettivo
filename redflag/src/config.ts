@@ -18,3 +18,5 @@ export const SUSPENSE_DURATION_MS = 2000;
 export const GREEN_FLAG_CHANCE = 0.05;
 
 export const MAX_ACCEPT_PER_TURN = 5;
+
+export const EX_PARTNER_CHANCE = 0.15;

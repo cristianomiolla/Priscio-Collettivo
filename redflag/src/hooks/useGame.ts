@@ -8,6 +8,9 @@ import {
   rejectFlag,
   acceptGreenFlag,
   rejectGreenFlag,
+  tryExPartnerOffer,
+  acceptExPartner,
+  rejectExPartner,
   calculateStatistics,
   endGameEarly,
   saveGameState,
@@ -50,6 +53,11 @@ export function useGame() {
         if (!turn) return prev;
         return { ...prev, currentTurn: turn, screen: 'suspense' };
       }
+
+      // Try to offer an ex partner before generating a new one
+      const withExOffer = tryExPartnerOffer(prev);
+      if (withExOffer.exPartnerOffer) return withExOffer;
+
       const turn = generateTurn(prev);
       if (!turn) return prev;
       return { ...prev, currentTurn: turn, screen: 'suspense' };
@@ -70,6 +78,20 @@ export function useGame() {
 
   const rejectGreen = useCallback(() => {
     setState((prev) => rejectGreenFlag(prev));
+  }, []);
+
+  const acceptEx = useCallback(() => {
+    setState((prev) => acceptExPartner(prev));
+  }, []);
+
+  const rejectEx = useCallback(() => {
+    setState((prev) => {
+      const afterReject = rejectExPartner(prev);
+      // After rejecting ex, proceed with normal turn generation
+      const turn = generateTurn(afterReject);
+      if (!turn) return afterReject;
+      return { ...afterReject, currentTurn: turn, screen: 'suspense' };
+    });
   }, []);
 
   const endEarly = useCallback(() => {
@@ -95,6 +117,8 @@ export function useGame() {
     reject,
     acceptGreen,
     rejectGreen,
+    acceptEx,
+    rejectEx,
     endEarly,
     reset,
   };

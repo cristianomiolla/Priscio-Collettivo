@@ -41,12 +41,29 @@ export interface Turn {
   acceptedInTurn: RedFlag[];
 }
 
-export type Screen = 'home' | 'setup' | 'turn-intro' | 'suspense' | 'swipe' | 'results' | 'green-flag-offer';
+export type Screen = 'home' | 'setup' | 'turn-intro' | 'suspense' | 'swipe' | 'results' | 'green-flag-offer' | 'ex-partner-offer';
 
 export interface GreenFlagOffer {
   greenFlag: RedFlag;
   /** The turn state at the moment of rejection (before the reject was applied) */
   originalTurn: Turn;
+}
+
+/** A partner that was rejected and can be offered to a different player */
+export interface RejectedPartner {
+  partner: Partner;
+  /** Red flags that were revealed (accepted) before the rejection */
+  revealedFlags: RedFlag[];
+  /** The red flag that caused the rejection */
+  rejectionFlag: RedFlag;
+  /** ID of the player who rejected this partner */
+  rejectedByPlayerId: string;
+  /** Name of the player who rejected this partner (for display) */
+  rejectedByPlayerName: string;
+}
+
+export interface ExPartnerOffer {
+  rejectedPartner: RejectedPartner;
 }
 
 export interface GameState {
@@ -58,6 +75,10 @@ export interface GameState {
   isFinished: boolean;
   /** When set, the player is being offered a green flag to save a rejected partner */
   greenFlagOffer: GreenFlagOffer | null;
+  /** Pool of rejected partners available for recycling */
+  rejectedPartners: RejectedPartner[];
+  /** When set, the player is being offered an ex partner */
+  exPartnerOffer: ExPartnerOffer | null;
 }
 
 export interface PlayerStatistics {
