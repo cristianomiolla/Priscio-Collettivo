@@ -11,6 +11,9 @@ import {
   tryExPartnerOffer,
   acceptExPartner,
   rejectExPartner,
+  tryFlamebackOffer,
+  acceptFlameback,
+  rejectFlameback,
   calculateStatistics,
   endGameEarly,
   saveGameState,
@@ -58,6 +61,10 @@ export function useGame() {
       const withExOffer = tryExPartnerOffer(prev);
       if (withExOffer.exPartnerOffer) return withExOffer;
 
+      // Try flameback (ritorno di fiamma) — same player's rejected partner returns
+      const withFlameback = tryFlamebackOffer(prev);
+      if (withFlameback.flamebackOffer) return withFlameback;
+
       const turn = generateTurn(prev);
       if (!turn) return prev;
       return { ...prev, currentTurn: turn, screen: 'suspense' };
@@ -85,13 +92,15 @@ export function useGame() {
   }, []);
 
   const rejectEx = useCallback(() => {
-    setState((prev) => {
-      const afterReject = rejectExPartner(prev);
-      // After rejecting ex, proceed with normal turn generation
-      const turn = generateTurn(afterReject);
-      if (!turn) return afterReject;
-      return { ...afterReject, currentTurn: turn, screen: 'suspense' };
-    });
+    setState((prev) => rejectExPartner(prev));
+  }, []);
+
+  const acceptFlame = useCallback(() => {
+    setState((prev) => acceptFlameback(prev));
+  }, []);
+
+  const rejectFlame = useCallback(() => {
+    setState((prev) => rejectFlameback(prev));
   }, []);
 
   const endEarly = useCallback(() => {
@@ -119,6 +128,8 @@ export function useGame() {
     rejectGreen,
     acceptEx,
     rejectEx,
+    acceptFlame,
+    rejectFlame,
     endEarly,
     reset,
   };

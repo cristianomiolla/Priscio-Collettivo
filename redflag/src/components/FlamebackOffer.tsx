@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Heart, HeartCrack, MapPin, Sparkles, XCircle } from 'lucide-react';
-import type { ExPartnerOffer as ExPartnerOfferType, Player } from '../types';
+import { Heart, HeartCrack, MapPin, Flame, History, X, XCircle } from 'lucide-react';
+import confetti from 'canvas-confetti';
+import type { FlamebackOffer as FlamebackOfferType, Player } from '../types';
 import ConfirmModal from './ConfirmModal';
 import ProgressBar from './ProgressBar';
-import confetti from 'canvas-confetti';
 import { playSwipeAccept, playSwipeReject } from '../utils/sounds';
 
 const SWIPE_THRESHOLD = 80;
@@ -18,16 +18,17 @@ function triggerMiniConfetti() {
   });
 }
 
-interface ExPartnerOfferProps {
-  offer: ExPartnerOfferType;
+interface FlamebackOfferProps {
+  offer: FlamebackOfferType;
   player: Player;
   onAccept: () => void;
   onReject: () => void;
   onEndGame: () => void;
 }
 
-export default function ExPartnerOffer({ offer, player, onAccept, onReject, onEndGame }: ExPartnerOfferProps) {
+export default function FlamebackOffer({ offer, player, onAccept, onReject, onEndGame }: FlamebackOfferProps) {
   const [visible, setVisible] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [offsetX, setOffsetX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -75,9 +76,8 @@ export default function ExPartnerOffer({ offer, player, onAccept, onReject, onEn
     }
   }, [isDragging, offsetX, doAccept, doReject]);
 
-  const { rejectedPartner } = offer;
-  const { partner, revealedFlags, rejectionFlag, rejectedByPlayerName } = rejectedPartner;
-  const allKnownFlags = [...revealedFlags, rejectionFlag];
+  const { rejectedPartner, newFlag } = offer;
+  const { partner, revealedFlags, rejectionFlag } = rejectedPartner;
 
   const rotation = exitDir
     ? exitDir === 'right' ? 20 : -20
@@ -154,7 +154,7 @@ export default function ExPartnerOffer({ offer, player, onAccept, onReject, onEn
               border: '2px solid #EF4444',
             }}
           >
-            {/* Partner header */}
+            {/* Partner header - flame themed */}
             <div
               style={{
                 background: 'linear-gradient(135deg, #EF4444, #F97316)',
@@ -187,7 +187,7 @@ export default function ExPartnerOffer({ offer, player, onAccept, onReject, onEn
               </div>
             </div>
 
-            {/* Incontro inaspettato alert */}
+            {/* Flameback alert */}
             <div style={{ padding: '20px 24px 8px', textAlign: 'center' }}>
               <div
                 style={{
@@ -200,51 +200,98 @@ export default function ExPartnerOffer({ offer, player, onAccept, onReject, onEn
                   marginBottom: 12,
                 }}
               >
-                <Sparkles size={16} color="#EF4444" />
+                <Flame size={16} color="#EF4444" />
                 <span style={{ fontSize: 13, fontWeight: 600, color: '#EF4444' }}>
-                  Incontro inaspettato!
+                  Ritorno di fiamma!
                 </span>
               </div>
               <p style={{ fontSize: 14, color: '#6B7280', margin: '0 0 4px', lineHeight: 1.5 }}>
-                {partner.name} {'\u00E8'} stat{partner.gender === 'male' ? 'o' : 'a'} rifiutat{partner.gender === 'male' ? 'o' : 'a'} da {rejectedByPlayerName}.
+                {partner.name} {'\u00E8'} tornat{partner.gender === 'male' ? 'o' : 'a'} e dice:
               </p>
               <p style={{ fontSize: 16, fontWeight: 600, color: '#1A1A2E', margin: '8px 0 4px', fontStyle: 'italic' }}>
-                "Ciao {player.name}, ti va di conoscermi?"
+                "Sono cambiat{partner.gender === 'male' ? 'o' : 'a'}!"
               </p>
               <p style={{ fontSize: 13, color: '#9CA3AF', margin: '4px 0 0' }}>
                 Se rifiuti, passi il turno.
               </p>
             </div>
 
-            {/* Known red flags */}
-            {allKnownFlags.length > 0 && (
-              <div style={{ padding: '12px 24px 24px' }}>
-                <p style={{ fontSize: 12, fontWeight: 600, color: '#9CA3AF', margin: '0 0 10px', textTransform: 'uppercase', letterSpacing: 0.5 }}>
-                  Red flag note
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {allKnownFlags.map((f, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: 10,
-                        padding: '10px 14px',
-                        background: 'rgba(248,113,113,0.06)',
-                        borderRadius: 14,
-                        border: '1px solid rgba(248,113,113,0.15)',
-                      }}
-                    >
-                      <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>
-                        {f.category === 'green' ? '\u{1F49A}' : '\u{1F6A9}'}
-                      </span>
-                      <span style={{ fontSize: 14, color: '#1A1A2E', fontWeight: 500, lineHeight: 1.4 }}>
-                        {partner.gender === 'male' ? f.maleText : f.femaleText}
-                      </span>
-                    </div>
-                  ))}
+            {/* Flags: only rejection (removed) and new */}
+            <div style={{ padding: '12px 24px 16px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {/* Old rejection flag — struck through, marked as removed */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 10,
+                    padding: '10px 14px',
+                    background: 'rgba(74,222,128,0.08)',
+                    borderRadius: 14,
+                    border: '1px solid rgba(74,222,128,0.25)',
+                    opacity: 0.7,
+                  }}
+                >
+                  <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>
+                    {'\u2705'}
+                  </span>
+                  <span style={{ fontSize: 14, color: '#6B7280', fontWeight: 500, lineHeight: 1.4, textDecoration: 'line-through' }}>
+                    {partner.gender === 'male' ? rejectionFlag.maleText : rejectionFlag.femaleText}
+                  </span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: '#16A34A', marginLeft: 'auto', flexShrink: 0, alignSelf: 'center', textTransform: 'uppercase' }}>
+                    Rimossa
+                  </span>
                 </div>
+
+                {/* New replacement flag — highlighted */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 10,
+                    padding: '10px 14px',
+                    background: 'rgba(239,68,68,0.1)',
+                    borderRadius: 14,
+                    border: '2px solid #EF4444',
+                    boxShadow: '0 2px 8px rgba(239,68,68,0.15)',
+                  }}
+                >
+                  <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>
+                    {'\u{1F6A9}'}
+                  </span>
+                  <span style={{ fontSize: 14, color: '#1A1A2E', fontWeight: 600, lineHeight: 1.4 }}>
+                    {partner.gender === 'male' ? newFlag.maleText : newFlag.femaleText}
+                  </span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: '#EF4444', marginLeft: 'auto', flexShrink: 0, alignSelf: 'center', textTransform: 'uppercase' }}>
+                    Nuova
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Precedenti button */}
+            {revealedFlags.length > 0 && (
+              <div style={{ padding: '0 24px 20px', textAlign: 'center' }}>
+                <button
+                  onClick={() => setShowHistory(true)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 12,
+                    color: '#F87171',
+                    background: 'rgba(248,113,113,0.08)',
+                    border: 'none',
+                    borderRadius: 99,
+                    padding: '6px 14px',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    fontWeight: 600,
+                  }}
+                >
+                  <History size={14} />
+                  Precedenti ({revealedFlags.length})
+                </button>
               </div>
             )}
           </div>
@@ -351,6 +398,85 @@ export default function ExPartnerOffer({ offer, player, onAccept, onReject, onEn
         <XCircle size={14} />
         Termina partita
       </button>
+
+      {/* History modal */}
+      {showHistory && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(0,0,0,0.5)',
+            padding: 24,
+          }}
+          onClick={() => setShowHistory(false)}
+        >
+          <div
+            style={{
+              background: '#FFFFFF',
+              borderRadius: 24,
+              width: '100%',
+              maxWidth: 360,
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              boxShadow: '0 16px 48px rgba(0,0,0,0.2)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px 12px' }}>
+              <h3 style={{ fontSize: 16, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: 0 }}>
+                Red flag precedenti
+              </h3>
+              <button
+                onClick={() => setShowHistory(false)}
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 10,
+                  background: '#F3F4F6',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  color: '#6B7280',
+                }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <div style={{ padding: '0 24px 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {revealedFlags.map((f, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 10,
+                    padding: '10px 14px',
+                    background: f.category === 'green' ? 'rgba(74,222,128,0.08)' : 'rgba(248,113,113,0.06)',
+                    borderRadius: 14,
+                    border: `1px solid ${f.category === 'green' ? 'rgba(74,222,128,0.2)' : 'rgba(248,113,113,0.15)'}`,
+                  }}
+                >
+                  <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>
+                    {f.category === 'green' ? '\u{1F49A}' : '\u{1F6A9}'}
+                  </span>
+                  <span style={{ fontSize: 14, color: '#1A1A2E', fontWeight: 500, lineHeight: 1.4 }}>
+                    {partner.gender === 'male' ? f.maleText : f.femaleText}
+                  </span>
+                </div>
+              ))}
+              <p style={{ fontSize: 12, color: '#9CA3AF', textAlign: 'center', margin: '4px 0 0', fontWeight: 500 }}>
+                {revealedFlags.length} red flag ancora attive
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showConfirm && (
         <ConfirmModal

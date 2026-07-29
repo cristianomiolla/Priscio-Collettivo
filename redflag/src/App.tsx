@@ -8,9 +8,10 @@ import SwipeCard from './components/SwipeCard';
 import ResultsScreen from './components/ResultsScreen';
 import GreenFlagOffer from './components/GreenFlagOffer';
 import ExPartnerOffer from './components/ExPartnerOffer';
+import FlamebackOffer from './components/FlamebackOffer';
 
 function App() {
-  const { state, currentPlayer, statistics, goToScreen, start, prepareTurn, accept, reject, acceptGreen, rejectGreen, acceptEx, rejectEx, endEarly, reset } = useGame();
+  const { state, currentPlayer, statistics, goToScreen, start, prepareTurn, accept, reject, acceptGreen, rejectGreen, acceptEx, rejectEx, acceptFlame, rejectFlame, endEarly, reset } = useGame();
 
   return (
     <div className="flex flex-col min-h-svh bg-[#F0F0F0]">
@@ -66,6 +67,17 @@ function App() {
           player={currentPlayer}
           onAccept={acceptEx}
           onReject={rejectEx}
+          onEndGame={endEarly}
+        />
+      )}
+
+      {state.screen === 'flameback-offer' && state.flamebackOffer && currentPlayer && (
+        <FlamebackOffer
+          offer={state.flamebackOffer}
+          player={currentPlayer}
+          onAccept={acceptFlame}
+          onReject={rejectFlame}
+          onEndGame={endEarly}
         />
       )}
 

@@ -1,5 +1,5 @@
 import type { Player, Partner, RedFlag, GameState, Turn, Gender, PlayerStatistics, Badge, RejectedPartner } from '../types';
-import { NUM_STAGES, GREEN_FLAG_CHANCE, MAX_ACCEPT_PER_TURN, EX_PARTNER_CHANCE } from '../config';
+import { NUM_STAGES, GREEN_FLAG_CHANCE, MAX_ACCEPT_PER_TURN, EX_PARTNER_CHANCE, FLAMEBACK_CHANCE } from '../config';
 import nomiMaschili from '../data/nomi_maschili.json';
 import nomiFemminili from '../data/nomi_femminili.json';
 import redflagsData from '../data/redflags.json';
@@ -100,6 +100,7 @@ export function createInitialState(): GameState {
     greenFlagOffer: null,
     rejectedPartners: [],
     exPartnerOffer: null,
+    flamebackOffer: null,
   };
 }
 
@@ -114,6 +115,7 @@ export function startGame(players: Player[]): GameState {
     greenFlagOffer: null,
     rejectedPartners: [],
     exPartnerOffer: null,
+    flamebackOffer: null,
   };
 }
 
@@ -238,17 +240,15 @@ export function rejectFlag(state: GameState): GameState {
   const globalUsedFlagIds = new Set(state.globalUsedFlagIds);
   globalUsedFlagIds.add(turn.redFlag.id);
 
-  // Save rejected partner to the pool (only if multiplayer)
+  // Save rejected partner to the pool
   const rejectedPartners = [...state.rejectedPartners];
-  if (state.players.length > 1) {
-    rejectedPartners.push({
-      partner: turn.partner,
-      revealedFlags: turn.acceptedInTurn,
-      rejectionFlag: turn.redFlag,
-      rejectedByPlayerId: turn.playerId,
-      rejectedByPlayerName: rejectingPlayer.name,
-    });
-  }
+  rejectedPartners.push({
+    partner: turn.partner,
+    revealedFlags: turn.acceptedInTurn,
+    rejectionFlag: turn.redFlag,
+    rejectedByPlayerId: turn.playerId,
+    rejectedByPlayerName: rejectingPlayer.name,
+  });
 
   // Move to the next player
   const nextPlayerIndex = getNextPlayerIndex(players, state.currentPlayerIndex);
@@ -357,17 +357,15 @@ export function rejectGreenFlag(state: GameState): GameState {
   const globalUsedFlagIds = new Set(state.globalUsedFlagIds);
   globalUsedFlagIds.add(originalTurn.redFlag.id);
 
-  // Save rejected partner to the pool (only if multiplayer)
+  // Save rejected partner to the pool
   const rejectedPartners = [...state.rejectedPartners];
-  if (state.players.length > 1) {
-    rejectedPartners.push({
-      partner: originalTurn.partner,
-      revealedFlags: originalTurn.acceptedInTurn,
-      rejectionFlag: originalTurn.redFlag,
-      rejectedByPlayerId: originalTurn.playerId,
-      rejectedByPlayerName: rejectingPlayer.name,
-    });
-  }
+  rejectedPartners.push({
+    partner: originalTurn.partner,
+    revealedFlags: originalTurn.acceptedInTurn,
+    rejectionFlag: originalTurn.redFlag,
+    rejectedByPlayerId: originalTurn.playerId,
+    rejectedByPlayerName: rejectingPlayer.name,
+  });
 
   const nextPlayerIndex = getNextPlayerIndex(players, state.currentPlayerIndex);
 
@@ -492,9 +490,160 @@ export function rejectExPartner(state: GameState): GameState {
     (rp) => rp !== state.exPartnerOffer!.rejectedPartner,
   );
 
+  // Rejecting ex = pass the turn to next player
+  const players = state.players.map((p) => {
+    if (p.id !== state.players[state.currentPlayerIndex].id) return p;
+    return {
+      ...p,
+      rejectedCount: p.rejectedCount + 1,
+      totalAttempts: p.totalAttempts + 1,
+      currentStageIndex: 0,
+    };
+  });
+
+  const nextPlayerIndex = getNextPlayerIndex(players, state.currentPlayerIndex);
+
   return {
     ...state,
+    players,
+    currentPlayerIndex: nextPlayerIndex,
+    currentTurn: null,
     exPartnerOffer: null,
+    rejectedPartners,
+    screen: 'turn-intro',
+  };
+}
+
+// --- Flameback (ritorno di fiamma): a rejected partner returns to the SAME player ---
+
+export function tryFlamebackOffer(state: GameState): GameState {
+  const currentPlayer = state.players[state.currentPlayerIndex];
+
+  // Find partners that THIS player rejected
+  const eligible = state.rejectedPartners.filter(
+    (rp) => rp.rejectedByPlayerId === currentPlayer.id,
+  );
+
+  if (eligible.length === 0) return state;
+  if (Math.random() >= FLAMEBACK_CHANCE) return state;
+
+  const chosen = randomItem(eligible);
+
+  // Pick a new red flag to replace the rejection flag
+  const result = pickRedFlag(state.globalUsedFlagIds);
+  if (!result) return state;
+
+  if (result.resetGlobal) {
+    state.globalUsedFlagIds.clear();
+  }
+
+  return {
+    ...state,
+    flamebackOffer: { rejectedPartner: chosen, newFlag: result.flag },
+    screen: 'flameback-offer',
+  };
+}
+
+export function acceptFlameback(state: GameState): GameState {
+  if (!state.flamebackOffer) return state;
+
+  const { rejectedPartner, newFlag } = state.flamebackOffer;
+  const currentPlayer = state.players[state.currentPlayerIndex];
+
+  // The partner comes back with previously accepted flags (revealedFlags) + the new flag
+  // The rejection flag is removed — they "changed"
+  const previousFlags = rejectedPartner.revealedFlags;
+  const allFlags = [...previousFlags, newFlag];
+
+  const players = state.players.map((p) => {
+    if (p.id !== currentPlayer.id) return p;
+
+    const newUsedIds = new Set(p.usedFlagIds);
+    allFlags.forEach((f) => newUsedIds.add(f.id));
+
+    return {
+      ...p,
+      acceptedFlags: [
+        ...p.acceptedFlags,
+        ...allFlags.map((flag) => ({ flag, stageIndex: p.currentStageIndex })),
+      ],
+      totalAttempts: p.totalAttempts + allFlags.length,
+      currentStageIndex: p.currentStageIndex + allFlags.length,
+      currentPartnerName: rejectedPartner.partner.name,
+      usedFlagIds: newUsedIds,
+    };
+  });
+
+  const globalUsedFlagIds = new Set(state.globalUsedFlagIds);
+  allFlags.forEach((f) => globalUsedFlagIds.add(f.id));
+
+  // Remove from rejected pool
+  const rejectedPartners = state.rejectedPartners.filter((rp) => rp !== rejectedPartner);
+
+  const updatedPlayer = players[state.currentPlayerIndex];
+
+  if (updatedPlayer.currentStageIndex >= NUM_STAGES) {
+    const nextPlayerIndex = getNextPlayerIndex(players, state.currentPlayerIndex);
+    const isFinished = players.every((p) => p.currentStageIndex >= NUM_STAGES);
+
+    return {
+      ...state,
+      players,
+      currentPlayerIndex: nextPlayerIndex,
+      currentTurn: null,
+      globalUsedFlagIds,
+      isFinished,
+      flamebackOffer: null,
+      rejectedPartners,
+      screen: isFinished ? 'results' : 'turn-intro',
+    };
+  }
+
+  // Continue: generate next red flag for the same partner
+  const updatedState: GameState = {
+    ...state,
+    players,
+    globalUsedFlagIds,
+    flamebackOffer: null,
+    rejectedPartners,
+  };
+
+  const nextTurn = generateTurn(updatedState, rejectedPartner.partner, allFlags);
+
+  return {
+    ...updatedState,
+    currentTurn: nextTurn,
+    screen: 'suspense',
+  };
+}
+
+export function rejectFlameback(state: GameState): GameState {
+  if (!state.flamebackOffer) return state;
+
+  // Remove partner permanently from the pool
+  const rejectedPartners = state.rejectedPartners.filter(
+    (rp) => rp !== state.flamebackOffer!.rejectedPartner,
+  );
+
+  // Rejecting flameback = pass the turn to next player
+  const players = state.players.map((p) => {
+    if (p.id !== state.players[state.currentPlayerIndex].id) return p;
+    return {
+      ...p,
+      rejectedCount: p.rejectedCount + 1,
+      totalAttempts: p.totalAttempts + 1,
+      currentStageIndex: 0,
+    };
+  });
+
+  const nextPlayerIndex = getNextPlayerIndex(players, state.currentPlayerIndex);
+
+  return {
+    ...state,
+    players,
+    currentPlayerIndex: nextPlayerIndex,
+    currentTurn: null,
+    flamebackOffer: null,
     rejectedPartners,
     screen: 'turn-intro',
   };
@@ -509,6 +658,7 @@ export function endGameEarly(state: GameState): GameState {
     isFinished: true,
     greenFlagOffer: null,
     exPartnerOffer: null,
+    flamebackOffer: null,
     screen: 'results',
   };
 }
@@ -692,6 +842,7 @@ export function loadGameState(): GameState | null {
       greenFlagOffer: null,
       rejectedPartners: data.rejectedPartners ?? [],
       exPartnerOffer: null,
+      flamebackOffer: null,
     };
   } catch {
     localStorage.removeItem(STORAGE_KEY);

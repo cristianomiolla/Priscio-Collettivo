@@ -41,7 +41,7 @@ export interface Turn {
   acceptedInTurn: RedFlag[];
 }
 
-export type Screen = 'home' | 'setup' | 'turn-intro' | 'suspense' | 'swipe' | 'results' | 'green-flag-offer' | 'ex-partner-offer';
+export type Screen = 'home' | 'setup' | 'turn-intro' | 'suspense' | 'swipe' | 'results' | 'green-flag-offer' | 'ex-partner-offer' | 'flameback-offer';
 
 export interface GreenFlagOffer {
   greenFlag: RedFlag;
@@ -66,6 +66,13 @@ export interface ExPartnerOffer {
   rejectedPartner: RejectedPartner;
 }
 
+/** A partner the same player rejected that comes back "changed" (ritorno di fiamma) */
+export interface FlamebackOffer {
+  rejectedPartner: RejectedPartner;
+  /** The new red flag replacing the rejection flag */
+  newFlag: RedFlag;
+}
+
 export interface GameState {
   screen: Screen;
   players: Player[];
@@ -79,6 +86,8 @@ export interface GameState {
   rejectedPartners: RejectedPartner[];
   /** When set, the player is being offered an ex partner */
   exPartnerOffer: ExPartnerOffer | null;
+  /** When set, a rejected partner returns to the same player (ritorno di fiamma) */
+  flamebackOffer: FlamebackOffer | null;
 }
 
 export interface PlayerStatistics {
