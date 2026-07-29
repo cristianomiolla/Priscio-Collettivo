@@ -45,8 +45,8 @@
     "id": 7,
     "category": "fisico",
     "image": "short-tall.png",
-    "maleText": "È più basso del previsto.",
-    "femaleText": "È più bassa del previsto."
+    "maleText": "È più basso di te.",
+    "femaleText": "È più alta di te."
   },
   {
     "id": 8,
@@ -206,8 +206,8 @@
     "id": 30,
     "category": "abitudini",
     "image": "default.png",
-    "maleText": "Ha incidenti imbarazzanti in pubblico.",
-    "femaleText": "Ha incidenti imbarazzanti in pubblico."
+    "maleText": "È incontinente.",
+    "femaleText": "È incontinente."
   },
   {
     "id": 31,
@@ -220,8 +220,8 @@
     "id": 32,
     "category": "fisico",
     "image": "default.png",
-    "maleText": "Ha una caratteristica fisica che ti spiazza.",
-    "femaleText": "Ha una caratteristica fisica che ti spiazza."
+    "maleText": "Ha il pene piccolo.",
+    "femaleText": "Ha il seno piccolo."
   },
   {
     "id": 33,
@@ -304,8 +304,8 @@
     "id": 44,
     "category": "personalita",
     "image": "default.png",
-    "maleText": "È una pippa.",
-    "femaleText": "È una pippa."
+    "maleText": "Pippa.",
+    "femaleText": "Pippa."
   },
   {
     "id": 45,
