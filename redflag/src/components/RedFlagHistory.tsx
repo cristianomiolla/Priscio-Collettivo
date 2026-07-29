@@ -131,7 +131,7 @@ export default function RedFlagHistory({ player, onClose }: RedFlagHistoryProps)
                           style={{
                             fontSize: 10,
                             fontWeight: 600,
-                            color: '#7C3AED',
+                            color: '#DC2626',
                             background: 'rgba(196,181,253,0.2)',
                             padding: '2px 8px',
                             borderRadius: 99,

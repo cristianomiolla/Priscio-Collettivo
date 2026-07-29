@@ -94,7 +94,7 @@ export default function SuspenseScreen({ onComplete, isSamePartner, currentStage
               width: 80,
               height: 80,
               borderRadius: 24,
-              background: '#C4B5FD',
+              background: '#FCA5A5',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -117,7 +117,7 @@ export default function SuspenseScreen({ onComplete, isSamePartner, currentStage
             gap: 6,
             padding: '6px 16px',
             borderRadius: 99,
-            background: '#DDD6FE',
+            background: '#FECACA',
             marginBottom: 16,
             animation: 'fadeInUp 0.4s ease-out',
           }}
@@ -153,7 +153,7 @@ export default function SuspenseScreen({ onComplete, isSamePartner, currentStage
               width: 10,
               height: 10,
               borderRadius: '50%',
-              background: '#A78BFA',
+              background: '#F87171',
               animation: 'loadingDot 1.2s ease-in-out infinite',
               animationDelay: `${i * 0.2}s`,
             }}

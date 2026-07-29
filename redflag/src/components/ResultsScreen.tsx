@@ -25,10 +25,10 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
     if (!confettiFired.current) {
       confettiFired.current = true;
       playResults();
-      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#C4B5FD', '#DDD6FE', '#4ADE80', '#F87171'] });
+      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#FCA5A5', '#FECACA', '#4ADE80', '#F87171'] });
       setTimeout(() => {
-        confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#C4B5FD', '#DDD6FE'] });
-        confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#C4B5FD', '#DDD6FE'] });
+        confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FCA5A5', '#FECACA'] });
+        confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#FCA5A5', '#FECACA'] });
       }, 300);
     }
   }, []);
@@ -63,7 +63,7 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
           animation: 'fadeInUp 0.5s ease-out',
         }}
       >
-        <div style={{ width: 36, height: 36, borderRadius: 12, background: '#DDD6FE', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 36, height: 36, borderRadius: 12, background: '#FECACA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Trophy size={20} color="#1A1A2E" />
         </div>
         <h1 style={{ fontSize: 26, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: 0 }}>Risultati</h1>
@@ -101,7 +101,7 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
                   borderRadius: '50%',
                   border: 'none',
                   cursor: 'pointer',
-                  background: i === currentIndex ? '#A78BFA' : 'rgba(0,0,0,0.15)',
+                  background: i === currentIndex ? '#F87171' : 'rgba(0,0,0,0.15)',
                   transform: i === currentIndex ? 'scale(1.25)' : 'scale(1)',
                   transition: 'all 0.2s',
                 }}
@@ -150,7 +150,7 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
           {/* Player header */}
           <div
             style={{
-              background: '#C4B5FD',
+              background: '#FCA5A5',
               padding: '24px 24px',
               textAlign: 'center',
             }}
@@ -187,7 +187,7 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
               label="Rifiutate"
             />
             <StatCell
-              icon={<Flag size={16} color="#8B5CF6" />}
+              icon={<Flag size={16} color="#EF4444" />}
               value={`${stat.acceptRate}%`}
               label="Acc. rate"
             />
@@ -250,7 +250,7 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
                             style={{
                               fontSize: 10,
                               fontWeight: 600,
-                              color: '#7C3AED',
+                              color: '#DC2626',
                               background: 'rgba(196,181,253,0.2)',
                               padding: '2px 8px',
                               borderRadius: 99,
@@ -282,15 +282,15 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
           alignItems: 'center',
           gap: 8,
           padding: '14px 32px',
-          background: '#1A1A2E',
-          color: '#DDD6FE',
+          background: 'linear-gradient(135deg, #EF4444, #F87171)',
+          color: '#FFFFFF',
           fontWeight: 700,
           fontSize: 15,
           fontFamily: 'inherit',
           borderRadius: 20,
           border: 'none',
           cursor: 'pointer',
-          boxShadow: '0 8px 24px rgba(26,26,46,0.2)',
+          boxShadow: '0 8px 24px rgba(239,68,68,0.3)',
         }}
       >
         <RotateCcw size={16} />

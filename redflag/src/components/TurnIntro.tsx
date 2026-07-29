@@ -55,7 +55,7 @@ export default function TurnIntro({ player, onReady, onEndGame }: TurnIntroProps
             width: 88,
             height: 88,
             borderRadius: 26,
-            background: '#DDD6FE',
+            background: '#FECACA',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -91,7 +91,7 @@ export default function TurnIntro({ player, onReady, onEndGame }: TurnIntroProps
                 gap: 6,
                 padding: '6px 16px',
                 borderRadius: 99,
-                background: '#C4B5FD',
+                background: '#FCA5A5',
               }}
             >
               <span style={{ fontSize: 16 }}>{stage.emoji}</span>
@@ -108,15 +108,15 @@ export default function TurnIntro({ player, onReady, onEndGame }: TurnIntroProps
           style={{
             marginTop: 8,
             padding: '16px 48px',
-            background: '#1A1A2E',
-            color: '#DDD6FE',
+            background: 'linear-gradient(135deg, #EF4444, #F87171)',
+            color: '#FFFFFF',
             fontWeight: 700,
             fontSize: 17,
             fontFamily: 'inherit',
             borderRadius: 20,
             border: 'none',
             cursor: 'pointer',
-            boxShadow: '0 8px 24px rgba(26,26,46,0.2)',
+            boxShadow: '0 8px 24px rgba(239,68,68,0.3)',
           }}
         >
           Sono pronto!

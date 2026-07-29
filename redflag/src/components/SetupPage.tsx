@@ -122,7 +122,7 @@ export default function SetupPage({ onStart, onBack }: SetupPageProps) {
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: 14,
-              background: '#C4B5FD',
+              background: '#FCA5A5',
             }}
           >
             <span style={{ fontSize: 11, fontWeight: 700, color: '#1A1A2E' }}>
@@ -169,7 +169,7 @@ export default function SetupPage({ onStart, onBack }: SetupPageProps) {
                   width: 42,
                   height: 42,
                   borderRadius: 14,
-                  background: index % 2 === 0 ? '#C4B5FD' : '#DDD6FE',
+                  background: index % 2 === 0 ? '#FCA5A5' : '#FECACA',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -219,7 +219,7 @@ export default function SetupPage({ onStart, onBack }: SetupPageProps) {
                         cursor: 'pointer',
                         border: 'none',
                         background: entry.partnerGender === opt.value
-                          ? '#C4B5FD'
+                          ? '#FCA5A5'
                           : '#F0F0F0',
                         color: entry.partnerGender === opt.value
                           ? '#1A1A2E'
@@ -314,10 +314,10 @@ export default function SetupPage({ onStart, onBack }: SetupPageProps) {
               fontFamily: 'inherit',
               cursor: canStart ? 'pointer' : 'not-allowed',
               background: canStart
-                ? '#1A1A2E'
+                ? 'linear-gradient(135deg, #EF4444, #F87171)'
                 : '#D1D5DB',
-              color: canStart ? '#DDD6FE' : '#9CA3AF',
-              boxShadow: canStart ? '0 8px 24px rgba(26,26,46,0.2)' : 'none',
+              color: canStart ? '#FFFFFF' : '#9CA3AF',
+              boxShadow: canStart ? '0 8px 24px rgba(239,68,68,0.3)' : 'none',
             }}
           >
             <Play size={20} />

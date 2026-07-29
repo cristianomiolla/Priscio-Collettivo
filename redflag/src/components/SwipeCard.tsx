@@ -6,6 +6,13 @@ import { MAX_ACCEPT_PER_TURN } from '../config';
 import ProgressBar from './ProgressBar';
 import { playSwipeAccept, playSwipeReject, playFlipReveal } from '../utils/sounds';
 
+const illustrationModules = import.meta.glob('../assets/illustration/*.png', { eager: true, import: 'default' }) as Record<string, string>;
+const illustrations: Record<number, string> = {};
+for (const path in illustrationModules) {
+  const match = path.match(/\/(\d+)\.png$/);
+  if (match) illustrations[Number(match[1])] = illustrationModules[path];
+}
+
 interface SwipeCardProps {
   turn: Turn;
   player: Player;
@@ -27,7 +34,7 @@ function triggerMiniConfetti() {
     particleCount: 40,
     spread: 60,
     origin: { y: 0.7 },
-    colors: ['#C4B5FD', '#DDD6FE', '#4ADE80', '#F87171'],
+    colors: ['#FCA5A5', '#FECACA', '#4ADE80', '#F87171'],
     disableForReducedMotion: true,
   });
 }
@@ -175,39 +182,65 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                     boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
                   }}
                 >
-                  <div
-                    style={{
-                      background: '#C4B5FD',
-                      padding: '32px 24px',
-                      textAlign: 'center',
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 80,
-                        height: 80,
-                        margin: '0 auto 12px',
-                        borderRadius: 24,
+                  {illustrations[turn.redFlag.id] ? (
+                    <div style={{ background: '#FCA5A5', padding: '20px 24px', textAlign: 'center' }}>
+                      <h2 style={{ fontSize: 24, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: '0 0 4px' }}>
+                        {turn.partner.name}
+                      </h2>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, color: '#1A1A2E', opacity: 0.6, fontSize: 13, marginBottom: 14 }}>
+                        <MapPin size={12} />
+                        <span>Vicino a te</span>
+                      </div>
+                      <div style={{
+                        display: 'inline-block',
+                        padding: 8,
+                        borderRadius: 16,
                         background: '#FFFFFF',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: 36,
-                        boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-                      }}
-                    >
-                      {turn.partner.gender === 'male' ? '👨' : '👩'}
+                        boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+                      }}>
+                        <img
+                          src={illustrations[turn.redFlag.id]}
+                          alt=""
+                          style={{
+                            display: 'block',
+                            width: 260,
+                            height: 180,
+                            borderRadius: 10,
+                            objectFit: 'cover',
+                            background: '#FFFFFF',
+                          }}
+                        />
+                      </div>
                     </div>
-                    <h2 style={{ fontSize: 26, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: 0 }}>
-                      {turn.partner.name}
-                    </h2>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 6, color: '#1A1A2E', opacity: 0.6, fontSize: 14 }}>
-                      <MapPin size={12} />
-                      <span>Vicino a te</span>
+                  ) : (
+                    <div style={{ background: '#FCA5A5', padding: '32px 24px', textAlign: 'center' }}>
+                      <div
+                        style={{
+                          width: 80,
+                          height: 80,
+                          margin: '0 auto 12px',
+                          borderRadius: 24,
+                          background: '#FFFFFF',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: 36,
+                          boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                        }}
+                      >
+                        {turn.partner.gender === 'male' ? '👨' : '👩'}
+                      </div>
+                      <h2 style={{ fontSize: 26, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: 0 }}>
+                        {turn.partner.name}
+                      </h2>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 6, color: '#1A1A2E', opacity: 0.6, fontSize: 14 }}>
+                        <MapPin size={12} />
+                        <span>Vicino a te</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div style={{ padding: '32px 24px', textAlign: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: '#A78BFA', animation: 'pulse 2s ease-in-out infinite' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: '#F87171', animation: 'pulse 2s ease-in-out infinite' }}>
                       <Flag size={20} />
                       <span style={{ fontSize: 14, fontWeight: 600 }}>Scopri la flag...</span>
                     </div>
@@ -266,37 +299,63 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                     <HeartCrack size={80} color="#F87171" />
                   </div>
                   {/* Partner header */}
-                  <div
-                    style={{
-                      background: '#C4B5FD',
-                      padding: '32px 24px',
-                      textAlign: 'center',
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 80,
-                        height: 80,
-                        margin: '0 auto 12px',
-                        borderRadius: 24,
+                  {illustrations[turn.redFlag.id] ? (
+                    <div style={{ background: '#FCA5A5', padding: '20px 24px', textAlign: 'center' }}>
+                      <h2 style={{ fontSize: 24, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: '0 0 4px' }}>
+                        {turn.partner.name}
+                      </h2>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, color: '#1A1A2E', opacity: 0.6, fontSize: 13, marginBottom: 14 }}>
+                        <MapPin size={12} />
+                        <span>Vicino a te</span>
+                      </div>
+                      <div style={{
+                        display: 'inline-block',
+                        padding: 8,
+                        borderRadius: 16,
                         background: '#FFFFFF',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: 36,
-                        boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-                      }}
-                    >
-                      {turn.partner.gender === 'male' ? '👨' : '👩'}
+                        boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+                      }}>
+                        <img
+                          src={illustrations[turn.redFlag.id]}
+                          alt=""
+                          style={{
+                            display: 'block',
+                            width: 260,
+                            height: 180,
+                            borderRadius: 10,
+                            objectFit: 'cover',
+                            background: '#FFFFFF',
+                          }}
+                        />
+                      </div>
                     </div>
-                    <h2 style={{ fontSize: 26, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: 0 }}>
-                      {turn.partner.name}
-                    </h2>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 6, color: '#1A1A2E', opacity: 0.6, fontSize: 14 }}>
-                      <MapPin size={12} />
-                      <span>Vicino a te</span>
+                  ) : (
+                    <div style={{ background: '#FCA5A5', padding: '32px 24px', textAlign: 'center' }}>
+                      <div
+                        style={{
+                          width: 80,
+                          height: 80,
+                          margin: '0 auto 12px',
+                          borderRadius: 24,
+                          background: '#FFFFFF',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: 36,
+                          boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                        }}
+                      >
+                        {turn.partner.gender === 'male' ? '👨' : '👩'}
+                      </div>
+                      <h2 style={{ fontSize: 26, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: 0 }}>
+                        {turn.partner.name}
+                      </h2>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 6, color: '#1A1A2E', opacity: 0.6, fontSize: 14 }}>
+                        <MapPin size={12} />
+                        <span>Vicino a te</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Flag section */}
                   <div style={{ padding: '20px 24px' }}>
@@ -307,7 +366,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
 
                   {/* History button */}
                   {turn.acceptedInTurn.length > 0 && (
-                    <div style={{ padding: '0 24px 8px', textAlign: 'center' }}>
+                    <div style={{ padding: '0 24px 16px', textAlign: 'center' }}>
                       <button
                         onClick={(e) => { e.stopPropagation(); setShowHistory(true); }}
                         style={{
@@ -315,7 +374,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                           alignItems: 'center',
                           gap: 6,
                           fontSize: 12,
-                          color: '#A78BFA',
+                          color: '#F87171',
                           background: 'rgba(167,139,250,0.1)',
                           border: 'none',
                           borderRadius: 99,

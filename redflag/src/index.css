@@ -10,10 +10,10 @@
   --bg: #F0F0F0;
   --surface: #FFFFFF;
   --surface-dark: #1A1A2E;
-  --primary: #C4B5FD;
-  --primary-strong: #A78BFA;
-  --secondary: #DDD6FE;
-  --secondary-strong: #8B5CF6;
+  --primary: #FCA5A5;
+  --primary-strong: #F87171;
+  --secondary: #FECACA;
+  --secondary-strong: #EF4444;
   --accent-red: #F87171;
   --accent-green: #4ADE80;
   --text-dark: #1A1A2E;
@@ -143,8 +143,8 @@ body {
 
 /* Progress bar glow */
 @keyframes progressGlow {
-  0%, 100% { box-shadow: 0 0 4px rgba(196, 181, 253, 0.3); }
-  50% { box-shadow: 0 0 12px rgba(196, 181, 253, 0.6); }
+  0%, 100% { box-shadow: 0 0 4px rgba(252, 165, 165, 0.3); }
+  50% { box-shadow: 0 0 12px rgba(252, 165, 165, 0.6); }
 }
 
 @keyframes bounce {

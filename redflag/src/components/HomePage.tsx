@@ -25,10 +25,10 @@ export default function HomePage({ onStart }: HomePageProps) {
     >
       {/* Background decorations */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-        <div style={{ position: 'absolute', top: 60, left: 30, width: 120, height: 120, borderRadius: 28, background: '#DDD6FE', opacity: 0.3, transform: 'rotate(-12deg)' }} />
-        <div style={{ position: 'absolute', top: 180, right: 20, width: 80, height: 80, borderRadius: '50%', background: '#C4B5FD', opacity: 0.25 }} />
-        <div style={{ position: 'absolute', bottom: 140, left: 50, width: 60, height: 60, borderRadius: '50%', background: '#C4B5FD', opacity: 0.2 }} />
-        <div style={{ position: 'absolute', bottom: 200, right: 40, width: 100, height: 100, borderRadius: 24, background: '#DDD6FE', opacity: 0.2, transform: 'rotate(15deg)' }} />
+        <div style={{ position: 'absolute', top: 60, left: 30, width: 120, height: 120, borderRadius: 28, background: '#FECACA', opacity: 0.3, transform: 'rotate(-12deg)' }} />
+        <div style={{ position: 'absolute', top: 180, right: 20, width: 80, height: 80, borderRadius: '50%', background: '#FCA5A5', opacity: 0.25 }} />
+        <div style={{ position: 'absolute', bottom: 140, left: 50, width: 60, height: 60, borderRadius: '50%', background: '#FCA5A5', opacity: 0.2 }} />
+        <div style={{ position: 'absolute', bottom: 200, right: 40, width: 100, height: 100, borderRadius: 24, background: '#FECACA', opacity: 0.2, transform: 'rotate(15deg)' }} />
       </div>
 
       {/* Main content */}
@@ -47,8 +47,8 @@ export default function HomePage({ onStart }: HomePageProps) {
             src={logoImg}
             alt="Red Flag Game"
             style={{
-              width: 140,
-              height: 140,
+              width: 200,
+              height: 200,
               borderRadius: 32,
               objectFit: 'contain',
               animation: 'bounce 3s ease-in-out infinite',
@@ -59,14 +59,69 @@ export default function HomePage({ onStart }: HomePageProps) {
             style={{
               fontSize: 52,
               fontFamily: "'Fredoka', sans-serif",
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: '-0.02em',
-              color: '#1A1A2E',
               margin: 0,
               lineHeight: 1,
+              position: 'relative',
+              background: 'linear-gradient(135deg, #EF4444 0%, #F87171 40%, #FCA5A5 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
             }}
           >
-            Red<br />Flag
+            {/* Decorative small heart top-left */}
+            <span
+              style={{
+                position: 'absolute',
+                top: -14,
+                left: -10,
+                fontSize: 16,
+                color: '#FCA5A5',
+                WebkitTextFillColor: '#FCA5A5',
+                animation: 'heartbeat 2s ease-in-out infinite',
+                animationDelay: '0.3s',
+              }}
+            >
+              &#9829;
+            </span>
+            Red Flag
+            {/* Swoosh underline */}
+            <svg
+              viewBox="0 0 180 14"
+              style={{
+                position: 'absolute',
+                bottom: -8,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '105%',
+                height: 14,
+                overflow: 'visible',
+              }}
+            >
+              <path
+                d="M4 10 Q45 2 90 8 T176 5"
+                fill="none"
+                stroke="#FECACA"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+            </svg>
+            {/* Decorative small heart bottom-right */}
+            <span
+              style={{
+                position: 'absolute',
+                bottom: -10,
+                right: -16,
+                fontSize: 20,
+                color: '#FECACA',
+                WebkitTextFillColor: '#FECACA',
+                animation: 'heartbeat 2s ease-in-out infinite',
+                animationDelay: '1s',
+              }}
+            >
+              &#9829;
+            </span>
           </h1>
           <p
             style={{
@@ -90,15 +145,15 @@ export default function HomePage({ onStart }: HomePageProps) {
             alignItems: 'center',
             gap: 12,
             padding: '16px 36px',
-            background: '#1A1A2E',
-            color: '#DDD6FE',
+            background: 'linear-gradient(135deg, #EF4444, #F87171)',
+            color: '#FFFFFF',
             fontWeight: 700,
             fontSize: 17,
             fontFamily: 'inherit',
             borderRadius: 20,
             border: 'none',
             cursor: 'pointer',
-            boxShadow: '0 8px 24px rgba(26,26,46,0.2)',
+            boxShadow: '0 8px 24px rgba(239,68,68,0.3)',
           }}
         >
           <Heart size={20} />
@@ -143,7 +198,7 @@ export default function HomePage({ onStart }: HomePageProps) {
           color: '#9CA3AF',
         }}
       >
-        <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="Priscio Collettivo" style={{ height: 16, width: 16 }} />
+        <img src={`${import.meta.env.BASE_URL}logopriscio.svg`} alt="Priscio Collettivo" style={{ height: 16, width: 16 }} />
         <a
           href="https://www.prisciocollettivo.com/"
           target="_blank"
@@ -208,12 +263,12 @@ export default function HomePage({ onStart }: HomePageProps) {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               <InstructionStep
-                icon={<Users size={20} color="#A78BFA" />}
+                icon={<Users size={20} color="#F87171" />}
                 title="1. Aggiungi i giocatori"
                 text="Ogni giocatore inserisce il proprio nome e sceglie che tipo di partner cerca (uomo o donna)."
               />
               <InstructionStep
-                icon={<Shuffle size={20} color="#8B5CF6" />}
+                icon={<Shuffle size={20} color="#EF4444" />}
                 title="2. Ricevi un match"
                 text="Ad ogni turno ti viene proposto un partner casuale con una red flag nascosta. Scorri per scoprirla!"
               />

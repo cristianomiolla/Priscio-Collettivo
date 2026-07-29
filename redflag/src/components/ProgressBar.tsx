@@ -51,7 +51,7 @@ export default function ProgressBar({ currentStageIndex }: ProgressBarProps) {
                   background: isCompleted
                     ? '#4ADE80'
                     : isCurrent
-                      ? '#C4B5FD'
+                      ? '#FCA5A5'
                       : 'transparent',
                   ...(isCurrent ? { animation: 'pulse 2s ease-in-out infinite' } : {}),
                 }}
@@ -63,7 +63,7 @@ export default function ProgressBar({ currentStageIndex }: ProgressBarProps) {
                 fontSize: 10,
                 lineHeight: 1.2,
                 textAlign: 'center',
-                color: isCompleted ? '#16A34A' : isCurrent ? '#7C3AED' : '#9CA3AF',
+                color: isCompleted ? '#16A34A' : isCurrent ? '#DC2626' : '#9CA3AF',
                 fontWeight: isCurrent ? 700 : 500,
               }}
             >
