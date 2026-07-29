@@ -23,12 +23,35 @@ export default function HomePage({ onStart }: HomePageProps) {
         background: '#F0F0F0',
       }}
     >
-      {/* Background decorations */}
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-        <div style={{ position: 'absolute', top: 60, left: 30, width: 120, height: 120, borderRadius: 28, background: '#FECACA', opacity: 0.3, transform: 'rotate(-12deg)' }} />
-        <div style={{ position: 'absolute', top: 180, right: 20, width: 80, height: 80, borderRadius: '50%', background: '#FCA5A5', opacity: 0.25 }} />
-        <div style={{ position: 'absolute', bottom: 140, left: 50, width: 60, height: 60, borderRadius: '50%', background: '#FCA5A5', opacity: 0.2 }} />
-        <div style={{ position: 'absolute', bottom: 200, right: 40, width: 100, height: 100, borderRadius: 24, background: '#FECACA', opacity: 0.2, transform: 'rotate(15deg)' }} />
+      {/* Emoji wallpaper pattern layer */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Tiled emoji pattern via SVG */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: -40,
+            backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(`
+              <svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'>
+                <text x='10' y='20' font-size='14' fill='%23EF4444' opacity='0.10' transform='rotate(-15 10 20)'>&#9829;</text>
+                <text x='50' y='18' font-size='10' fill='%23F87171' opacity='0.08' transform='rotate(10 50 18)'>&#9873;</text>
+                <text x='30' y='50' font-size='11' fill='%23FCA5A5' opacity='0.09' transform='rotate(-8 30 50)'>&#10005;</text>
+                <text x='65' y='55' font-size='13' fill='%23EF4444' opacity='0.10' transform='rotate(20 65 55)'>&#9829;</text>
+                <text x='8' y='70' font-size='9' fill='%23FECACA' opacity='0.12' transform='rotate(5 8 70)'>&#9733;</text>
+                <text x='48' y='75' font-size='10' fill='%23F87171' opacity='0.07' transform='rotate(-12 48 75)'>&#9873;</text>
+              </svg>
+            `)}")`,
+            backgroundSize: '80px 80px',
+            animation: 'patternScroll 25s linear infinite',
+          }}
+        />
+
       </div>
 
       {/* Main content */}
@@ -39,6 +62,8 @@ export default function HomePage({ onStart }: HomePageProps) {
           alignItems: 'center',
           gap: 32,
           animation: 'fadeInUp 0.8s ease-out',
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         {/* Logo */}

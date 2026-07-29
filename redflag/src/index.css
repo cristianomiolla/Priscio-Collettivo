@@ -156,3 +156,14 @@ body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
 }
+
+/* Home background pattern */
+@keyframes patternScroll {
+  from { background-position: 0 0; }
+  to { background-position: 80px 80px; }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
