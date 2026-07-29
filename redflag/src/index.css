@@ -113,11 +113,34 @@ body {
 }
 
 /* Flip card */
+/* Small-screen card adjustments */
+@media (max-height: 700px) {
+  .card-header { padding: 12px 20px !important; }
+  .card-header h2 { font-size: 20px !important; }
+  .card-header .card-illustration { display: none !important; }
+  .card-avatar { width: 56px !important; height: 56px !important; font-size: 28px !important; margin-bottom: 6px !important; }
+  .card-flag { padding: 12px 20px 10px !important; }
+  .card-flag p { font-size: 15px !important; }
+  .card-hint { padding: 0 20px 10px !important; }
+  .card-history { padding: 0 20px 10px !important; }
+}
+
+@media (max-height: 600px) {
+  .card-header { padding: 8px 16px !important; }
+  .card-header h2 { font-size: 18px !important; }
+  .card-avatar { width: 44px !important; height: 44px !important; font-size: 22px !important; margin-bottom: 4px !important; }
+  .card-flag { padding: 8px 16px 8px !important; }
+  .card-flag p { font-size: 14px !important; }
+  .card-hint { padding: 0 16px 8px !important; font-size: 11px !important; }
+  .card-history { padding: 0 16px 8px !important; }
+}
+
 .flip-container {
   perspective: 1000px;
 }
 
 .flip-card {
+  display: grid;
   transform-style: preserve-3d;
   transition: transform 0.6s ease-in-out;
 }
@@ -128,6 +151,7 @@ body {
 
 .flip-front,
 .flip-back {
+  grid-area: 1 / 1;
   backface-visibility: hidden;
 }
 

@@ -15,10 +15,6 @@ export const MAX_PLAYERS = 10;
 
 export const SUSPENSE_DURATION_MS = 2000;
 
-export const ANIMATION_DURATION_MS = 300;
-
-export const MAX_REJECTIONS_SHOWN = 50;
-
 export const GREEN_FLAG_CHANCE = 0.05;
 
 export const MAX_ACCEPT_PER_TURN = 5;

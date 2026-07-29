@@ -235,13 +235,15 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
           )}
 
           {/* Red flags of the final partner only */}
-          {getFinalPartnerFlags(stat.player.acceptedFlags).length > 0 && (
+          {(() => {
+            const finalFlags = getFinalPartnerFlags(stat.player.acceptedFlags);
+            return finalFlags.length > 0 && (
             <div style={{ padding: '0 20px 20px' }}>
               <p style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>
                 Red Flag del partner finale
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {getFinalPartnerFlags(stat.player.acceptedFlags).map((af, i) => {
+                {finalFlags.map((af, i) => {
                   const isGreen = af.flag.category === 'green';
                   const stage = isGreen ? null : STAGES[af.stageIndex];
                   const text = stat.player.partnerGender === 'female'
@@ -282,7 +284,8 @@ export default function ResultsScreen({ statistics, onRestart }: ResultsScreenPr
                 })}
               </div>
             </div>
-          )}
+          );
+          })()}
         </div>
       </div>
 

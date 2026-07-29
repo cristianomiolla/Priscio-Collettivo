@@ -125,18 +125,19 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        minHeight: '100svh',
+        height: '100svh',
         padding: '24px 16px',
         background: '#F0F0F0',
+        overflow: 'hidden',
       }}
     >
       {/* Progress bar */}
-      <div style={{ width: '100%', marginBottom: 16, paddingTop: 8 }}>
+      <div style={{ width: '100%', marginBottom: 16, paddingTop: 8, flexShrink: 0 }}>
         <ProgressBar currentStageIndex={player.currentStageIndex} />
       </div>
 
       {/* Player name & stage */}
-      <div style={{ position: 'relative', textAlign: 'center', marginBottom: 16, width: '100%', maxWidth: 380 }}>
+      <div style={{ position: 'relative', textAlign: 'center', marginBottom: 16, width: '100%', maxWidth: 380, flexShrink: 0 }}>
         <p style={{ fontSize: 14, color: '#9CA3AF', margin: 0 }}>{player.name}</p>
       </div>
 
@@ -144,6 +145,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
       <div
         style={{
           flex: 1,
+          minHeight: 0,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -155,6 +157,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
           style={{
             position: 'relative',
             width: '100%',
+            maxHeight: '100%',
             userSelect: 'none',
             touchAction: 'none',
             opacity: cardEnter ? 1 : 0,
@@ -185,7 +188,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                   }}
                 >
                   {illustrations[turn.redFlag.id] ? (
-                    <div style={{ background: '#FCA5A5', padding: '20px 24px', textAlign: 'center' }}>
+                    <div className="card-header" style={{ background: '#FCA5A5', padding: '20px 24px', textAlign: 'center' }}>
                       <h2 style={{ fontSize: 24, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: '0 0 4px' }}>
                         {turn.partner.name}
                       </h2>
@@ -193,7 +196,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                         <MapPin size={12} />
                         <span>Vicino a te</span>
                       </div>
-                      <div style={{
+                      <div className="card-illustration" style={{
                         display: 'inline-block',
                         padding: 8,
                         borderRadius: 16,
@@ -205,8 +208,9 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                           alt=""
                           style={{
                             display: 'block',
-                            width: 260,
-                            height: 180,
+                            width: '100%',
+                            maxWidth: 260,
+                            aspectRatio: '260 / 180',
                             borderRadius: 10,
                             objectFit: 'cover',
                             background: '#FFFFFF',
@@ -215,8 +219,9 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                       </div>
                     </div>
                   ) : (
-                    <div style={{ background: '#FCA5A5', padding: '32px 24px', textAlign: 'center' }}>
+                    <div className="card-header" style={{ background: '#FCA5A5', padding: '32px 24px', textAlign: 'center' }}>
                       <div
+                        className="card-avatar"
                         style={{
                           width: 80,
                           height: 80,
@@ -241,7 +246,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                       </div>
                     </div>
                   )}
-                  <div style={{ padding: '32px 24px', textAlign: 'center' }}>
+                  <div className="card-flag" style={{ padding: '32px 24px', textAlign: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: '#F87171', animation: 'pulse 2s ease-in-out infinite' }}>
                       <Flag size={20} />
                       <span style={{ fontSize: 14, fontWeight: 600 }}>Scopri la flag...</span>
@@ -251,7 +256,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
               </div>
 
               {/* BACK */}
-              <div className="flip-back" style={{ position: 'absolute', inset: 0 }}>
+              <div className="flip-back">
                 <div
                   style={{
                     position: 'relative',
@@ -302,7 +307,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                   </div>
                   {/* Partner header */}
                   {illustrations[turn.redFlag.id] ? (
-                    <div style={{ background: '#FCA5A5', padding: '20px 24px', textAlign: 'center' }}>
+                    <div className="card-header" style={{ background: '#FCA5A5', padding: '20px 24px', textAlign: 'center' }}>
                       <h2 style={{ fontSize: 24, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: '0 0 4px' }}>
                         {turn.partner.name}
                       </h2>
@@ -310,7 +315,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                         <MapPin size={12} />
                         <span>Vicino a te</span>
                       </div>
-                      <div style={{
+                      <div className="card-illustration" style={{
                         display: 'inline-block',
                         padding: 8,
                         borderRadius: 16,
@@ -322,8 +327,9 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                           alt=""
                           style={{
                             display: 'block',
-                            width: 260,
-                            height: 180,
+                            width: '100%',
+                            maxWidth: 260,
+                            aspectRatio: '260 / 180',
                             borderRadius: 10,
                             objectFit: 'cover',
                             background: '#FFFFFF',
@@ -332,8 +338,9 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                       </div>
                     </div>
                   ) : (
-                    <div style={{ background: '#FCA5A5', padding: '32px 24px', textAlign: 'center' }}>
+                    <div className="card-header" style={{ background: '#FCA5A5', padding: '32px 24px', textAlign: 'center' }}>
                       <div
+                        className="card-avatar"
                         style={{
                           width: 80,
                           height: 80,
@@ -360,7 +367,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                   )}
 
                   {/* Flag section */}
-                  <div style={{ padding: '20px 24px' }}>
+                  <div className="card-flag" style={{ padding: '20px 24px 16px' }}>
                     <p style={{ fontSize: 17, color: '#1A1A2E', fontWeight: 500, lineHeight: 1.5, margin: 0 }}>
                       {redFlagText}
                     </p>
@@ -368,7 +375,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
 
                   {/* History button */}
                   {turn.acceptedInTurn.length > 0 && (
-                    <div style={{ padding: '0 24px 16px', textAlign: 'center' }}>
+                    <div className="card-history" style={{ padding: '0 24px 16px', textAlign: 'center' }}>
                       <button
                         onClick={(e) => { e.stopPropagation(); setShowHistory(true); }}
                         style={{
@@ -391,23 +398,6 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                       </button>
                     </div>
                   )}
-
-                  {/* Swipe hint */}
-                  <div
-                    style={{
-                      padding: '0 24px 20px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      fontSize: 12,
-                      color: '#9CA3AF',
-                      fontWeight: 500,
-                    }}
-                  >
-                    <span>← Rifiuta</span>
-                    <span>Scorri per decidere</span>
-                    <span>Accetta →</span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -416,7 +406,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
       </div>
 
       {/* Action buttons */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginTop: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginTop: 16, flexShrink: 0 }}>
         <button
           onClick={() => { if (isFlipped) doReject(); }}
           disabled={!isFlipped}
@@ -464,6 +454,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
         onClick={() => setShowConfirm(true)}
         style={{
           marginTop: 12,
+          flexShrink: 0,
           display: 'flex',
           alignItems: 'center',
           gap: 6,
