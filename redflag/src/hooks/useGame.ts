@@ -19,8 +19,9 @@ export function useGame() {
   const [state, setState] = useState<GameState>(() => {
     const saved = loadGameState();
     if (saved && saved.players.length > 0 && saved.currentPlayerIndex < saved.players.length) {
-      // Resume at the turn-intro so player can re-orient
-      return { ...saved, screen: 'turn-intro' as Screen, currentTurn: null };
+      // If we have a saved turn, resume at turn-intro keeping the turn data
+      // so acceptedInTurn is preserved; otherwise start fresh at turn-intro
+      return { ...saved, screen: 'turn-intro' as Screen };
     }
     if (saved) clearSavedGame();
     return createInitialState();
@@ -41,6 +42,14 @@ export function useGame() {
 
   const prepareTurn = useCallback(() => {
     setState((prev) => {
+      // If we already have a saved turn (e.g. after page reload), reuse it
+      if (prev.currentTurn && prev.currentTurn.acceptedInTurn.length > 0) {
+        const savedTurn = prev.currentTurn;
+        // Generate a new red flag for the same partner, keeping accepted history
+        const turn = generateTurn(prev, savedTurn.partner, savedTurn.acceptedInTurn);
+        if (!turn) return prev;
+        return { ...prev, currentTurn: turn, screen: 'suspense' };
+      }
       const turn = generateTurn(prev);
       if (!turn) return prev;
       return { ...prev, currentTurn: turn, screen: 'suspense' };

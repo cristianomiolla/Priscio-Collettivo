@@ -63,8 +63,7 @@ export function generatePartner(preference: Gender): Partner {
 
 // --- Red flag extraction ---
 
-export function pickRedFlag(
-  _playerUsedIds: Set<number>,
+function pickRedFlag(
   globalUsedIds: Set<number>,
 ): { flag: RedFlag; resetGlobal: boolean } | null {
   let available = allRedFlags.filter((f) => !globalUsedIds.has(f.id));
@@ -111,7 +110,7 @@ export function generateTurn(state: GameState, keepPartner?: Partner, previousAc
   const player = state.players[state.currentPlayerIndex];
   const partner = keepPartner ?? generatePartner(player.partnerGender);
 
-  const result = pickRedFlag(player.usedFlagIds, state.globalUsedFlagIds);
+  const result = pickRedFlag(state.globalUsedFlagIds);
   if (!result) return null;
 
   // If all flags were exhausted, reset the global pool for the next round
@@ -480,6 +479,7 @@ interface SerializedGameState {
   screen: string;
   players: Array<Omit<Player, 'usedFlagIds'> & { usedFlagIds: number[] }>;
   currentPlayerIndex: number;
+  currentTurn: Turn | null;
   globalUsedFlagIds: number[];
   isFinished: boolean;
 }
@@ -498,6 +498,7 @@ export function saveGameState(state: GameState): void {
       usedFlagIds: [...p.usedFlagIds],
     })),
     currentPlayerIndex: state.currentPlayerIndex,
+    currentTurn: state.currentTurn,
     globalUsedFlagIds: [...state.globalUsedFlagIds],
     isFinished: state.isFinished,
   };
@@ -523,7 +524,7 @@ export function loadGameState(): GameState | null {
         usedFlagIds: new Set(p.usedFlagIds),
       })),
       currentPlayerIndex: data.currentPlayerIndex,
-      currentTurn: null,
+      currentTurn: data.currentTurn ?? null,
       globalUsedFlagIds: new Set(data.globalUsedFlagIds),
       isFinished: data.isFinished,
       greenFlagOffer: null,
