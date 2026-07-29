@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Flag, Heart, Info, X, ChevronRight, Users, Shuffle, CheckCircle } from 'lucide-react';
+import { Flag, Heart, Info, X, ChevronRight, Users, Shuffle, CheckCircle, MessageCircle } from 'lucide-react';
 import logoImg from '../assets/logo.png';
+import ProposeRedFlag from './ProposeRedFlag';
 
 interface HomePageProps {
   onStart: () => void;
@@ -8,6 +9,7 @@ interface HomePageProps {
 
 export default function HomePage({ onStart }: HomePageProps) {
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showPropose, setShowPropose] = useState(false);
 
   return (
     <div
@@ -206,6 +208,27 @@ export default function HomePage({ onStart }: HomePageProps) {
           <Info size={16} />
           Come si gioca?
         </button>
+
+        {/* Propose red flag link */}
+        <button
+          onClick={() => setShowPropose(true)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            color: '#EF4444',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: 14,
+            fontFamily: 'inherit',
+            textDecoration: 'underline',
+            textUnderlineOffset: 4,
+          }}
+        >
+          <MessageCircle size={16} />
+          Proponi una Red Flag
+        </button>
       </div>
 
       {/* Footer */}
@@ -233,6 +256,9 @@ export default function HomePage({ onStart }: HomePageProps) {
           Un gioco di Priscio Collettivo
         </a>
       </footer>
+
+      {/* Propose Red Flag Modal */}
+      {showPropose && <ProposeRedFlag onClose={() => setShowPropose(false)} />}
 
       {/* Instructions Modal */}
       {showInstructions && (

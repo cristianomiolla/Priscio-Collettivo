@@ -34,6 +34,7 @@ export default function FlamebackOffer({ offer, player, onAccept, onReject, onEn
   const [isDragging, setIsDragging] = useState(false);
   const [exitDir, setExitDir] = useState<'left' | 'right' | null>(null);
   const startX = useRef(0);
+  const processing = useRef(false);
 
   useEffect(() => {
     const timer = requestAnimationFrame(() => setVisible(true));
@@ -51,6 +52,8 @@ export default function FlamebackOffer({ offer, player, onAccept, onReject, onEn
   }, [isDragging]);
 
   const doAccept = useCallback(() => {
+    if (processing.current) return;
+    processing.current = true;
     setExitDir('right');
     triggerMiniConfetti();
     playSwipeAccept();
@@ -58,6 +61,8 @@ export default function FlamebackOffer({ offer, player, onAccept, onReject, onEn
   }, [onAccept]);
 
   const doReject = useCallback(() => {
+    if (processing.current) return;
+    processing.current = true;
     setExitDir('left');
     playSwipeReject();
     setTimeout(onReject, 300);

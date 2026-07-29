@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Heart, HeartCrack, MapPin } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import type { GreenFlagOffer as GreenFlagOfferType, Player } from '../types';
@@ -23,6 +23,7 @@ function triggerGreenConfetti() {
 
 export default function GreenFlagOffer({ offer, player, onAccept, onReject }: GreenFlagOfferProps) {
   const [visible, setVisible] = useState(false);
+  const processing = useRef(false);
 
   useEffect(() => {
     const timer = requestAnimationFrame(() => setVisible(true));
@@ -126,7 +127,7 @@ export default function GreenFlagOffer({ offer, player, onAccept, onReject }: Gr
         {/* Action buttons */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, marginTop: 24 }}>
           <button
-            onClick={onReject}
+            onClick={() => { if (processing.current) return; processing.current = true; onReject(); }}
             style={{
               width: 56,
               height: 56,
@@ -144,7 +145,7 @@ export default function GreenFlagOffer({ offer, player, onAccept, onReject }: Gr
             <HeartCrack size={24} />
           </button>
           <button
-            onClick={onAccept}
+            onClick={() => { if (processing.current) return; processing.current = true; onAccept(); }}
             style={{
               width: 56,
               height: 56,

@@ -19,6 +19,10 @@ export const GREEN_FLAG_CHANCE = 0.05;
 
 export const MAX_ACCEPT_PER_TURN = 5;
 
-export const EX_PARTNER_CHANCE = 0.15;
+export const EX_PARTNER_CHANCE = 0.10;
 
-export const FLAMEBACK_CHANCE = 0.15;
+export const FLAMEBACK_CHANCE = 0.10;
+
+// URL dello script Google Apps Script per ricevere proposte di red flag.
+// Segui le istruzioni nel README per creare lo script e incolla qui l'URL.
+export const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbyWHi5sPuIZGmp8HKsPTuXXUl5L3gHjn8iIrYQaLKQpwzC9A-dNXuJNSV41BRWOgN5YQw/exec';

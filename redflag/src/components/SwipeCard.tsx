@@ -49,11 +49,13 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
   const [showConfirm, setShowConfirm] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const startX = useRef(0);
+  const processing = useRef(false);
   const redFlagText = turn.partner.gender === 'male'
     ? turn.redFlag.maleText
     : turn.redFlag.femaleText;
 
   useEffect(() => {
+    processing.current = false;
     setCardEnter(false);
     setIsFlipped(false);
     setExitDir(null);
@@ -84,6 +86,8 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
   }, [isDragging]);
 
   const doAccept = useCallback(() => {
+    if (processing.current) return;
+    processing.current = true;
     setExitDir('right');
     triggerMiniConfetti();
     playSwipeAccept();
@@ -91,6 +95,8 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
   }, [onAccept]);
 
   const doReject = useCallback(() => {
+    if (processing.current) return;
+    processing.current = true;
     setExitDir('left');
     playSwipeReject();
     setTimeout(onReject, 300);
