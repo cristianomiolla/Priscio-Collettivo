@@ -215,8 +215,8 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                           style={{
                             display: 'block',
                             width: '100%',
-                            maxWidth: 260,
-                            aspectRatio: '260 / 180',
+                            maxWidth: 340,
+                            aspectRatio: '340 / 180',
                             borderRadius: 10,
                             objectFit: 'cover',
                             background: '#FFFFFF',
@@ -334,8 +334,8 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                           style={{
                             display: 'block',
                             width: '100%',
-                            maxWidth: 260,
-                            aspectRatio: '260 / 180',
+                            maxWidth: 340,
+                            aspectRatio: '340 / 180',
                             borderRadius: 10,
                             objectFit: 'cover',
                             background: '#FFFFFF',
