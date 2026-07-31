@@ -193,65 +193,33 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                     boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
                   }}
                 >
-                  {illustrations[turn.redFlag.id] ? (
-                    <div className="card-header" style={{ background: '#FCA5A5', padding: '20px 24px', textAlign: 'center' }}>
-                      <h2 style={{ fontSize: 24, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: '0 0 4px' }}>
-                        {turn.partner.name}
-                      </h2>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, color: '#1A1A2E', opacity: 0.6, fontSize: 13, marginBottom: 14 }}>
-                        <MapPin size={12} />
-                        <span>Vicino a te</span>
-                      </div>
-                      <div className="card-illustration" style={{
-                        display: 'inline-block',
-                        padding: 8,
-                        borderRadius: 16,
+                  {/* Partner header (front – no illustration) */}
+                  <div className="card-header" style={{ background: '#FCA5A5', padding: '32px 24px', textAlign: 'center' }}>
+                    <div
+                      className="card-avatar"
+                      style={{
+                        width: 80,
+                        height: 80,
+                        margin: '0 auto 12px',
+                        borderRadius: 24,
                         background: '#FFFFFF',
-                        boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-                      }}>
-                        <img
-                          src={illustrations[turn.redFlag.id]}
-                          alt=""
-                          style={{
-                            display: 'block',
-                            width: '100%',
-                            maxWidth: 340,
-                            aspectRatio: '340 / 180',
-                            borderRadius: 10,
-                            objectFit: 'cover',
-                            background: '#FFFFFF',
-                          }}
-                        />
-                      </div>
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: 36,
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                      }}
+                    >
+                      {turn.partner.gender === 'male' ? '👨' : '👩'}
                     </div>
-                  ) : (
-                    <div className="card-header" style={{ background: '#FCA5A5', padding: '32px 24px', textAlign: 'center' }}>
-                      <div
-                        className="card-avatar"
-                        style={{
-                          width: 80,
-                          height: 80,
-                          margin: '0 auto 12px',
-                          borderRadius: 24,
-                          background: '#FFFFFF',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: 36,
-                          boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-                        }}
-                      >
-                        {turn.partner.gender === 'male' ? '👨' : '👩'}
-                      </div>
-                      <h2 style={{ fontSize: 26, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: 0 }}>
-                        {turn.partner.name}
-                      </h2>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 6, color: '#1A1A2E', opacity: 0.6, fontSize: 14 }}>
-                        <MapPin size={12} />
-                        <span>Vicino a te</span>
-                      </div>
+                    <h2 style={{ fontSize: 26, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: 0 }}>
+                      {turn.partner.name}
+                    </h2>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 6, color: '#1A1A2E', opacity: 0.6, fontSize: 14 }}>
+                      <MapPin size={12} />
+                      <span>Vicino a te</span>
                     </div>
-                  )}
+                  </div>
                   <div className="card-flag" style={{ padding: '32px 24px', textAlign: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: '#F87171', animation: 'pulse 2s ease-in-out infinite' }}>
                       <Flag size={20} />
@@ -311,7 +279,7 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                   >
                     <HeartCrack size={80} color="#F87171" />
                   </div>
-                  {/* Partner header */}
+                  {/* Partner header (back – with illustration if available) */}
                   {illustrations[turn.redFlag.id] ? (
                     <div className="card-header" style={{ background: '#FCA5A5', padding: '20px 24px', textAlign: 'center' }}>
                       <h2 style={{ fontSize: 24, fontFamily: "'Fredoka', sans-serif", fontWeight: 600, color: '#1A1A2E', margin: '0 0 4px' }}>
@@ -334,8 +302,8 @@ export default function SwipeCard({ turn, player, onAccept, onReject, onEndGame 
                           style={{
                             display: 'block',
                             width: '100%',
-                            maxWidth: 340,
-                            aspectRatio: '340 / 180',
+                            maxWidth: 280,
+                            aspectRatio: '280 / 180',
                             borderRadius: 10,
                             objectFit: 'cover',
                             background: '#FFFFFF',
