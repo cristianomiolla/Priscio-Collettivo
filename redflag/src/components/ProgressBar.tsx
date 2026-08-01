@@ -59,6 +59,7 @@ export default function ProgressBar({ currentStageIndex }: ProgressBarProps) {
             </div>
             {/* Label */}
             <span
+              className="progress-label"
               style={{
                 fontSize: 10,
                 lineHeight: 1.2,

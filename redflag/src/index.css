@@ -112,12 +112,17 @@ body {
   animation: screenFadeIn 0.35s ease-out forwards;
 }
 
+/* Progress bar: fit on narrow screens */
+@media (max-width: 380px) {
+  .progress-label { font-size: 8px !important; }
+}
+
 /* Flip card */
 /* Small-screen card adjustments */
 @media (max-height: 700px) {
   .card-header { padding: 12px 20px !important; }
   .card-header h2 { font-size: 20px !important; }
-  .card-header .card-illustration { display: none !important; }
+  .card-header .card-illustration img { max-width: 160px !important; }
   .card-avatar { width: 56px !important; height: 56px !important; font-size: 28px !important; margin-bottom: 6px !important; }
   .card-flag { padding: 12px 20px 10px !important; }
   .card-flag p { font-size: 15px !important; }
@@ -128,6 +133,7 @@ body {
 @media (max-height: 600px) {
   .card-header { padding: 8px 16px !important; }
   .card-header h2 { font-size: 18px !important; }
+  .card-header .card-illustration img { max-width: 120px !important; }
   .card-avatar { width: 44px !important; height: 44px !important; font-size: 22px !important; margin-bottom: 4px !important; }
   .card-flag { padding: 8px 16px 8px !important; }
   .card-flag p { font-size: 14px !important; }
