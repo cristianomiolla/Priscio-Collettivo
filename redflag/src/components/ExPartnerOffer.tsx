@@ -214,7 +214,7 @@ export default function ExPartnerOffer({ offer, player, onAccept, onReject, onEn
                 {partner.name} {'\u00E8'} stat{partner.gender === 'male' ? 'o' : 'a'} rifiutat{partner.gender === 'male' ? 'o' : 'a'} da {rejectedByPlayerName}.
               </p>
               <p style={{ fontSize: 16, fontWeight: 600, color: '#1A1A2E', margin: '8px 0 4px', fontStyle: 'italic' }}>
-                "Ciao {player.name}, ti va di conoscermi?"
+                "Sono single da poco... ti va di uscire?"
               </p>
               <p style={{ fontSize: 13, color: '#9CA3AF', margin: '4px 0 0' }}>
                 Se rifiuti, passi il turno.

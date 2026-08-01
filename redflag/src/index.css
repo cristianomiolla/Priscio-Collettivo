@@ -141,21 +141,25 @@ body {
 
 .flip-card {
   display: grid;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   transition: transform 0.6s ease-in-out;
 }
 
 .flip-card.flipped {
+  -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
 
 .flip-front,
 .flip-back {
   grid-area: 1 / 1;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
 .flip-back {
+  -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
 
