@@ -60,7 +60,7 @@ export default function RouletteWheel({
   const [landingIndex, setLandingIndex] = useState(MIN_SLOTS - 8);
   const stripRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const vibrationFrameRef = useRef<number>(0);
+  const vibrationTimers = useRef<number[]>([]);
 
   const startX = useRef(0);
   const pulling = useRef(false);
@@ -107,37 +107,50 @@ export default function RouletteWheel({
       s.style.transition = `transform ${duration}ms cubic-bezier(${easingX1}, ${easingY1}, 0.25, 1)`;
       s.style.transform = `translateX(-${targetOffset}px)`;
 
-      // Haptic feedback: vibrate briefly each time a new cell passes the center
+      // Haptic feedback: schedule a vibration for each cell boundary crossing.
+      // We approximate the cubic-bezier easing to find when each cell passes
+      // the center pointer, then schedule a short vibrate() at that time.
       if (canVibrate) {
-        let lastCellIndex = -1;
-        const tick = () => {
-          const currentStrip = stripRef.current;
-          const currentContainer = containerRef.current;
-          if (!currentStrip || !currentContainer) return;
-          const transform = getComputedStyle(currentStrip).transform;
-          // Extract translateX from matrix(a, b, c, d, tx, ty)
-          const match = transform.match(/matrix\(.+,\s*(.+)\)/);
-          if (match) {
-            const tx = Math.abs(parseFloat(match[1]));
-            const containerCenter = currentContainer.offsetWidth / 2;
-            const centerPos = tx + containerCenter;
-            const cellIndex = Math.floor(centerPos / CELL_TOTAL);
-            if (cellIndex !== lastCellIndex) {
-              lastCellIndex = cellIndex;
-              navigator.vibrate(8);
-            }
+        // Clear any previous timers
+        vibrationTimers.current.forEach(t => clearTimeout(t));
+        vibrationTimers.current = [];
+
+        // Approximate cubic-bezier progress using binary search on the bezier curve.
+        // For cubic-bezier(x1,y1,x2,y2), we need to find t for a given x, then get y(t).
+        const bx1 = easingX1, by1 = easingY1, bx2 = 0.25, by2 = 1;
+        const bezierX = (t: number) => 3*(1-t)*(1-t)*t*bx1 + 3*(1-t)*t*t*bx2 + t*t*t;
+        const bezierY = (t: number) => 3*(1-t)*(1-t)*t*by1 + 3*(1-t)*t*t*by2 + t*t*t;
+        const getProgress = (timeRatio: number) => {
+          // Binary search: find t where bezierX(t) ≈ timeRatio
+          let lo = 0, hi = 1;
+          for (let i = 0; i < 16; i++) {
+            const mid = (lo + hi) / 2;
+            if (bezierX(mid) < timeRatio) lo = mid; else hi = mid;
           }
-          vibrationFrameRef.current = requestAnimationFrame(tick);
+          return bezierY((lo + hi) / 2);
         };
-        vibrationFrameRef.current = requestAnimationFrame(tick);
+
+        const totalCells = Math.floor(targetOffset / CELL_TOTAL);
+        for (let cell = 1; cell <= totalCells; cell++) {
+          // What fraction of totalDistance is this cell boundary?
+          const distanceFraction = (cell * CELL_TOTAL) / targetOffset;
+          // Binary search: find timeRatio where getProgress(timeRatio) ≈ distanceFraction
+          let lo = 0, hi = 1;
+          for (let i = 0; i < 16; i++) {
+            const mid = (lo + hi) / 2;
+            if (getProgress(mid) < distanceFraction) lo = mid; else hi = mid;
+          }
+          const timeMs = ((lo + hi) / 2) * duration;
+          const timer = window.setTimeout(() => navigator.vibrate(6), timeMs);
+          vibrationTimers.current.push(timer);
+        }
       }
 
       setTimeout(() => {
         setPhase('landed');
-        // Stop vibration loop
-        if (vibrationFrameRef.current) {
-          cancelAnimationFrame(vibrationFrameRef.current);
-        }
+        // Clear remaining vibration timers
+        vibrationTimers.current.forEach(t => clearTimeout(t));
+        vibrationTimers.current = [];
         // One slightly longer vibration for the landing
         if (canVibrate) navigator.vibrate(15);
         setTimeout(onComplete, SETTLE_DELAY_MS);
