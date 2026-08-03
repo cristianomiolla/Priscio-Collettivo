@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 interface RouletteWheelProps {
   availableNumbers: number[];
@@ -7,21 +7,32 @@ interface RouletteWheelProps {
   isSamePartner: boolean;
 }
 
-const SPIN_DURATION_MS = 4000;
-const SETTLE_DELAY_MS = 1200;
 const CELL_WIDTH = 72;
-const CELL_GAP = 4; // 2px margin each side
+const CELL_GAP = 4;
 const CELL_TOTAL = CELL_WIDTH + CELL_GAP;
-const TOTAL_SLOTS = 80;
-const LANDING_INDEX = TOTAL_SLOTS - 3;
 
-function buildSequence(pool: number[], selectedNumber: number): number[] {
+// Pull config
+const MAX_PULL = 120;
+const MIN_PULL = 8;
+const MIN_SLOTS = 10;      // weak pull: few numbers scroll by
+const MAX_SLOTS = 80;      // strong pull: many numbers
+const MIN_DURATION = 2500;  // weak pull: slow and short
+const MAX_DURATION = 5500;  // strong pull: fast and long
+const SETTLE_DELAY_MS = 1200;
+
+// Spring geometry
+const SPRING_REST_WIDTH = 140;
+const SPRING_COILS = 8;
+const BALL_SIZE = 44;
+
+function buildSequence(pool: number[], selectedNumber: number, totalSlots: number): number[] {
   const seq: number[] = [];
-  for (let i = 0; i < TOTAL_SLOTS; i++) {
+  for (let i = 0; i < totalSlots; i++) {
     seq.push(pool[Math.floor(Math.random() * pool.length)]);
   }
-  // Force the selected number at the landing position
-  seq[LANDING_INDEX] = selectedNumber;
+  // Place the selected number at landing position (3 from end so it's visible)
+  const landingIndex = totalSlots - 3;
+  seq[landingIndex] = selectedNumber;
   return seq;
 }
 
@@ -31,49 +42,119 @@ export default function RouletteWheel({
   onComplete,
   isSamePartner,
 }: RouletteWheelProps) {
-  const [phase, setPhase] = useState<'ready' | 'spinning' | 'landed'>('ready');
+  const [phase, setPhase] = useState<'waiting' | 'pulling' | 'spinning' | 'landed'>('waiting');
+  const [pullAmount, setPullAmount] = useState(0);
+  const [sequence, setSequence] = useState<number[]>(() => {
+    // Initial short sequence just for the idle display
+    const pool = availableNumbers.length > 0 ? availableNumbers : [selectedNumber];
+    return buildSequence(pool, selectedNumber, MIN_SLOTS);
+  });
+  const [landingIndex, setLandingIndex] = useState(MIN_SLOTS - 3);
   const stripRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const hasStarted = useRef(false);
-  const sequenceRef = useRef<number[] | null>(null);
 
-  // Build sequence once
-  if (sequenceRef.current === null) {
-    const pool = availableNumbers.length > 0 ? availableNumbers : [selectedNumber];
-    sequenceRef.current = buildSequence(pool, selectedNumber);
-  }
+  const startX = useRef(0);
+  const pulling = useRef(false);
+  const pullRef = useRef(0);
 
-  const sequence = sequenceRef.current;
-  // The number that the wheel visually stops on
-  const landedNumber = sequence[LANDING_INDEX];
-
-  const startSpin = useCallback(() => {
-    if (hasStarted.current) return;
-    hasStarted.current = true;
-    setPhase('spinning');
-
+  const spin = useCallback((power: number) => {
     const strip = stripRef.current;
     const container = containerRef.current;
     if (!strip || !container) return;
 
-    // Center of the visible container
-    const containerCenter = container.offsetWidth / 2;
-    // We want the center of the landing cell to align with the container center
-    const targetOffset = LANDING_INDEX * CELL_TOTAL + CELL_TOTAL / 2 - containerCenter;
+    // More power = more slots AND longer duration
+    const totalSlots = Math.round(MIN_SLOTS + power * (MAX_SLOTS - MIN_SLOTS));
+    const newLandingIndex = totalSlots - 3;
+    const duration = MIN_DURATION + power * (MAX_DURATION - MIN_DURATION);
 
-    strip.style.transition = `transform ${SPIN_DURATION_MS}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
-    strip.style.transform = `translateX(-${targetOffset}px)`;
+    // Build a new sequence with the right length
+    const pool = availableNumbers.length > 0 ? availableNumbers : [selectedNumber];
+    const newSeq = buildSequence(pool, selectedNumber, totalSlots);
+    setSequence(newSeq);
+    setLandingIndex(newLandingIndex);
 
-    setTimeout(() => {
-      setPhase('landed');
-      setTimeout(onComplete, SETTLE_DELAY_MS);
-    }, SPIN_DURATION_MS);
-  }, [onComplete]);
+    // Need a frame for React to render the new sequence before animating
+    requestAnimationFrame(() => {
+      const s = stripRef.current;
+      const c = containerRef.current;
+      if (!s || !c) return;
 
-  useEffect(() => {
-    const timer = setTimeout(startSpin, 600);
-    return () => clearTimeout(timer);
-  }, [startSpin]);
+      // Reset position instantly before animating
+      s.style.transition = 'none';
+      s.style.transform = 'translateX(0)';
+      // Force reflow
+      void s.offsetWidth;
+
+      setPhase('spinning');
+
+      const containerCenter = c.offsetWidth / 2;
+      const targetOffset = newLandingIndex * CELL_TOTAL + CELL_TOTAL / 2 - containerCenter;
+
+      // Weak pull: gentle ease-out. Strong pull: fast start, long deceleration
+      const easingX1 = 0.1 + power * 0.15;   // 0.10 → 0.25
+      const easingY1 = 0.4 + power * 0.5;    // 0.40 → 0.90
+      s.style.transition = `transform ${duration}ms cubic-bezier(${easingX1}, ${easingY1}, 0.25, 1)`;
+      s.style.transform = `translateX(-${targetOffset}px)`;
+
+      setTimeout(() => {
+        setPhase('landed');
+        setTimeout(onComplete, SETTLE_DELAY_MS);
+      }, duration);
+    });
+  }, [onComplete, availableNumbers, selectedNumber]);
+
+  const onPointerDown = useCallback((e: React.PointerEvent) => {
+    if (phase !== 'waiting') return;
+    pulling.current = true;
+    startX.current = e.clientX;
+    setPhase('pulling');
+    setPullAmount(0);
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }, [phase]);
+
+  const onPointerMove = useCallback((e: React.PointerEvent) => {
+    if (!pulling.current) return;
+    const dx = Math.max(0, startX.current - e.clientX);
+    const normalized = Math.min(dx / MAX_PULL, 1);
+    pullRef.current = normalized;
+    setPullAmount(normalized);
+  }, []);
+
+  const onPointerUp = useCallback(() => {
+    if (!pulling.current) return;
+    pulling.current = false;
+    const currentPull = pullRef.current;
+    pullRef.current = 0;
+    setPullAmount(0);
+
+    if (currentPull * MAX_PULL >= MIN_PULL) {
+      spin(currentPull);
+    } else {
+      setPhase('waiting');
+    }
+  }, [spin]);
+
+  const powerPercent = Math.round(pullAmount * 100);
+  const compression = pullAmount * MAX_PULL;
+
+  const barColor = pullAmount < 0.33
+    ? '#4ADE80'
+    : pullAmount < 0.66
+      ? '#FBBF24'
+      : '#F87171';
+
+  // Spring path: compressed zigzag
+  const springWidth = SPRING_REST_WIDTH - compression;
+  const coilWidth = springWidth / SPRING_COILS;
+  const springAmplitude = 8;
+
+  let springPath = `M 0 0`;
+  for (let i = 0; i < SPRING_COILS; i++) {
+    const x1 = i * coilWidth + coilWidth * 0.25;
+    const x2 = i * coilWidth + coilWidth * 0.75;
+    const x3 = (i + 1) * coilWidth;
+    springPath += ` L ${x1} ${-springAmplitude} L ${x2} ${springAmplitude} L ${x3} 0`;
+  }
 
   return (
     <div
@@ -87,8 +168,18 @@ export default function RouletteWheel({
         background: '#F0F0F0',
         overflow: 'hidden',
         position: 'relative',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        touchAction: 'none',
       }}
     >
+      <style>{`
+        @keyframes nudgeLeft {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(-8px); }
+        }
+      `}</style>
+
       {/* Title */}
       <p
         style={{
@@ -97,11 +188,14 @@ export default function RouletteWheel({
           fontWeight: 600,
           color: '#1A1A2E',
           textAlign: 'center',
-          marginBottom: 32,
+          marginBottom: 28,
           animation: 'fadeInUp 0.5s ease-out',
         }}
       >
-        {isSamePartner ? 'Gira la ruota del destino...' : 'Vediamo cosa ti riserva la sorte!'}
+        {phase === 'waiting' && (isSamePartner ? 'Comprimi e rilascia!' : 'Carica la molla e rilascia!')}
+        {phase === 'pulling' && `Potenza: ${powerPercent}%`}
+        {phase === 'spinning' && 'La ruota gira...'}
+        {phase === 'landed' && 'Ecco il tuo destino!'}
       </p>
 
       {/* Wheel container */}
@@ -121,33 +215,21 @@ export default function RouletteWheel({
         {/* Center pointer top */}
         <div
           style={{
-            position: 'absolute',
-            top: -6,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: 0,
-            height: 0,
-            borderLeft: '10px solid transparent',
-            borderRight: '10px solid transparent',
+            position: 'absolute', top: -6, left: '50%', transform: 'translateX(-50%)',
+            width: 0, height: 0,
+            borderLeft: '10px solid transparent', borderRight: '10px solid transparent',
             borderTop: '14px solid #F87171',
-            zIndex: 10,
-            filter: 'drop-shadow(0 2px 4px rgba(248,113,113,0.5))',
+            zIndex: 10, filter: 'drop-shadow(0 2px 4px rgba(248,113,113,0.5))',
           }}
         />
         {/* Center pointer bottom */}
         <div
           style={{
-            position: 'absolute',
-            bottom: -6,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: 0,
-            height: 0,
-            borderLeft: '10px solid transparent',
-            borderRight: '10px solid transparent',
+            position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%)',
+            width: 0, height: 0,
+            borderLeft: '10px solid transparent', borderRight: '10px solid transparent',
             borderBottom: '14px solid #F87171',
-            zIndex: 10,
-            filter: 'drop-shadow(0 -2px 4px rgba(248,113,113,0.5))',
+            zIndex: 10, filter: 'drop-shadow(0 -2px 4px rgba(248,113,113,0.5))',
           }}
         />
 
@@ -178,7 +260,7 @@ export default function RouletteWheel({
           }}
         >
           {sequence.map((num, i) => {
-            const isLanded = phase === 'landed' && i === LANDING_INDEX;
+            const isLanded = phase === 'landed' && i === landingIndex;
             return (
               <div
                 key={i}
@@ -198,9 +280,7 @@ export default function RouletteWheel({
                     : '1px solid rgba(255,255,255,0.08)',
                   transition: 'background 0.3s, border 0.3s, transform 0.3s',
                   transform: isLanded ? 'scale(1.08)' : 'scale(1)',
-                  boxShadow: isLanded
-                    ? '0 0 20px rgba(248,113,113,0.6)'
-                    : 'none',
+                  boxShadow: isLanded ? '0 0 20px rgba(248,113,113,0.6)' : 'none',
                 }}
               >
                 <span
@@ -220,9 +300,139 @@ export default function RouletteWheel({
         </div>
       </div>
 
+      {/* Spring + ball area */}
+      {(phase === 'waiting' || phase === 'pulling') && (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 28 }}>
 
-      {/* Waiting dots */}
-      {phase !== 'landed' && (
+          {/* Spring mechanism */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              height: 60,
+            }}
+          >
+            {/* Wall / stopper */}
+            <div
+              style={{
+                width: 6,
+                height: 48,
+                borderRadius: 3,
+                background: '#1A1A2E',
+                flexShrink: 0,
+              }}
+            />
+
+            {/* Spring SVG */}
+            <svg
+              width={springWidth + 4}
+              height={springAmplitude * 2 + 4}
+              viewBox={`-2 ${-springAmplitude - 2} ${springWidth + 4} ${springAmplitude * 2 + 4}`}
+              style={{
+                flexShrink: 0,
+                transition: phase === 'pulling' ? 'none' : 'width 0.3s ease-out',
+                overflow: 'visible',
+              }}
+            >
+              <path
+                d={springPath}
+                stroke={barColor}
+                strokeWidth={3}
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            {/* Draggable ball */}
+            <div
+              onPointerDown={onPointerDown}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+              onPointerCancel={onPointerUp}
+              style={{
+                width: BALL_SIZE,
+                height: BALL_SIZE,
+                borderRadius: '50%',
+                background: phase === 'pulling'
+                  ? `radial-gradient(circle at 35% 35%, ${barColor}, ${barColor}BB)`
+                  : 'radial-gradient(circle at 35% 35%, #F87171, #DC2626)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'grab',
+                boxShadow: phase === 'pulling'
+                  ? `0 3px 16px ${barColor}55, inset 0 -2px 4px rgba(0,0,0,0.15)`
+                  : '0 3px 16px rgba(248,113,113,0.35), inset 0 -2px 4px rgba(0,0,0,0.15)',
+                flexShrink: 0,
+                touchAction: 'none',
+                animation: phase === 'waiting' ? 'nudgeLeft 2s ease-in-out infinite' : 'none',
+                transition: phase === 'pulling' ? 'background 0.1s' : 'all 0.3s ease-out',
+                position: 'relative',
+              }}
+            >
+              {/* Arrow inside */}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.9 }}>
+                <path d="M19 12H5" />
+                <path d="m12 19-7-7 7-7" />
+              </svg>
+              {/* Shine */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 6,
+                  left: 8,
+                  width: 10,
+                  height: 6,
+                  borderRadius: '50%',
+                  background: 'rgba(255,255,255,0.3)',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Power bar */}
+          {phase === 'pulling' && (
+            <div
+              style={{
+                width: 140,
+                height: 6,
+                borderRadius: 3,
+                background: '#E5E7EB',
+                marginTop: 12,
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  width: `${powerPercent}%`,
+                  height: '100%',
+                  borderRadius: 3,
+                  background: barColor,
+                  transition: 'width 0.05s linear, background 0.15s',
+                }}
+              />
+            </div>
+          )}
+
+          {phase === 'waiting' && (
+            <p
+              style={{
+                fontSize: 13,
+                fontWeight: 500,
+                color: '#9CA3AF',
+                margin: '10px 0 0',
+                fontFamily: "'Fredoka', sans-serif",
+              }}
+            >
+              Trascina la pallina verso sinistra
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Spinning dots */}
+      {phase === 'spinning' && (
         <div style={{ display: 'flex', gap: 8, marginTop: 28 }}>
           {[0, 1, 2].map((i) => (
             <div
