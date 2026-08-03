@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useMemo } from 'react';
 
 interface RouletteWheelProps {
   availableNumbers: number[];
@@ -7,14 +7,14 @@ interface RouletteWheelProps {
   isSamePartner: boolean;
 }
 
-const CELL_WIDTH = 72;
+const CELL_WIDTH_DESKTOP = 64;
+const CELL_WIDTH_MOBILE = 48;
 const CELL_GAP = 4;
-const CELL_TOTAL = CELL_WIDTH + CELL_GAP;
 
 // Pull config
 const MAX_PULL = 120;
 const MIN_PULL = 8;
-const MIN_SLOTS = 10;      // weak pull: few numbers scroll by
+const MIN_SLOTS = 18;      // weak pull: few numbers scroll by
 const MAX_SLOTS = 80;      // strong pull: many numbers
 const MIN_DURATION = 2500;  // weak pull: slow and short
 const MAX_DURATION = 5500;  // strong pull: fast and long
@@ -30,8 +30,8 @@ function buildSequence(pool: number[], selectedNumber: number, totalSlots: numbe
   for (let i = 0; i < totalSlots; i++) {
     seq.push(pool[Math.floor(Math.random() * pool.length)]);
   }
-  // Place the selected number at landing position (3 from end so it's visible)
-  const landingIndex = totalSlots - 3;
+  // Place the selected number with enough padding after it to fill the visible area
+  const landingIndex = totalSlots - 8;
   seq[landingIndex] = selectedNumber;
   return seq;
 }
@@ -42,6 +42,14 @@ export default function RouletteWheel({
   onComplete,
   isSamePartner,
 }: RouletteWheelProps) {
+  const isMobile = useMemo(() => window.innerWidth < 480, []);
+  const CELL_WIDTH = isMobile ? CELL_WIDTH_MOBILE : CELL_WIDTH_DESKTOP;
+  const CELL_TOTAL = CELL_WIDTH + CELL_GAP;
+  const CELL_HEIGHT = isMobile ? 46 : 70;
+  const CELL_FONT = isMobile ? 16 : 22;
+  const CELL_FONT_LANDED = isMobile ? 22 : 28;
+  const CONTAINER_HEIGHT = isMobile ? 62 : 90;
+
   const [phase, setPhase] = useState<'waiting' | 'pulling' | 'spinning' | 'landed'>('waiting');
   const [pullAmount, setPullAmount] = useState(0);
   const [sequence, setSequence] = useState<number[]>(() => {
@@ -49,13 +57,16 @@ export default function RouletteWheel({
     const pool = availableNumbers.length > 0 ? availableNumbers : [selectedNumber];
     return buildSequence(pool, selectedNumber, MIN_SLOTS);
   });
-  const [landingIndex, setLandingIndex] = useState(MIN_SLOTS - 3);
+  const [landingIndex, setLandingIndex] = useState(MIN_SLOTS - 8);
   const stripRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const vibrationFrameRef = useRef<number>(0);
 
   const startX = useRef(0);
   const pulling = useRef(false);
   const pullRef = useRef(0);
+
+  const canVibrate = useMemo(() => typeof navigator !== 'undefined' && 'vibrate' in navigator, []);
 
   const spin = useCallback((power: number) => {
     const strip = stripRef.current;
@@ -64,7 +75,7 @@ export default function RouletteWheel({
 
     // More power = more slots AND longer duration
     const totalSlots = Math.round(MIN_SLOTS + power * (MAX_SLOTS - MIN_SLOTS));
-    const newLandingIndex = totalSlots - 3;
+    const newLandingIndex = totalSlots - 8;
     const duration = MIN_DURATION + power * (MAX_DURATION - MIN_DURATION);
 
     // Build a new sequence with the right length
@@ -96,12 +107,43 @@ export default function RouletteWheel({
       s.style.transition = `transform ${duration}ms cubic-bezier(${easingX1}, ${easingY1}, 0.25, 1)`;
       s.style.transform = `translateX(-${targetOffset}px)`;
 
+      // Haptic feedback: vibrate briefly each time a new cell passes the center
+      if (canVibrate) {
+        let lastCellIndex = -1;
+        const tick = () => {
+          const currentStrip = stripRef.current;
+          const currentContainer = containerRef.current;
+          if (!currentStrip || !currentContainer) return;
+          const transform = getComputedStyle(currentStrip).transform;
+          // Extract translateX from matrix(a, b, c, d, tx, ty)
+          const match = transform.match(/matrix\(.+,\s*(.+)\)/);
+          if (match) {
+            const tx = Math.abs(parseFloat(match[1]));
+            const containerCenter = currentContainer.offsetWidth / 2;
+            const centerPos = tx + containerCenter;
+            const cellIndex = Math.floor(centerPos / CELL_TOTAL);
+            if (cellIndex !== lastCellIndex) {
+              lastCellIndex = cellIndex;
+              navigator.vibrate(8);
+            }
+          }
+          vibrationFrameRef.current = requestAnimationFrame(tick);
+        };
+        vibrationFrameRef.current = requestAnimationFrame(tick);
+      }
+
       setTimeout(() => {
         setPhase('landed');
+        // Stop vibration loop
+        if (vibrationFrameRef.current) {
+          cancelAnimationFrame(vibrationFrameRef.current);
+        }
+        // One slightly longer vibration for the landing
+        if (canVibrate) navigator.vibrate(15);
         setTimeout(onComplete, SETTLE_DELAY_MS);
       }, duration);
     });
-  }, [onComplete, availableNumbers, selectedNumber]);
+  }, [onComplete, availableNumbers, selectedNumber, canVibrate, CELL_TOTAL]);
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     if (phase !== 'waiting') return;
@@ -180,7 +222,7 @@ export default function RouletteWheel({
         }
       `}</style>
 
-      {/* Title */}
+      {/* Title — fixed height to prevent layout shift */}
       <p
         style={{
           fontSize: 22,
@@ -189,6 +231,7 @@ export default function RouletteWheel({
           color: '#1A1A2E',
           textAlign: 'center',
           marginBottom: 28,
+          minHeight: 30,
           animation: 'fadeInUp 0.5s ease-out',
         }}
       >
@@ -204,8 +247,8 @@ export default function RouletteWheel({
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: 400,
-          height: 90,
+          maxWidth: isMobile ? 400 : 600,
+          height: CONTAINER_HEIGHT,
           overflow: 'hidden',
           borderRadius: 16,
           background: '#1A1A2E',
@@ -266,12 +309,12 @@ export default function RouletteWheel({
                 key={i}
                 style={{
                   flex: `0 0 ${CELL_WIDTH}px`,
-                  height: 70,
+                  height: CELL_HEIGHT,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: `0 ${CELL_GAP / 2}px`,
-                  borderRadius: 12,
+                  borderRadius: isMobile ? 8 : 12,
                   background: isLanded
                     ? 'linear-gradient(135deg, #F87171, #EF4444)'
                     : 'linear-gradient(135deg, #2D2D4E, #3D3D6E)',
@@ -285,7 +328,7 @@ export default function RouletteWheel({
               >
                 <span
                   style={{
-                    fontSize: isLanded ? 28 : 22,
+                    fontSize: isLanded ? CELL_FONT_LANDED : CELL_FONT,
                     fontWeight: 700,
                     fontFamily: "'Fredoka', sans-serif",
                     color: isLanded ? '#FFF' : 'rgba(255,255,255,0.6)',
@@ -300,9 +343,12 @@ export default function RouletteWheel({
         </div>
       </div>
 
+      {/* Bottom area — fixed height to prevent layout shift */}
+      <div style={{ height: 93, marginTop: 28, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
+
       {/* Spring + ball area */}
       {(phase === 'waiting' || phase === 'pulling') && (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 28 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
           {/* Spring mechanism */}
           <div
@@ -433,7 +479,7 @@ export default function RouletteWheel({
 
       {/* Spinning dots */}
       {phase === 'spinning' && (
-        <div style={{ display: 'flex', gap: 8, marginTop: 28 }}>
+        <div style={{ display: 'flex', gap: 8 }}>
           {[0, 1, 2].map((i) => (
             <div
               key={i}
@@ -449,6 +495,8 @@ export default function RouletteWheel({
           ))}
         </div>
       )}
+
+      </div>{/* end fixed-height bottom area */}
     </div>
   );
 }
