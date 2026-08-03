@@ -87,6 +87,16 @@ function pickRedFlag(
   return { flag: randomItem(available), resetGlobal: false };
 }
 
+// --- Available numbers (for roulette display) ---
+
+export function getAvailableNumbers(globalUsedIds: Set<number>): number[] {
+  const available = allRedFlags.filter((f) => !globalUsedIds.has(f.id));
+  if (available.length === 0) {
+    return allRedFlags.map((f) => f.id);
+  }
+  return available.map((f) => f.id);
+}
+
 // --- Game state ---
 
 export function createInitialState(): GameState {
@@ -198,7 +208,7 @@ export function acceptFlag(state: GameState): GameState {
   return {
     ...updatedState,
     currentTurn: nextTurn,
-    screen: 'suspense',
+    screen: 'roulette',
   };
 }
 
@@ -327,7 +337,7 @@ export function acceptGreenFlag(state: GameState): GameState {
   return {
     ...updatedState,
     currentTurn: nextTurn,
-    screen: 'suspense',
+    screen: 'roulette',
   };
 }
 
@@ -476,7 +486,7 @@ export function acceptExPartner(state: GameState): GameState {
   return {
     ...updatedState,
     currentTurn: nextTurn,
-    screen: 'suspense',
+    screen: 'roulette',
   };
 }
 
@@ -613,7 +623,7 @@ export function acceptFlameback(state: GameState): GameState {
   return {
     ...updatedState,
     currentTurn: nextTurn,
-    screen: 'suspense',
+    screen: 'roulette',
   };
 }
 

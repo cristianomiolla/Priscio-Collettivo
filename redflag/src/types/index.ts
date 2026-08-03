@@ -41,7 +41,7 @@ export interface Turn {
   acceptedInTurn: RedFlag[];
 }
 
-export type Screen = 'home' | 'setup' | 'turn-intro' | 'suspense' | 'swipe' | 'results' | 'green-flag-offer' | 'ex-partner-offer' | 'flameback-offer';
+export type Screen = 'home' | 'setup' | 'turn-intro' | 'suspense' | 'roulette' | 'swipe' | 'results' | 'green-flag-offer' | 'ex-partner-offer' | 'flameback-offer';
 
 export interface GreenFlagOffer {
   greenFlag: RedFlag;

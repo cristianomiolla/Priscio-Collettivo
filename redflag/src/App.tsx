@@ -9,9 +9,10 @@ import ResultsScreen from './components/ResultsScreen';
 import GreenFlagOffer from './components/GreenFlagOffer';
 import ExPartnerOffer from './components/ExPartnerOffer';
 import FlamebackOffer from './components/FlamebackOffer';
+import RouletteWheel from './components/RouletteWheel';
 
 function App() {
-  const { state, currentPlayer, statistics, goToScreen, start, prepareTurn, accept, reject, acceptGreen, rejectGreen, acceptEx, rejectEx, acceptFlame, rejectFlame, endEarly, reset } = useGame();
+  const { state, currentPlayer, statistics, availableNumbers, goToScreen, start, prepareTurn, accept, reject, acceptGreen, rejectGreen, acceptEx, rejectEx, acceptFlame, rejectFlame, endEarly, reset } = useGame();
 
   return (
     <div className="flex flex-col min-h-svh bg-[#F0F0F0]">
@@ -31,6 +32,15 @@ function App() {
           player={currentPlayer}
           onReady={() => prepareTurn()}
           onEndGame={endEarly}
+        />
+      )}
+
+      {state.screen === 'roulette' && state.currentTurn && (
+        <RouletteWheel
+          availableNumbers={availableNumbers}
+          selectedNumber={state.currentTurn.redFlag.id}
+          onComplete={() => goToScreen('swipe')}
+          isSamePartner={state.currentTurn.acceptedInTurn.length > 0}
         />
       )}
 
@@ -58,6 +68,7 @@ function App() {
           player={currentPlayer}
           onAccept={acceptGreen}
           onReject={rejectGreen}
+          onEndGame={endEarly}
         />
       )}
 

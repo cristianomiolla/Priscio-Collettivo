@@ -16,6 +16,7 @@ import {
   rejectFlameback,
   calculateStatistics,
   endGameEarly,
+  getAvailableNumbers,
   saveGameState,
   loadGameState,
   clearSavedGame,
@@ -54,7 +55,7 @@ export function useGame() {
         // Generate a new red flag for the same partner, keeping accepted history
         const turn = generateTurn(prev, savedTurn.partner, savedTurn.acceptedInTurn);
         if (!turn) return prev;
-        return { ...prev, currentTurn: turn, screen: 'suspense' };
+        return { ...prev, currentTurn: turn, screen: 'roulette' };
       }
 
       // Try to offer an ex partner before generating a new one
@@ -67,7 +68,7 @@ export function useGame() {
 
       const turn = generateTurn(prev);
       if (!turn) return prev;
-      return { ...prev, currentTurn: turn, screen: 'suspense' };
+      return { ...prev, currentTurn: turn, screen: 'roulette' };
     });
   }, []);
 
@@ -114,11 +115,13 @@ export function useGame() {
 
   const currentPlayer = state.players[state.currentPlayerIndex] ?? null;
   const statistics = state.isFinished ? calculateStatistics(state.players) : null;
+  const availableNumbers = getAvailableNumbers(state.globalUsedFlagIds);
 
   return {
     state,
     currentPlayer,
     statistics,
+    availableNumbers,
     goToScreen,
     start,
     prepareTurn,
