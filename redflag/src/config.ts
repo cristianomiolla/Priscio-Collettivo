@@ -19,7 +19,7 @@ export const GREEN_FLAG_CHANCE = 0.10;
 
 export const MAX_ACCEPT_PER_TURN = 5;
 
-export const EX_PARTNER_CHANCE = 0.15;
+export const EX_PARTNER_CHANCE = 0; // temporarily disabled
 
 export const FLAMEBACK_CHANCE = 0.15;
 
